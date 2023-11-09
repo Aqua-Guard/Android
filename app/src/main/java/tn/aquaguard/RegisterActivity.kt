@@ -6,14 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 
-class SplashScreen4 : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash_screen4)
+        setContentView(R.layout.activity_register)
 
-        val signIn = findViewById<Button>(R.id.signIn)
+        val btnLogin = findViewById<Button>(R.id.btnLogin)
 
-        signIn.setOnClickListener {
+        btnLogin.setOnClickListener {
             try {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
@@ -21,5 +21,6 @@ class SplashScreen4 : AppCompatActivity() {
                 Log.e("MainActivity", "Error starting MainActivity", e)
             }
         }
+
     }
 }
