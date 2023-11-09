@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="48dp"
-            android:backgroundTint="@color/babyBlue"
+            android:backgroundTint="@color/lightBlue"
             android:text="Create account"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/transparent"
                 android:text="Sign in"
-                android:textColor="@color/babyBlue"
+                android:textColor="@color/lightBlue"
                 android:textSize="18dp" />
 
         </LinearLayout>

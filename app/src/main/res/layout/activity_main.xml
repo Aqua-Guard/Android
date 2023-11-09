@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="48dp"
-            android:backgroundTint="@color/babyBlue"
+            android:backgroundTint="@color/lightBlue"
             android:text="Login"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -76,7 +76,7 @@
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/transparent"
             android:text="Forgot Password?"
-            android:textColor="@color/babyBlue"
+            android:textColor="@color/lightBlue"
             android:textSize="22sp" />
 
         <TextView
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/transparent"
                 android:text="Register Now"
-                android:textColor="@color/babyBlue"
+                android:textColor="@color/lightBlue"
                 android:textSize="18dp" />
 
         </LinearLayout>
