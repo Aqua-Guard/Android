@@ -6,22 +6,21 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 
-class MainActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_register)
 
-        val btnRegister = findViewById<Button>(R.id.btnRegister)
+        val btnLogin = findViewById<Button>(R.id.btnLogin)
 
-        btnRegister.setOnClickListener {
+        btnLogin.setOnClickListener {
             try {
-                val intent = Intent(this, RegisterActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             } catch (e: Exception) {
-                Log.e("RegisterActivity", "Error starting RegisterActivity", e)
+                Log.e("MainActivity", "Error starting MainActivity", e)
             }
         }
-
 
     }
 }
