@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Aqua Guard</string>
+    <string name="text_sp1">Explore the beauty and diversity of aquatic life with AquaGuard.</string>
+    <string name="text_sp2">Join us in our mission to protect our oceans and their inhabitants.</string>
+    <string name="text_sp3">Receive alerts and tips for responsible water use.</string>
+    <string name="text_sp4">Sign in and be part of our community committed to a sustainable future.</string>
+
 </resources>
