@@ -34,32 +34,6 @@
             app:srcCompat="@drawable/logo" />
 
         <EditText
-            android:id="@+id/editTextFirstName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/custom_textfield"
-            android:hint="First Name"
-            android:inputType="text"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/editLastName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/custom_textfield"
-            android:hint="Last Name"
-            android:inputType="text"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <EditText
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -91,32 +65,82 @@
             android:layout_height="60dp"
             android:layout_marginTop="48dp"
             android:backgroundTint="@color/lightBlue"
-            android:text="Create account"
+            android:text="Login"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
+        <Button
+            android:id="@+id/buttonForgotPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/transparent"
+            android:text="Forgot Password?"
+            android:textColor="@color/lightBlue"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="- Or sign in with -"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/black"
+            android:textSize="16dp"></TextView>
+
+        <LinearLayout
+            android:layout_width="162dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+
+            <ImageButton
+                android:id="@+id/btnGoogle"
+                android:layout_width="40dp"
+                android:layout_height="37dp"
+                android:layout_marginRight="50dp"
+                android:background="@color/white"
+                android:contentDescription="Login with Google"
+                android:onClick="loginWithGoogle"
+                android:src="@drawable/google_logo" />
+
+
+            <ImageButton
+                android:id="@+id/btnFb"
+                android:layout_width="36dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:adjustViewBounds="true"
+                android:background="@color/white"
+                android:contentDescription="Login with Facebook"
+                android:onClick="loginWithFacebook"
+                android:scaleType="fitCenter"
+                android:src="@drawable/facebook_logo" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="32dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="12dp"
-                android:text="Already have an account?"
+                android:text="Don't have an account?"
                 android:textColor="@color/black"
                 android:textSize="18dp"></TextView>
 
             <Button
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/transparent"
-                android:text="Sign in"
+                android:text="Register Now"
                 android:textColor="@color/lightBlue"
                 android:textSize="18dp" />
 
