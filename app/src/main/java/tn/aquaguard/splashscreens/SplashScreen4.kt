@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import tn.aquaguard.MainActivity
 import tn.aquaguard.R
+import tn.aquaguard.ui.LoginActivity
 
 class SplashScreen4 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +18,7 @@ class SplashScreen4 : AppCompatActivity() {
 
         signIn.setOnClickListener {
             try {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             } catch (e: Exception) {
                 Log.e("MainActivity", "Error starting MainActivity", e)
