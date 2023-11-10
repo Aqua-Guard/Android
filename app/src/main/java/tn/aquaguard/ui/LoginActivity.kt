@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import tn.aquaguard.MainActivity
 import tn.aquaguard.R
 
 class LoginActivity : AppCompatActivity() {
