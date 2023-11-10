@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import tn.aquaguard.MainActivity
 import tn.aquaguard.R
 
 class RegisterActivity : AppCompatActivity() {
@@ -17,10 +16,10 @@ class RegisterActivity : AppCompatActivity() {
 
         btnLogin.setOnClickListener {
             try {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             } catch (e: Exception) {
-                Log.e("MainActivity", "Error starting MainActivity", e)
+                Log.e("LoginActivity", "Error starting MainActivity", e)
             }
         }
 
