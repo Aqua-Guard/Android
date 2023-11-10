@@ -4,5 +4,6 @@
     <string name="text_sp2">Join us in our mission to protect our oceans and their inhabitants.</string>
     <string name="text_sp3">Receive alerts and tips for responsible water use.</string>
     <string name="text_sp4">Sign in and be part of our community committed to a sustainable future.</string>
-
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
 </resources>
