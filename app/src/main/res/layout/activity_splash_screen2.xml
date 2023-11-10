@@ -8,7 +8,7 @@
     android:clipToOutline="true"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".SplashScreen2"
+    tools:context=".splashscreens.SplashScreen2"
     android:background="@drawable/background_splash_screen">
 
 
