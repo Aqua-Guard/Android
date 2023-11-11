@@ -32,14 +32,7 @@ class EventFragment : Fragment() {
             Event("1","event" , Date(),Date(),"Une initiative communautaire pour nettoyer les plages et protéger l'environnement.","sidi bou said, Tunisia", R.drawable.sidi_bou_said),
             Event("1","event" , Date(),Date(),"Une initiative communautaire pour nettoyer les plages et protéger l'environnement.","sidi bou said, Tunisia", R.drawable.sidi_bou_said),
             Event("1","event" , Date(),Date(),"Une initiative communautaire pour nettoyer les plages et protéger l'environnement.","sidi bou said, Tunisia", R.drawable.sidi_bou_said),
-            Event("1","event" , Date(),Date(),"Une initiative communautaire pour nettoyer les plages et protéger l'environnement.","sidi bou said, Tunisia", R.drawable.sidi_bou_said),
-            Event("1","event" , Date(),Date(),"Une initiative communautaire pour nettoyer les plages et protéger l'environnement.","sidi bou said, Tunisia", R.drawable.sidi_bou_said),
-            Event("1","event" , Date(),Date(),"Une initiative communautaire pour nettoyer les plages et protéger l'environnement.","sidi bou said, Tunisia", R.drawable.sidi_bou_said),
-            Event("1","event" , Date(),Date(),"Une initiative communautaire pour nettoyer les plages et protéger l'environnement.","sidi bou said, Tunisia", R.drawable.sidi_bou_said),
-            Event("1","event" , Date(),Date(),"Une initiative communautaire pour nettoyer les plages et protéger l'environnement.","sidi bou said, Tunisia", R.drawable.sidi_bou_said),
-            Event("1","event" , Date(),Date(),"Une initiative communautaire pour nettoyer les plages et protéger l'environnement.","sidi bou said, Tunisia", R.drawable.sidi_bou_said),
-            Event("1","event" , Date(),Date(),"Une initiative communautaire pour nettoyer les plages et protéger l'environnement.","sidi bou said, Tunisia", R.drawable.sidi_bou_said),
-            Event("1","event" , Date(),Date(),"Une initiative communautaire pour nettoyer les plages et protéger l'environnement.","sidi bou said, Tunisia", R.drawable.sidi_bou_said),
+
 
         )
     }
