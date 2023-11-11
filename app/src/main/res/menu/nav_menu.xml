@@ -8,17 +8,17 @@
         android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_notification"
             android:icon="@drawable/baseline_circle_notifications_24"
             android:title="Notification"/>
 
         <item
-            android:id="@+id/nav_settings"
+            android:id="@+id/nav_reclamation"
             android:icon="@drawable/baseline_textsms_24"
             android:title="Reclamation"/>
 
         <item
-            android:id="@+id/nav_share"
+            android:id="@+id/nav_command"
             android:icon="@drawable/baseline_shopping_bag_24"
             android:title="Command"/>
 
