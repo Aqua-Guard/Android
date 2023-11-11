@@ -10,6 +10,7 @@ data class Post (
     val userImage: Int,
     val postImage: Int,
     val nbLike:Int,
+
     val nbComments :Int,
     val nbShare : Int,
     val comments: List<Comment>

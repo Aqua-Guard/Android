@@ -11,7 +11,7 @@ class PostAdapter (val postList: List<Post>) : RecyclerView.Adapter<PostViewHold
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemPostBinding = ItemPostBinding.inflate(inflater, parent, false)
-        return PostViewHolder(itemPostBinding)
+        return PostViewHolder(parent.context,itemPostBinding)
     }
 
     override fun getItemCount(): Int {

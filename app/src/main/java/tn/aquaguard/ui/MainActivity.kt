@@ -105,7 +105,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun showBottomDialog() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.add_event)
+        if(binding.include3.nameofcurentFragment.text == "Forum"){
+            dialog.setContentView(R.layout.add_post)
+        }else{
+            dialog.setContentView(R.layout.add_event)
+        }
+
         val cancelButton = dialog.findViewById<ImageView>(R.id.cancelButton)
         cancelButton.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -137,6 +142,5 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
-
 
 }
