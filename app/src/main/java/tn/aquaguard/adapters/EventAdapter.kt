@@ -10,7 +10,7 @@ import tn.aquaguard.viewHolders.EventViewHolder
 class EventAdapter (val events: List<Event>) : RecyclerView.Adapter<EventViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val binding = SingleItemEventsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return EventViewHolder(binding)
+        return EventViewHolder(parent.context,binding)
     }
 
     override fun getItemCount(): Int {
