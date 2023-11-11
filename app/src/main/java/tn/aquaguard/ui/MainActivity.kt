@@ -67,18 +67,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.id.home -> {
                     println("home")
                     replaceFragment(HomeFragment())
+                    binding.include3.nameofcurentFragment.text = "Home"
                 }
                 R.id.events -> {
                     println("event")
                     replaceFragment(EventFragment())
+                    binding.include3.nameofcurentFragment.text = "Event"
                 }
                 R.id.forum -> {
                     println("forum")
                     replaceFragment(ForumFragment())
+                    binding.include3.nameofcurentFragment.text = "Forum"
                 }
                 R.id.store -> {
                     println("store")
                     replaceFragment(StoreFragment())
+                    binding.include3.nameofcurentFragment.text = "Store"
                 }
             }
             true
