@@ -9,5 +9,5 @@ data class Event (
     val dateFin:Date,
     val description:String,
     val lieu:String,
-    val image:String
+    val image:Int
 )
