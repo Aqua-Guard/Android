@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
+
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_notification"
+            android:icon="@drawable/baseline_circle_notifications_24"
+            android:title="Notification"/>
+
+        <item
+            android:id="@+id/nav_reclamation"
+            android:icon="@drawable/baseline_textsms_24"
+            android:title="Reclamation"/>
+
+        <item
+            android:id="@+id/nav_command"
+            android:icon="@drawable/baseline_shopping_bag_24"
+            android:title="Command"/>
+
+    </group>
+    <item
+        android:title=""
+
+        >
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/baseline_logout_24"
+                android:title="Logout"/>
+
+        </menu>
+
+    </item>
+
+</menu>

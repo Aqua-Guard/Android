@@ -1,9 +1,10 @@
-package tn.aquaguard
+package tn.aquaguard.splashscreens
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import tn.aquaguard.R
 
 class SplashActivity : AppCompatActivity() {
 
@@ -14,7 +15,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.splash_screen)
         Handler().postDelayed({
             // Start the main activity after the splash screen duration
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, SplashScreen1::class.java)
             startActivity(intent)
             finish()
         }, SPLASH_SCREEN_DELAY.toLong())
