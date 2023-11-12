@@ -2,8 +2,8 @@ package tn.aquaguard.viewHolders
 
 import android.content.Context
 import android.content.Intent
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import tn.aquaguard.databinding.SingleItemEventsBinding
 import tn.aquaguard.models.Event
 import tn.aquaguard.ui.DetailEventActivity
@@ -12,15 +12,16 @@ import java.util.Locale
 
 class EventViewHolder (private val context: Context, val itemEventBinding: SingleItemEventsBinding) : RecyclerView.ViewHolder(itemEventBinding.root) {
     fun setData( event : Event){
-        itemEventBinding.eventImage.setImageResource(event.image)
-        itemEventBinding.eventTitle.text = event.name
+
+        Picasso.with(context).load("http://10.0.2.2:9090/images/event/"+event.eventImage).fit().centerInside().into(itemEventBinding.eventImage)
+        itemEventBinding.eventTitle.text = event.eventName
         itemEventBinding.eventDescription.text = event.description
 
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val dateDebutFormatted = dateFormat.format(event.dateDebut)
-        val dateFinFormatted = dateFormat.format(event.dateFin)
+        val dateDebutFormatted = dateFormat.format(event.DateDebut)
+        val dateFinFormatted = dateFormat.format(event.DateFin)
 
-        itemEventBinding.dateEvent.text = dateDebutFormatted +" to "+ dateFinFormatted
+        itemEventBinding.dateEvent.text = "$dateDebutFormatted to $dateFinFormatted"
         itemEventBinding.eventlocation.text = event.lieu
         itemEventBinding.infobtn.setOnClickListener{
             val intent = Intent(context, DetailEventActivity::class.java)
