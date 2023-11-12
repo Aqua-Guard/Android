@@ -3,11 +3,12 @@ package tn.aquaguard.models
 import java.util.Date
 
 data class Event (
-    val _id:String,
-    val name:String,
-    val dateDebut:Date,
-    val dateFin:Date,
-    val description:String,
-    val lieu:String,
-    val image:Int
+    val  userName: String,
+    val  userImage: String,
+    val  eventName: String,
+    val  description: String,
+    val  eventImage: String,
+    val  DateDebut: Date,
+    val  DateFin: Date,
+    val  lieu: String,
 )
