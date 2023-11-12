@@ -13,7 +13,7 @@ class CommentAdapter (val commentList: List<Comment>) : RecyclerView.Adapter<Com
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemCommentBinding = ItemCommentBinding.inflate(inflater, parent, false)
-        return CommentViewHolder(itemCommentBinding)
+        return CommentViewHolder(parent.context,itemCommentBinding)
     }
 
     override fun getItemCount(): Int {

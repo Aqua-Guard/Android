@@ -117,15 +117,15 @@ class DetailPostActivity : AppCompatActivity() {
         // Sample list of Like objects
         return listOf(
             Comment(
-                commentAvatar = R.drawable.youssef, // Replace with actual drawable resource ID
+                commentAvatar = "R.drawable.youssef", // Replace with actual drawable resource ID
                 commentUsername = "Youssef Farhat",
                 comment = "Really insightful post. Thanks for sharing!"),
             Comment(
-                commentAvatar = R.drawable.user, // Replace with actual drawable resource ID
+                commentAvatar = "R.drawable.user", // Replace with actual drawable resource ID
                 commentUsername = "Malek Labidi",
                 comment = "Really insightful post. Thanks for sharing!"),
             Comment(
-                commentAvatar = R.drawable.yousseff, // Replace with actual drawable resource ID
+                commentAvatar = "R.drawable.yousseff", // Replace with actual drawable resource ID
                 commentUsername = "YouYou",
                 comment = "Really insightful post. Thanks for sharing!")
 

@@ -6,100 +6,39 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import tn.aquaguard.R
 import tn.aquaguard.adapters.PostAdapter
 import tn.aquaguard.databinding.FragmentForumBinding
 import tn.aquaguard.models.Comment
 import tn.aquaguard.models.Post
-
+import tn.aquaguard.viewmodel.PostViewModel
+import androidx.fragment.app.viewModels
 class ForumFragment : Fragment() {
 
     private lateinit var binding: FragmentForumBinding
-    override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private val viewModel: PostViewModel by viewModels()
 
-        binding = FragmentForumBinding.inflate(layoutInflater)
-        binding.rvPost.adapter = PostAdapter(getListPosts(requireContext()))
-        binding.rvPost.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentForumBinding.inflate(inflater, container, false)
+
+        // Set up RecyclerView with an empty adapter initially
+        binding.rvPost.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvPost.adapter = PostAdapter(emptyList())
+
+        // Observe the LiveData from ViewModel
+        viewModel.posts.observe(viewLifecycleOwner) { posts ->
+
+            println("Post API :"+posts.toString())
+            binding.rvPost.adapter = PostAdapter(posts)
+        }
 
         return binding.root
     }
-    private fun getListPosts(context: Context) : MutableList<Post> {
-        return mutableListOf(
-                Post(
-                    userName = "Malek Labidi",
-                    userRole = "Aquarist",
-                    description = "Love the new coral additions to my tank!",
-                    userImage = R.drawable.user, // Replace with your drawable resource
-                    postImage = R.drawable.post1, // Replace with your drawable resource
-                    nbLike = 123,
-                    nbComments = 10,
-                    nbShare = 5,
-                    comments = listOf(
-                        Comment(
-                            commentAvatar = R.drawable.yousseff, // Replace with your drawable resource
-                            commentUsername = "Youssef Farhat",
-                            comment = "This looks amazing!"
-                        ),
-                        Comment(
-                            commentAvatar = R.drawable.yousseff, // Replace with your drawable resource
-                            commentUsername = "Youssef Farhat",
-                            comment = "This looks amazing!"
-                        ),
-                        Comment(
-                            commentAvatar = R.drawable.yousseff, // Replace with your drawable resource
-                            commentUsername = "Youssef Farhat",
-                            comment = "This looks amazing!"
-                        )
-                        // Add more comments here
-                    )
-                ),
-            Post(
-                userName = "Malek Labidi",
-                userRole = "Aquarist",
-                description = "Love the new coral additions to my tank!",
-                userImage = R.drawable.user, // Replace with your drawable resource
-                postImage = R.drawable.post1, // Replace with your drawable resource
-                nbLike = 123,
-                nbComments = 10,
-                nbShare = 5,
-                comments = listOf(
-                    Comment(
-                        commentAvatar = R.drawable.yousseff, // Replace with your drawable resource
-                        commentUsername = "Youssef Farhat",
-                        comment = "This looks amazing!"
-                    ),
-
-                    Comment(
-                        commentAvatar = R.drawable.yousseff, // Replace with your drawable resource
-                        commentUsername = "Youssef Farhat",
-                        comment = "This looks amazing!"
-                    )
-                    // Add more comments here
-                )
-            ),
-            Post(
-                userName = "Malek Labidi",
-                userRole = "Aquarist",
-                description = "Love the new coral additions to my tank!",
-                userImage = R.drawable.user, // Replace with your drawable resource
-                postImage = R.drawable.post1, // Replace with your drawable resource
-                nbLike = 123,
-                nbComments = 10,
-                nbShare = 5,
-                comments = listOf(
-
-
-                )
-            )
-
-        )
-
-
-
-
-
-    }
 }
+
+
+
 
 
