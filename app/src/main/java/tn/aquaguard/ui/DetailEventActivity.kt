@@ -2,10 +2,11 @@ package tn.aquaguard.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import com.google.android.material.appbar.AppBarLayout
+import com.squareup.picasso.Picasso
 import tn.aquaguard.R
 
 class DetailEventActivity : AppCompatActivity() {
@@ -18,6 +19,27 @@ class DetailEventActivity : AppCompatActivity() {
 
         var namefragment : TextView = findViewById(R.id.nameofcurentFragment)
         namefragment.text = "Detail Event"
+
+
+        var eventImage = intent.getStringExtra("eventImage")
+
+
+
+        var name : TextView = findViewById(R.id.titleEventDetail)
+        var descriptionevent : TextView = findViewById(R.id.descriptionEventDetail)
+        var lieu : TextView = findViewById(R.id.eventlocation)
+        var dateDF : TextView = findViewById(R.id.dateEvent)
+        var image : ImageView = findViewById(R.id.eventImage)
+
+
+        name.text = intent.getStringExtra("EventName")
+        descriptionevent.text = intent.getStringExtra("description")
+        lieu.text = intent.getStringExtra("lieu")
+        dateDF.text = intent.getStringExtra("DateDebut") + " to " + intent.getStringExtra("DateFin")
+        Picasso.with(this).load("http://10.0.2.2:9090/images/event/"+eventImage).fit().centerInside().into(image)
+
+
+
 
 
         // Enable the back arrow
