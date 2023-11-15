@@ -1,6 +1,5 @@
 package tn.aquaguard.network
 
-
 import retrofit2.Response
 import retrofit2.http.GET
 import tn.aquaguard.models.Event
@@ -12,4 +11,5 @@ interface ApiService {
 
     @GET("/events")
     suspend fun getAllEvents(): Response<List<Event>>
+
 }
