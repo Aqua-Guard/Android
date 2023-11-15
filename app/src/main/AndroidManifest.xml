@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -34,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.RegisterActivity" />
-        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.LoginActivity"/>
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".splashscreens.SplashScreen2" />
         <activity android:name=".splashscreens.SplashScreen3" />

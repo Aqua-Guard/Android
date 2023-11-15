@@ -1,0 +1,187 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="tn.aquaguard"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+8-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="33" />
+9-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:5:5-66
+11-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:5:22-64
+12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+12-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:6:5-78
+12-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:6:22-76
+13    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+13-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:7:5-80
+13-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:7:22-77
+14
+15    <permission
+15-->[androidx.core:core:1.9.0] C:\Users\Amira\.gradle\caches\transforms-3\9952431af2cd09d815de29f0fdd5de91\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
+16        android:name="tn.aquaguard.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+16-->[androidx.core:core:1.9.0] C:\Users\Amira\.gradle\caches\transforms-3\9952431af2cd09d815de29f0fdd5de91\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
+17        android:protectionLevel="signature" />
+17-->[androidx.core:core:1.9.0] C:\Users\Amira\.gradle\caches\transforms-3\9952431af2cd09d815de29f0fdd5de91\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
+18
+19    <uses-permission android:name="tn.aquaguard.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+19-->[androidx.core:core:1.9.0] C:\Users\Amira\.gradle\caches\transforms-3\9952431af2cd09d815de29f0fdd5de91\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
+19-->[androidx.core:core:1.9.0] C:\Users\Amira\.gradle\caches\transforms-3\9952431af2cd09d815de29f0fdd5de91\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+20
+21    <application
+21-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:9:5-43:19
+22        android:allowBackup="true"
+22-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:10:9-35
+23        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+23-->[androidx.core:core:1.9.0] C:\Users\Amira\.gradle\caches\transforms-3\9952431af2cd09d815de29f0fdd5de91\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
+24        android:dataExtractionRules="@xml/data_extraction_rules"
+24-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:11:9-65
+25        android:debuggable="true"
+26        android:extractNativeLibs="false"
+27        android:fullBackupContent="@xml/backup_rules"
+27-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:12:9-54
+28        android:icon="@drawable/logo_"
+28-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:13:9-39
+29        android:label="@string/app_name"
+29-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:14:9-41
+30        android:networkSecurityConfig="@xml/network_security_config"
+30-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:17:9-69
+31        android:supportsRtl="true"
+31-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:15:9-35
+32        android:testOnly="true"
+33        android:theme="@style/Theme.AquaGuard" >
+33-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:16:9-47
+34        <activity
+34-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:19:9-21:40
+35            android:name="tn.aquaguard.ui.DetailPostActivity"
+35-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:20:13-50
+36            android:exported="false" />
+36-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:21:13-37
+37        <activity
+37-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:22:9-24:40
+38            android:name="tn.aquaguard.ui.DetailEventActivity"
+38-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:23:13-51
+39            android:exported="false" />
+39-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:24:13-37
+40        <activity
+40-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:25:9-27:40
+41            android:name="tn.aquaguard.splashscreens.SplashScreen1"
+41-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:26:13-56
+42            android:exported="false" />
+42-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:27:13-37
+43        <activity
+43-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:28:9-36:20
+44            android:name="tn.aquaguard.splashscreens.SplashActivity"
+44-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:29:13-57
+45            android:exported="true" >
+45-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:30:13-36
+46            <intent-filter>
+46-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:31:13-35:29
+47                <action android:name="android.intent.action.MAIN" />
+47-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:32:17-69
+47-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:32:25-66
+48
+49                <category android:name="android.intent.category.LAUNCHER" />
+49-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:34:17-77
+49-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:34:27-74
+50            </intent-filter>
+51        </activity>
+52        <activity android:name="tn.aquaguard.ui.RegisterActivity" />
+52-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:37:9-57
+52-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:37:19-54
+53        <activity android:name="tn.aquaguard.ui.LoginActivity" />
+53-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:38:9-53
+53-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:38:19-51
+54        <activity android:name="tn.aquaguard.ui.MainActivity" />
+54-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:39:9-53
+54-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:39:19-50
+55        <activity android:name="tn.aquaguard.splashscreens.SplashScreen2" />
+55-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:40:9-65
+55-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:40:19-62
+56        <activity android:name="tn.aquaguard.splashscreens.SplashScreen3" />
+56-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:41:9-65
+56-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:41:19-62
+57        <activity android:name="tn.aquaguard.splashscreens.SplashScreen4" />
+57-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:42:9-65
+57-->C:\Users\Amira\Desktop\front\app\src\main\AndroidManifest.xml:42:19-62
+58
+59        <service
+59-->[androidx.room:room-runtime:2.5.0] C:\Users\Amira\.gradle\caches\transforms-3\d155ad20c58ab9cff680b511d34b9d8f\transformed\room-runtime-2.5.0\AndroidManifest.xml:24:9-28:63
+60            android:name="androidx.room.MultiInstanceInvalidationService"
+60-->[androidx.room:room-runtime:2.5.0] C:\Users\Amira\.gradle\caches\transforms-3\d155ad20c58ab9cff680b511d34b9d8f\transformed\room-runtime-2.5.0\AndroidManifest.xml:25:13-74
+61            android:directBootAware="true"
+61-->[androidx.room:room-runtime:2.5.0] C:\Users\Amira\.gradle\caches\transforms-3\d155ad20c58ab9cff680b511d34b9d8f\transformed\room-runtime-2.5.0\AndroidManifest.xml:26:13-43
+62            android:exported="false" />
+62-->[androidx.room:room-runtime:2.5.0] C:\Users\Amira\.gradle\caches\transforms-3\d155ad20c58ab9cff680b511d34b9d8f\transformed\room-runtime-2.5.0\AndroidManifest.xml:27:13-37
+63
+64        <provider
+64-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Amira\.gradle\caches\transforms-3\e82fd65a5bda7fc55434d012ad3e97da\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+65            android:name="androidx.startup.InitializationProvider"
+65-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Amira\.gradle\caches\transforms-3\e82fd65a5bda7fc55434d012ad3e97da\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
+66            android:authorities="tn.aquaguard.androidx-startup"
+66-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Amira\.gradle\caches\transforms-3\e82fd65a5bda7fc55434d012ad3e97da\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
+67            android:exported="false" >
+67-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Amira\.gradle\caches\transforms-3\e82fd65a5bda7fc55434d012ad3e97da\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
+68            <meta-data
+68-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Amira\.gradle\caches\transforms-3\e82fd65a5bda7fc55434d012ad3e97da\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+69                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+69-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Amira\.gradle\caches\transforms-3\e82fd65a5bda7fc55434d012ad3e97da\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
+70                android:value="androidx.startup" />
+70-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Amira\.gradle\caches\transforms-3\e82fd65a5bda7fc55434d012ad3e97da\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
+71            <meta-data
+71-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Amira\.gradle\caches\transforms-3\c91dada397ddb20f52056a30cf4f15ae\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+72                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+72-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Amira\.gradle\caches\transforms-3\c91dada397ddb20f52056a30cf4f15ae\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+73                android:value="androidx.startup" />
+73-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Amira\.gradle\caches\transforms-3\c91dada397ddb20f52056a30cf4f15ae\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+74            <meta-data
+74-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:29:13-31:52
+75                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+75-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:30:17-85
+76                android:value="androidx.startup" />
+76-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:31:17-49
+77        </provider>
+78
+79        <receiver
+79-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:34:9-52:20
+80            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+80-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:35:13-76
+81            android:directBootAware="false"
+81-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:36:13-44
+82            android:enabled="true"
+82-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:37:13-35
+83            android:exported="true"
+83-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:38:13-36
+84            android:permission="android.permission.DUMP" >
+84-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:39:13-57
+85            <intent-filter>
+85-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:40:13-42:29
+86                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+86-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:17-91
+86-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:25-88
+87            </intent-filter>
+88            <intent-filter>
+88-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:43:13-45:29
+89                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+89-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:17-85
+89-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:25-82
+90            </intent-filter>
+91            <intent-filter>
+91-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:46:13-48:29
+92                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+92-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:17-88
+92-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:25-85
+93            </intent-filter>
+94            <intent-filter>
+94-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:49:13-51:29
+95                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+95-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:17-95
+95-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\Amira\.gradle\caches\transforms-3\e9b7de611ee4908e6cc21842e96edbf0\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:25-92
+96            </intent-filter>
+97        </receiver>
+98    </application>
+99
+100</manifest>

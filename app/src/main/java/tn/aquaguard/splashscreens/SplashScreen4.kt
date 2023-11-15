@@ -20,7 +20,7 @@ class SplashScreen4 : AppCompatActivity() {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             } catch (e: Exception) {
-                Log.e("MainActivity", "Error starting MainActivity", e)
+                Log.e("LoginActivity", "Error starting LoginActivity", e)
             }
         }
     }
