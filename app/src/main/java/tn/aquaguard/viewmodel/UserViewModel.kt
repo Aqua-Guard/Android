@@ -9,7 +9,7 @@ import tn.aquaguard.models.LoginRequest
 import tn.aquaguard.models.LoginResponse
 import tn.aquaguard.models.SignupRequest
 
-import tn.aquaguard.network.ApiService
+import tn.aquaguard.network.UserService
 
 class UserViewModel : ViewModel(){
 
@@ -18,19 +18,19 @@ class UserViewModel : ViewModel(){
 
     suspend fun login(user: LoginRequest){
 
-        val apiService = ApiService.getInstance()
+        val userService = UserService.getInstance()
 
         try {
-            response = apiService.login(user)
+            response = userService.login(user)
         } catch (e: Exception) {
             errorMessage = e.message.toString()
         }
     }
 
     suspend fun signup(user: SignupRequest){
-        val apiService = ApiService.getInstance()
+        val userService = UserService.getInstance()
         try {
-            response = apiService.signup(user)
+            response = userService.signup(user)
         } catch (e: Exception) {
             errorMessage = e.message.toString()
         }
