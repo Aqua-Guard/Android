@@ -33,6 +33,7 @@ class PostViewHolder(private val context: Context, val itemPostBinding: ItemPost
         itemPostBinding.commentsRecyclerView.adapter = commentAdapter
         itemPostBinding.infoIcon.setOnClickListener{
             val intent = Intent(context, DetailPostActivity::class.java)
+            intent.putExtra("POST_ID", post.idPost) // Assuming 'idPost' is the attribute for the post ID
             context.startActivity(intent)
         }
     }
