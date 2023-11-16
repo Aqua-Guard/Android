@@ -14,6 +14,7 @@ import tn.aquaguard.viewmodel.EventViewModel
 
 
 class EventFragment : Fragment() {
+
     private lateinit var binding: FragmentEventsBinding
     private val viewModel: EventViewModel by viewModels()
 
