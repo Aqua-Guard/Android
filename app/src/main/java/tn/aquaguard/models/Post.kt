@@ -12,6 +12,7 @@ data class Post (
     val nbLike:Int,
     val nbComments :Int,
     val nbShare : Int,
+    var isLiked : Boolean,
     val likes: List<Like>,
     val comments: List<Comment>
 )

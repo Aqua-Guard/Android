@@ -27,7 +27,7 @@
             android:name=".splashscreens.SplashScreen1"
             android:exported="false" />
         <activity
-            android:name=".splashscreens.SplashActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +38,7 @@
         <activity android:name=".ui.RegisterActivity" />
         <activity android:name=".ui.LoginActivity"/>
 
-        <activity android:name=".ui.MainActivity" />
+
         <activity android:name=".ui.ForgotEmailActivity" />
         <activity android:name=".ui.ActivationCodeActivity" />
         <activity android:name=".ui.ResetPasswordActivity" />
