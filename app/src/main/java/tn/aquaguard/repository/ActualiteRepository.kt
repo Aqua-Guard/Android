@@ -5,6 +5,6 @@ import tn.aquaguard.network.RetrofitClient
 
 class ActualiteRepository {
     suspend fun getAll(): List<Actualites>? {
-        return RetrofitClient.apiService.getAll().body()
+        return RetrofitClient.actualiteService.getAll().body()
     }
 }

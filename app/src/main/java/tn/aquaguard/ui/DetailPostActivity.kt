@@ -130,7 +130,7 @@ class DetailPostActivity : AppCompatActivity() {
 
             // Set up the RecyclerView
             recyclerView.layoutManager = LinearLayoutManager(this)
-            val commentAdapter = CommentAdapter(commentList)
+            val commentAdapter = CommentAdapter(commentList,viewModel)
             recyclerView.adapter = commentAdapter
         }
 
@@ -156,22 +156,7 @@ class DetailPostActivity : AppCompatActivity() {
         val noLiketxt = dialog.findViewById<TextView>(R.id.nolikes)
         val cancelButton = dialog.findViewById<ImageView>(R.id.cancelButton)
 
-        val likeIconImage = dialog.findViewById<ImageView>(R.id.likeicon)
-        val rootView = findViewById<View>(android.R.id.content)
 
-        likeIconImage.setOnClickListener {
-            if (true) {
-
-                likeIconImage.setImageResource(R.drawable.baseline_favorite_border_24)
-                unlikePost()
-                Snackbar.make(rootView, "You have unliked the post", Snackbar.LENGTH_SHORT).show()
-            } else {
-
-                likeIconImage.setImageResource(R.drawable.baseline_favorite_24)
-                likePost()
-                Snackbar.make(rootView, "You liked the post", Snackbar.LENGTH_SHORT).show()
-            }
-        }
 
         numberOfLikesTextView.text = likesList.size.toString()
 
@@ -201,17 +186,6 @@ class DetailPostActivity : AppCompatActivity() {
         dialog.window!!.setGravity(Gravity.BOTTOM)
     }
 
-    private fun likePost() {
-        TODO("Not yet implemented")
-    }
-
-    private fun unlikePost() {
-        TODO("Not yet implemented")
-    }
-
-    private fun isPostLiked() {
-        TODO("Not yet implemented")
-    }
 
 
 }
