@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
@@ -20,11 +21,17 @@ import tn.aquaguard.adapters.LikeAdapter
 import tn.aquaguard.models.Comment
 import tn.aquaguard.models.Like
 
+import tn.aquaguard.viewmodel.PostViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
+import tn.aquaguard.models.Post
+
+
 class DetailPostActivity : AppCompatActivity() {
+    private lateinit var viewModel: PostViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_post)
 
@@ -48,28 +55,85 @@ class DetailPostActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
-        likeicons.setOnClickListener {
-            showLikesDialog()
+
+        viewModel = ViewModelProvider(this).get(PostViewModel::class.java)
+
+        val postId = intent.getStringExtra("POST_ID")
+        if (postId != null) {
+            viewModel.fetchPostById(postId)
         }
-        commenticon.setOnClickListener {
-            showCommentsDialog()
+
+        viewModel.singlePost.observe(this) { post ->
+            post?.let {
+                updateUI(it)
+                likeicons.setOnClickListener {
+                    showLikesDialog(post.likes)
+                }
+                commenticon.setOnClickListener {
+                    showCommentsDialog(post.comments)
+                }
+            }
         }
+
+
 
     }
-    private fun showCommentsDialog() {
+    private fun updateUI(post: Post) {
+        Picasso.with(this)
+            .load("http://10.0.2.2:9090/images/user/" + post.userImage)
+            .fit()
+            .centerInside()
+            .into(findViewById<ImageView>(R.id.userimage))
+
+        findViewById<TextView>(R.id.username).text = post.userName
+        findViewById<TextView>(R.id.user_role).text = post.userRole
+
+        // Update post details
+        findViewById<TextView>(R.id.description).text = post.description
+
+        Picasso.with(this)
+            .load("http://10.0.2.2:9090/images/post/" + post.postImage)
+            .fit()
+            .centerInside()
+            .into(findViewById<ImageView>(R.id.postimage))
+
+
+        findViewById<TextView>(R.id.nblikes).text = post.nbLike.toString()
+        findViewById<TextView>(R.id.nbcomments).text = post.nbComments.toString()
+        findViewById<TextView>(R.id.nbshare).text = post.nbShare.toString()
+    }
+    private fun showCommentsDialog(commentList: List<Comment>) {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-
         dialog.setContentView(R.layout.comments_post)
 
-
+        // Initialize views
         val recyclerView = dialog.findViewById<RecyclerView>(R.id.commentsRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        val commentList = getCommentsList() // Ensure this method is accessible here
-        val commentAdapter = CommentAdapter(commentList)
-        recyclerView.adapter = commentAdapter
-
+        val emptyCommentsImageView = dialog.findViewById<ImageView>(R.id.emptyLikesImageView)
+        val noCommentsTextView = dialog.findViewById<TextView>(R.id.nolikes)
+        val numberOfCommentsTextView = dialog.findViewById<TextView>(R.id.number_of_likes)
         val cancelButton = dialog.findViewById<ImageView>(R.id.cancelButton)
+
+
+        numberOfCommentsTextView.text = commentList.size.toString()
+
+        if (commentList.isEmpty()) {
+
+            emptyCommentsImageView.visibility = View.VISIBLE
+            noCommentsTextView.visibility = View.VISIBLE
+            recyclerView.visibility = View.GONE
+        } else {
+            // Show the RecyclerView, hide the placeholder image and text
+            recyclerView.visibility = View.VISIBLE
+            emptyCommentsImageView.visibility = View.GONE
+            noCommentsTextView.visibility = View.GONE
+
+            // Set up the RecyclerView
+            recyclerView.layoutManager = LinearLayoutManager(this)
+            val commentAdapter = CommentAdapter(commentList)
+            recyclerView.adapter = commentAdapter
+        }
+
         cancelButton.setOnClickListener { dialog.dismiss() }
         dialog.show()
         dialog.window!!.setLayout(
@@ -80,20 +144,53 @@ class DetailPostActivity : AppCompatActivity() {
         dialog.window!!.setGravity(Gravity.BOTTOM)
     }
 
-    private fun showLikesDialog() {
+
+    private fun showLikesDialog(likesList: List<Like>) {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-
         dialog.setContentView(R.layout.likes_post)
 
-        // Initialize RecyclerView inside the dialog
+        val numberOfLikesTextView = dialog.findViewById<TextView>(R.id.number_of_likes)
         val recyclerView = dialog.findViewById<RecyclerView>(R.id.rv_post_likes)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        val likesList = getLikesList() // Ensure this method is accessible here
-        val likeAdapter = LikeAdapter(likesList)
-        recyclerView.adapter = likeAdapter
-
+        val emptyLikesImageView = dialog.findViewById<ImageView>(R.id.emptyLikesImageView)
+        val noLiketxt = dialog.findViewById<TextView>(R.id.nolikes)
         val cancelButton = dialog.findViewById<ImageView>(R.id.cancelButton)
+
+        val likeIconImage = dialog.findViewById<ImageView>(R.id.likeicon)
+        val rootView = findViewById<View>(android.R.id.content)
+
+        likeIconImage.setOnClickListener {
+            if (true) {
+
+                likeIconImage.setImageResource(R.drawable.baseline_favorite_border_24)
+                unlikePost()
+                Snackbar.make(rootView, "You have unliked the post", Snackbar.LENGTH_SHORT).show()
+            } else {
+
+                likeIconImage.setImageResource(R.drawable.baseline_favorite_24)
+                likePost()
+                Snackbar.make(rootView, "You liked the post", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+
+        numberOfLikesTextView.text = likesList.size.toString()
+
+        if (likesList.isEmpty()) {
+            emptyLikesImageView.visibility = View.VISIBLE
+            noLiketxt.visibility = View.VISIBLE
+            recyclerView?.visibility = View.GONE
+        } else {
+
+            recyclerView?.visibility = View.VISIBLE
+            emptyLikesImageView.visibility = View.GONE
+            noLiketxt.visibility = View.GONE
+
+            // Set up the RecyclerView
+            recyclerView.layoutManager = LinearLayoutManager(this)
+            val likeAdapter = LikeAdapter(likesList)
+            recyclerView.adapter = likeAdapter
+        }
+
         cancelButton.setOnClickListener { dialog.dismiss() }
         dialog.show()
         dialog.window!!.setLayout(
@@ -104,32 +201,17 @@ class DetailPostActivity : AppCompatActivity() {
         dialog.window!!.setGravity(Gravity.BOTTOM)
     }
 
-    private fun getLikesList(): List<Like> {
-        // Sample list of Like objects
-        return listOf(
-            Like("Malek Labidi", "Partner", R.drawable.user),
-            Like("Youssef Farhat", "Member", R.drawable.yousseff),
-            Like("youyou", "Admin", R.drawable.youssef)
-            // Add more Like objects as needed
-        )
+    private fun likePost() {
+        TODO("Not yet implemented")
     }
-    private fun getCommentsList(): List<Comment> {
-        // Sample list of Like objects
-        return listOf(
-            Comment(
-                commentAvatar = "R.drawable.youssef", // Replace with actual drawable resource ID
-                commentUsername = "Youssef Farhat",
-                comment = "Really insightful post. Thanks for sharing!"),
-            Comment(
-                commentAvatar = "R.drawable.user", // Replace with actual drawable resource ID
-                commentUsername = "Malek Labidi",
-                comment = "Really insightful post. Thanks for sharing!"),
-            Comment(
-                commentAvatar = "R.drawable.yousseff", // Replace with actual drawable resource ID
-                commentUsername = "YouYou",
-                comment = "Really insightful post. Thanks for sharing!")
 
-        )
+    private fun unlikePost() {
+        TODO("Not yet implemented")
     }
+
+    private fun isPostLiked() {
+        TODO("Not yet implemented")
+    }
+
 
 }

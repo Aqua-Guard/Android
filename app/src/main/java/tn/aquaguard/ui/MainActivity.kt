@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.ViewGroup
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bottomAppBar = findViewById(R.id.bottomAppBar)
         fab = findViewById(R.id.fab)
 
+
         // Set the BottomAppBar to act as the ActionBar
         setSupportActionBar(bottomAppBar)
 
@@ -84,6 +86,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
+        val username = intent.getStringExtra("USERNAME")
 
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
@@ -99,6 +102,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     binding.include3.nameofcurentFragment.text = "Event"
                 }
                 R.id.forum -> {
+//                    Toast.makeText(applicationContext, username, Toast.LENGTH_SHORT)
+//                        .show()
                     println("forum")
                     replaceFragment(ForumFragment())
                     binding.include3.nameofcurentFragment.text = "Forum"

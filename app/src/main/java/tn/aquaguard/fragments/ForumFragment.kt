@@ -30,7 +30,6 @@ class ForumFragment : Fragment() {
         // Observe the LiveData from ViewModel
         viewModel.posts.observe(viewLifecycleOwner) { posts ->
 
-            println("Post API :"+posts.toString())
             binding.rvPost.adapter = PostAdapter(posts)
         }
 

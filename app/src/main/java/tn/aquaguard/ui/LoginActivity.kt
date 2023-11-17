@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import tn.aquaguard.R
 import tn.aquaguard.databinding.ActivityLoginBinding
 import tn.aquaguard.models.LoginRequest
+import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.UserViewModel
 
 class LoginActivity : AppCompatActivity() {
@@ -28,6 +29,8 @@ class LoginActivity : AppCompatActivity() {
 
         val btnSubmit = findViewById<Button>(R.id.btnSubmit)
 
+        val buttonForgotPassword = findViewById<Button>(R.id.buttonForgotPassword)
+
         btnRegister.setOnClickListener {
             try {
                 val intent = Intent(this, RegisterActivity::class.java)
@@ -36,7 +39,6 @@ class LoginActivity : AppCompatActivity() {
                 Log.e("RegisterActivity", "Error starting RegisterActivity", e)
             }
         }
-
 
         btnSubmit.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
@@ -48,10 +50,11 @@ class LoginActivity : AppCompatActivity() {
                         LoginRequest(
                             findViewById<EditText>(R.id.editTextUsername).text.toString(),
                             findViewById<EditText>(R.id.editTextPassword).text.toString()
-                        )
+                        ), SessionManager(applicationContext)
                     )
-                    println("code" + viewModel.response?.code())
+
                     if (viewModel.response!!.isSuccessful) {
+                        intent.putExtra("USERNAME", findViewById<EditText>(R.id.editTextUsername).text.toString())
                         startActivity(intent)
                     } else if (viewModel.response!!.code() == 400) {
                         Toast.makeText(
@@ -73,5 +76,19 @@ class LoginActivity : AppCompatActivity() {
             }
 
         }
+
+
+        buttonForgotPassword.setOnClickListener {
+            try {
+                val intent = Intent(this, ForgotEmailActivity::class.java)
+                startActivity(intent)
+            } catch (e: Exception) {
+                Log.e("ForgotEmailActivity", "Error starting ForgotEmailActivity", e)
+            }
+        }
+
     }
-}
+
+    }
+
+

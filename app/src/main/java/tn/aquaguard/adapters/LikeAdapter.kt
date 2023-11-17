@@ -12,7 +12,7 @@ import tn.aquaguard.viewHolders.LikeViewHolder
 public class LikeAdapter (val likeList: List<Like>) : RecyclerView.Adapter<LikeViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LikeViewHolder {
         val itemPersonLikeBinding = SingelItemPersonLikeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return LikeViewHolder(itemPersonLikeBinding)
+        return LikeViewHolder(parent.context,itemPersonLikeBinding)
     }
 
     override fun getItemCount(): Int {
