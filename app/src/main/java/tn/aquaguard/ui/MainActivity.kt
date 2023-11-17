@@ -85,6 +85,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+        binding.navView.setNavigationItemSelectedListener(this)
+
+
 
         val username = intent.getStringExtra("USERNAME")
 
