@@ -10,6 +10,7 @@ import retrofit2.http.POST
 import tn.aquaguard.models.ActivationCodeResponse
 import tn.aquaguard.models.LoginRequest
 import tn.aquaguard.models.LoginResponse
+import tn.aquaguard.models.ResetPasswordRequest
 import tn.aquaguard.models.SendActivationCode
 import tn.aquaguard.models.SignupRequest
 
@@ -27,8 +28,8 @@ interface UserService {
     @POST("/user/verifyCode")
     suspend fun verifyCode(@Body request: ActivationCodeResponse): Response<ActivationCodeResponse?>?
 
-//    @POST(RESET_PASS_URL)
-//    suspend fun resetPass(@Body request: ResetPasswordRequest,@Header("authorization") fetchAuthToken: String?): Response<LoginResponse>
+    @POST("/user/forgotPassword")
+    suspend fun resetPassword(@Body request: ResetPasswordRequest): Response<ResetPasswordRequest>
 
 
     companion object {
