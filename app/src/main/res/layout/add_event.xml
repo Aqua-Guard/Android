@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/dialogbg"
     android:orientation="vertical">
 
@@ -53,6 +54,23 @@
         android:orientation="vertical"
         android:padding="10dp">
 
+        <ImageView
+            android:id="@+id/event_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/baseline_image_24" />
+
+        <Button
+            android:id="@+id/addEventImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/gray"
+            android:textColor="@color/darkBlue"
+            android:drawableLeft="@drawable/baseline_add_photo_alternate_24"
+            android:text="Add Event image" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -60,6 +78,7 @@
             android:layout_weight="1">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/eventname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/baseline_short_text_24"
@@ -73,6 +92,7 @@
             android:layout_weight="1">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/eventdescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/baseline_short_text_24"
@@ -84,7 +104,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:layout_weight="1">
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextStartDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,7 +119,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:layout_weight="1">
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextEndDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -117,27 +137,18 @@
             android:layout_weight="1">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/eventlocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/baseline_location_on_24"
                 android:hint="Event Location" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableRight="@drawable/baseline_image_24"
-                android:hint="Event Image" />
-        </com.google.android.material.textfield.TextInputLayout>
+
 
         <Button
-            android:id="@+id/btnsubmit"
+            android:id="@+id/btnsubmitEvent"
             android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

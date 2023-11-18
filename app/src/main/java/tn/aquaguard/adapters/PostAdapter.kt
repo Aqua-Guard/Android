@@ -6,12 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import tn.aquaguard.databinding.ItemPostBinding
 import tn.aquaguard.models.Post
 import tn.aquaguard.viewHolders.PostViewHolder
+import tn.aquaguard.viewmodel.PostViewModel
 
-class PostAdapter (val postList: List<Post>) : RecyclerView.Adapter<PostViewHolder>(){
+class PostAdapter (val postList: List<Post>,private val viewModel: PostViewModel) : RecyclerView.Adapter<PostViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemPostBinding = ItemPostBinding.inflate(inflater, parent, false)
-        return PostViewHolder(parent.context,itemPostBinding)
+        return PostViewHolder(parent.context,itemPostBinding,viewModel)
     }
 
     override fun getItemCount(): Int {
