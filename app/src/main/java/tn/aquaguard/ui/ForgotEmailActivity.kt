@@ -37,13 +37,19 @@ class ForgotEmailActivity : AppCompatActivity() {
                     viewModel.sendEmail(
                         SendActivationCode(
                             findViewById<EditText>(R.id.editTextForgotEmail).text.toString(),
-
                             )
                     )
 
-                    if (viewModel.response!!.isSuccessful) {
-                        intent.putExtra("EMAIL_ADDRESS", findViewById<EditText>(R.id.editTextForgotEmail).text.toString())
-                        startActivity(intent)
+                    if (findViewById<EditText>(R.id.editTextForgotEmail).text.toString().isNotEmpty())
+                    {
+                        if (viewModel.response!!.isSuccessful) {
+                            intent.putExtra("EMAIL_ADDRESS", findViewById<EditText>(R.id.editTextForgotEmail).text.toString())
+                            startActivity(intent)
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(applicationContext,"email address can't be empty", Toast.LENGTH_SHORT).show()
                     }
                 }
 
