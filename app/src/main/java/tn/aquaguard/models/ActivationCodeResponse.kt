@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ActivationCodeResponse(
     @SerializedName("email")
-    var email: String,
+    var email: String?,
 
     @SerializedName("resetCode")
     var resetCode: Int,

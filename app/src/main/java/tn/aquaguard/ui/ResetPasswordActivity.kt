@@ -14,15 +14,15 @@ class ResetPasswordActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.forgot_email)
+        setContentView(R.layout.reset_password)
         binding = ResetPasswordBinding.inflate(layoutInflater)
 
         binding.btnResetPassword.setOnClickListener {
             try {
-                val intent = Intent(this, ResetPasswordActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             } catch (e: Exception) {
-                Log.e("ForgotEmailActivity", "Error starting ForgotEmailActivity", e)
+                Log.e("LoginActivity", "Error starting LoginActivity", e)
             }
         }
 
