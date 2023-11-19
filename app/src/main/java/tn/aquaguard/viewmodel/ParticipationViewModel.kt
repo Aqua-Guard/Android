@@ -3,6 +3,7 @@ package tn.aquaguard.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import tn.aquaguard.models.Participation
@@ -18,12 +19,12 @@ class ParticipationViewModel: ViewModel() {
     val isEventParticipation: LiveData<Boolean> = _isEventParticipation
 
 
-   /* val events = liveData {
-        val eventData = repository.getParticiptations()
-        emit(eventData ?: emptyList())
+    val participations = liveData {
+        val participationData = repository.getParticiptations()
+        emit(participationData ?: emptyList())
     }
 
-    fun getParticipations(userId: String){
+   /* fun getParticipations(userId: String){
 
         viewModelScope.launch {
             try {
