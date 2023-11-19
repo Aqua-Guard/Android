@@ -8,8 +8,8 @@ import tn.aquaguard.models.Participation
 
 interface ParticipationService {
 
-    @GET("participations/user/{userId}")
-    suspend fun getParticipations(@Path("userId") userId:String): Response<List<Participation>>
+    @GET("participations/user")
+    suspend fun getParticipations(): Response<List<Participation>>
 
     @POST("participations/participate/{eventId}")
     suspend fun  addParticipation(@Path("eventId") eventId:String): Response<String>
