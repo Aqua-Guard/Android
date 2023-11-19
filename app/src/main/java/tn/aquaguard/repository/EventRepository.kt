@@ -5,6 +5,9 @@ import tn.aquaguard.network.RetrofitClient
 
 class EventRepository {
     suspend fun getAllEvents(): List<Event>? {
-        return RetrofitClient.apiService.getAllEvents().body()
+        return RetrofitClient.eventService.getAllEvents().body()
     }
+   /* suspend fun addEvent(event: Event){
+        return RetrofitClient.eventService.addEvent(event).body()
+    }*/
 }

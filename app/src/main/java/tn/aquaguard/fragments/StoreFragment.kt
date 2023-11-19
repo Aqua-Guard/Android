@@ -21,7 +21,7 @@ class StoreFragment : Fragment() {
         binding = FragmentStoreBinding.inflate(inflater, container, false)
 
         binding.rvproduct.adapter = EventAdapter(emptyList())
-        binding.rvproduct.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvproduct.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         viewModel.products.observe(viewLifecycleOwner) { products ->
             println("Products API: " + products.toString())

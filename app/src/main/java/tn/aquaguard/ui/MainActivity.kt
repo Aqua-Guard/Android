@@ -5,12 +5,14 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -20,15 +22,26 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Response
 import tn.aquaguard.R
 import tn.aquaguard.databinding.ActivityMainBinding
 import tn.aquaguard.fragments.EventFragment
 import tn.aquaguard.fragments.ForumFragment
 import tn.aquaguard.fragments.HomeFragment
 import tn.aquaguard.fragments.StoreFragment
+import tn.aquaguard.models.AddEventRequest
+import tn.aquaguard.models.Event
+import tn.aquaguard.utils.ImagePickerCallback
+import tn.aquaguard.utils.ImagePickerUtils
+import tn.aquaguard.viewmodel.EventViewModel
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -36,6 +49,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var fab: FloatingActionButton
     private lateinit var bottomAppBar: BottomAppBar
     private lateinit var binding: ActivityMainBinding
+    private lateinit var imagePickerCallback: ImagePickerCallback
+    private lateinit var imagePickerUtils: ImagePickerUtils
+    private val eventViewModel: EventViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +65,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         bottomAppBar = findViewById(R.id.bottomAppBar)
         fab = findViewById(R.id.fab)
+
 
         // Set the BottomAppBar to act as the ActionBar
         setSupportActionBar(bottomAppBar)
@@ -68,7 +85,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+        binding.navView.setNavigationItemSelectedListener(this)
 
+
+
+        val username = intent.getStringExtra("USERNAME")
 
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
@@ -84,6 +105,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     binding.include3.nameofcurentFragment.text = "Event"
                 }
                 R.id.forum -> {
+//                    Toast.makeText(applicationContext, username, Toast.LENGTH_SHORT)
+//                        .show()
                     println("forum")
                     replaceFragment(ForumFragment())
                     binding.include3.nameofcurentFragment.text = "Forum"
@@ -103,24 +126,45 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun showBottomDialog() {
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        if(binding.include3.nameofcurentFragment.text == "Forum"){
-            dialog.setContentView(R.layout.add_post)
-        }else{
-            dialog.setContentView(R.layout.add_event)
-        }
+        val isEvent = binding.include3.nameofcurentFragment.text == "Event"
 
-        val cancelButton = dialog.findViewById<ImageView>(R.id.cancelButton)
-        cancelButton.setOnClickListener { dialog.dismiss() }
-        dialog.show()
-        dialog.window!!.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window!!.setGravity(Gravity.BOTTOM)
+        if (isEvent) {
+            val onBtnAddImageClick: () -> Unit = {
+
+
+            }
+
+            val onBtnSubmitClick: (AddEventRequest) -> Unit = { event ->
+                lifecycleScope.launch {
+                    println("-----------"+event);
+
+                    eventViewModel.addEvent(event)
+
+
+                    val response = eventViewModel.response
+
+                    // Check the response code after the coroutine completes
+                    if (response?.isSuccessful == true) {
+                        // Check for the expected 201 status code
+                        if (response.code() == 201) {
+                            // Successful creation of an event
+                            Toast.makeText(this@MainActivity, "Event added successfully!", Toast.LENGTH_SHORT).show()
+                        } else {
+                            // Handle unexpected status codes
+                            Toast.makeText(this@MainActivity, "Unexpected status code: ${response.code()}", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        // Handle unsuccessful response
+                        Toast.makeText(this@MainActivity, "Error: ${response?.code()}", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+            }
+
+            DialogAddEvent(this, onBtnAddImageClick, onBtnSubmitClick)
+        }
     }
+
 
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager: FragmentManager = supportFragmentManager
@@ -143,4 +187,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+
+
 }
+
+

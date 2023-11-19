@@ -4,16 +4,16 @@ import android.content.Context
 import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import tn.aquaguard.adapters.CommentAdapter
 import tn.aquaguard.databinding.SingelItemPersonLikeBinding
 import tn.aquaguard.models.Like
 import tn.aquaguard.models.Post
 import tn.aquaguard.ui.DetailPostActivity
 
-class LikeViewHolder (val itemLikeViewHolder: SingelItemPersonLikeBinding) : RecyclerView.ViewHolder(itemLikeViewHolder.root) {
+class LikeViewHolder (private val context: Context,val itemLikeViewHolder: SingelItemPersonLikeBinding) : RecyclerView.ViewHolder(itemLikeViewHolder.root) {
     fun setData(like: Like ){
-        itemLikeViewHolder.commentAvatar.setImageResource(like.userImage)
-        itemLikeViewHolder.commentUsername.text = like.userName
-        itemLikeViewHolder.userRole.text = like.userRole
+        Picasso.with(context).load("http://10.0.2.2:9090/images/user/"+like.likeAvatar).fit().centerInside().into(itemLikeViewHolder.likeAvatar)
+        itemLikeViewHolder.likeUsername.text = like.likeUsername
     }
 }

@@ -14,6 +14,7 @@
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
+        android:enableOnBackInvokedCallback="true"
         android:theme="@style/Theme.AquaGuard"
         tools:targetApi="31" >
         <activity
@@ -38,8 +39,17 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.RegisterActivity" />
+<<<<<<< HEAD
         <activity android:name=".ui.LoginActivity" />
+=======
+        <activity android:name=".ui.LoginActivity"/>
+
+>>>>>>> b53f8ae94cca4fa12a181d7dd9e36bdc9d9fe1d8
         <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.ForgotEmailActivity" />
+        <activity android:name=".ui.ActivationCodeActivity" />
+        <activity android:name=".ui.ResetPasswordActivity" />
+
         <activity android:name=".splashscreens.SplashScreen2" />
         <activity android:name=".splashscreens.SplashScreen3" />
         <activity android:name=".splashscreens.SplashScreen4" />

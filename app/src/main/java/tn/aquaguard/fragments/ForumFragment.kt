@@ -15,9 +15,12 @@ import tn.aquaguard.models.Comment
 import tn.aquaguard.models.Post
 import tn.aquaguard.viewmodel.PostViewModel
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+
 class ForumFragment : Fragment() {
 
     private lateinit var binding: FragmentForumBinding
+
     private val viewModel: PostViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -25,14 +28,14 @@ class ForumFragment : Fragment() {
 
         // Set up RecyclerView with an empty adapter initially
         binding.rvPost.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvPost.adapter = PostAdapter(emptyList())
+        binding.rvPost.adapter = PostAdapter(emptyList(),viewModel)
 
         // Observe the LiveData from ViewModel
         viewModel.posts.observe(viewLifecycleOwner) { posts ->
 
-            println("Post API :"+posts.toString())
-            binding.rvPost.adapter = PostAdapter(posts)
+            binding.rvPost.adapter = PostAdapter(posts, viewModel)
         }
+
 
         return binding.root
     }
