@@ -33,6 +33,7 @@ class EventViewHolder (private val context: Context, val itemEventBinding: Singl
             intent.putExtra("DateFin",dateFinFormatted)
             intent.putExtra("eventImage",event.eventImage)
             intent.putExtra("lieu",event.lieu)
+            intent.putExtra("eventId",event.idEvent)
             context.startActivity(intent)
 
 

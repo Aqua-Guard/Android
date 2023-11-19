@@ -3,6 +3,7 @@ package tn.aquaguard.models
 import java.util.Date
 
 data class Event (
+    val  idEvent : String,
     val  userName: String,
     val  userImage: String,
     val  eventName: String,

@@ -8,6 +8,11 @@
         android:checkableBehavior="single">
 
         <item
+            android:id="@+id/nav_calendar"
+            android:icon="@drawable/baseline_event_24"
+            android:title="My Calendar"/>
+
+        <item
             android:id="@+id/nav_notification"
             android:icon="@drawable/baseline_circle_notifications_24"
             android:title="Notification"/>

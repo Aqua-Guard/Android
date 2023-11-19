@@ -2,6 +2,7 @@ package tn.aquaguard.ui
 
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -36,6 +37,7 @@ import tn.aquaguard.databinding.ActivityMainBinding
 import tn.aquaguard.fragments.EventFragment
 import tn.aquaguard.fragments.ForumFragment
 import tn.aquaguard.fragments.HomeFragment
+import tn.aquaguard.fragments.MyCalenderFragment
 import tn.aquaguard.fragments.StoreFragment
 import tn.aquaguard.models.AddEventRequest
 import tn.aquaguard.models.Event
@@ -175,6 +177,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.nav_calendar ->{
+
+                replaceFragment(MyCalenderFragment())
+                binding.include3.nameofcurentFragment.text = "My calender"
+            }
             R.id.nav_notification -> Toast.makeText(this, "notification!", Toast.LENGTH_SHORT).show()
 
             R.id.nav_reclamation -> Toast.makeText(this, "reclmation!", Toast.LENGTH_SHORT).show()
