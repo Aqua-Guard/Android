@@ -59,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
                     } else if (viewModel.response!!.code() == 400) {
                         Toast.makeText(
                             applicationContext,
-                            "Wrong Email or Password",
+                            viewModel.errorMessage,
                             Toast.LENGTH_SHORT
                         ).show()
 
