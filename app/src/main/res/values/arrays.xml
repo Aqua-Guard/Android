@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="options_array">
+    <item>Confirm</item>
+    <item>Precise</item>
+    <item>False</item>
+   </array>
+
+</resources>

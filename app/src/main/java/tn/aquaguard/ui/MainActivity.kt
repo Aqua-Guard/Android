@@ -41,6 +41,7 @@ import tn.aquaguard.fragments.MyCalenderFragment
 import tn.aquaguard.fragments.StoreFragment
 import tn.aquaguard.models.AddEventRequest
 import tn.aquaguard.models.Event
+import tn.aquaguard.network.SessionManager
 import tn.aquaguard.utils.ImagePickerCallback
 import tn.aquaguard.utils.ImagePickerUtils
 import tn.aquaguard.viewmodel.EventViewModel
@@ -88,10 +89,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         binding.navView.setNavigationItemSelectedListener(this)
-
-
-
-        val username = intent.getStringExtra("USERNAME")
 
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->

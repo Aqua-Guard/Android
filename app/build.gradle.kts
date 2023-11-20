@@ -72,6 +72,7 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
+    implementation ("com.applandeo:material-calendar-view:1.9.0-rc03")
 
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 

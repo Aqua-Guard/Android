@@ -14,7 +14,9 @@ class ActualitesAdapter (val ActualiteList: List<Actualites>) : RecyclerView.Ada
     }
 
     override fun getItemCount() = ActualiteList.size
-
+    fun getItem(position: Int): Actualites {
+        return ActualiteList[position]
+    }
     override fun onBindViewHolder(holder: ActualiteViewHolder, position: Int) {
         holder.setData(ActualiteList[position])
     }

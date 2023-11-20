@@ -54,12 +54,11 @@ class LoginActivity : AppCompatActivity() {
                     )
 
                     if (viewModel.response!!.isSuccessful) {
-                        intent.putExtra("USERNAME", findViewById<EditText>(R.id.editTextUsername).text.toString())
                         startActivity(intent)
                     } else if (viewModel.response!!.code() == 400) {
                         Toast.makeText(
                             applicationContext,
-                            "Wrong Email or Password",
+                            "Invalid Credentials!",
                             Toast.LENGTH_SHORT
                         ).show()
 
