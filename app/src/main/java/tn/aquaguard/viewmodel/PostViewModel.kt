@@ -7,6 +7,8 @@ import tn.aquaguard.repository.PostRepository
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import org.json.JSONException
+import org.json.JSONObject
 import tn.aquaguard.models.Comment
 import tn.aquaguard.models.Post
 
@@ -30,6 +32,9 @@ class PostViewModel : ViewModel() {
 
     private val _addCommentResult = MutableLiveData<String?>()
     val addCommentResult: LiveData<String?> = _addCommentResult
+
+    private val _updateComment = MutableLiveData<String?>()
+    val updateComment: LiveData<String?> = _updateComment
 
     val posts = liveData {
         val postData = repository.getAllPosts()
@@ -102,6 +107,36 @@ class PostViewModel : ViewModel() {
             }
         }
     }
+
+    fun updateComment(commentId: String, commentText: String) {
+        viewModelScope.launch {
+            try {
+                val response = repository.updateComment(commentId, commentText)
+                if (response.isSuccessful) {
+                    _updateComment.postValue("ok")
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = extractErrorMessage(errorBody)
+                    _updateComment.postValue(errorMessage ?: "error")
+                }
+            } catch (e: Exception) {
+                _updateComment.postValue("An error occurred")
+            }
+        }
+    }
+
+
+    private fun extractErrorMessage(errorBody: String?): String? {
+        return try {
+            val jsonObject = JSONObject(errorBody)
+            val errorsArray = jsonObject.getJSONArray("errors")
+            val firstErrorObject = errorsArray.getJSONObject(0)
+            firstErrorObject.getString("msg")
+        } catch (e: JSONException) {
+            null // Return null if there is an exception parsing the error message
+        }
+    }
+
     fun deleteComment(commentId: String,postId: String) {
         viewModelScope.launch {
             try {

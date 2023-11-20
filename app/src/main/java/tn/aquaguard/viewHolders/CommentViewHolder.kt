@@ -30,7 +30,7 @@ class CommentViewHolder(private val context: Context, val itemCommentBinding: It
         })
 
         itemCommentBinding.commentEdit.setOnClickListener {
-            // Create an AlertDialog Builder
+            // Context is 'this' in an Activity
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Edit Comment")
 
@@ -42,16 +42,8 @@ class CommentViewHolder(private val context: Context, val itemCommentBinding: It
 
             // Set up the buttons
             builder.setPositiveButton("Apply") { dialog, _ ->
-                // Get the updated comment text from the input field
                 val updatedComment = input.text.toString()
-
-                // Update the comment via your viewModel
-              //  viewModel.updateComment(comment.idComment, updatedComment)
-
-                // Inform the user of the update
-                Snackbar.make(itemCommentBinding.root, "Comment updated successfully", Snackbar.LENGTH_SHORT).show()
-
-                dialog.dismiss()
+                viewModel.updateComment(comment.idComment, updatedComment)
             }
             builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
 

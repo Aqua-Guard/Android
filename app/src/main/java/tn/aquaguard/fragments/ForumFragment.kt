@@ -17,6 +17,7 @@ import tn.aquaguard.models.Post
 import tn.aquaguard.viewmodel.PostViewModel
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import tn.aquaguard.ui.DetailPostActivity
 
 class ForumFragment : Fragment() {
@@ -42,6 +43,20 @@ class ForumFragment : Fragment() {
                     .commitAllowingStateLoss()
             }
         })
+
+        viewModel.updateComment.observe(viewLifecycleOwner) { result ->
+            if (result == "ok") {
+                Snackbar.make(binding.root, "Comment updated successfully", Snackbar.LENGTH_SHORT).show()// here the issue
+                if (isAdded) {
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, ForumFragment())
+                        .commitAllowingStateLoss()
+                }
+            } else if (result != null) {
+                Snackbar.make(binding.root, "The comment contains inappropriate language.", Snackbar.LENGTH_SHORT).show() // here the issue
+            }
+        }
+
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             if (isAdded) { // Check if the fragment is currently added to its activity

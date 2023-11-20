@@ -5,6 +5,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import tn.aquaguard.models.Actualites
 import tn.aquaguard.models.Post
 import retrofit2.http.Path
@@ -32,6 +33,8 @@ interface PostService {
 
     @POST("/posts/{postId}/comments")
     suspend fun addComment(@Path("postId") postId: String, @Body request: CommentRequest): Response<Unit>
+    @PUT("/comments/{commentId}")
+    suspend fun updateComment(@Path("commentId") commentId: String, @Body request: CommentRequest): Response<Unit>
 
     @DELETE("/comments/{commentId}")
     suspend fun deleteComment(@Path("commentId") commentId: String): Response<Unit>

@@ -1,5 +1,6 @@
 package tn.aquaguard.repository
 
+import retrofit2.Response
 import tn.aquaguard.models.Comment
 import tn.aquaguard.models.CommentRequest
 import tn.aquaguard.models.Post
@@ -31,6 +32,10 @@ class PostRepository {
         return RetrofitClient.postService.addComment(postId,commentRequest).body()
     }
 
+    suspend fun updateComment(commentId: String, commentText: String): Response<Unit> {
+        val commentRequest = CommentRequest(commentText)
+        return RetrofitClient.postService.updateComment(commentId, commentRequest)
+    }
     suspend fun deleteComment(commentId: String): Unit? {
         return RetrofitClient.postService.deleteComment(commentId).body()
     }
