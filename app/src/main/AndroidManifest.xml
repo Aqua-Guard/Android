@@ -44,6 +44,11 @@
         <activity android:name=".ui.ForgotEmailActivity" />
         <activity android:name=".ui.ActivationCodeActivity" />
         <activity android:name=".ui.ResetPasswordActivity" />
+
+        <activity android:name=".ui.ChangePasswordActivity" />
+        <activity android:name=".ui.ProfileActivity" />
+
+
         <activity android:name=".splashscreens.SplashScreen2" />
         <activity android:name=".splashscreens.SplashScreen3" />
         <activity android:name=".splashscreens.SplashScreen4" />

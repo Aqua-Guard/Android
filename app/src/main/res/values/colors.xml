@@ -8,5 +8,6 @@
     <color name="darkBlue">#00689B</color>
     <color name="gray">#CCDBDC</color>
     <color name="babyBlue">#89CFF0</color>
+    <color name="red">#B0FF0000</color>
 
 </resources>
