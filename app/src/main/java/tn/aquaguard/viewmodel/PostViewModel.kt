@@ -7,6 +7,7 @@ import tn.aquaguard.repository.PostRepository
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import tn.aquaguard.models.Comment
 import tn.aquaguard.models.Post
 
 class PostViewModel : ViewModel() {
@@ -24,11 +25,17 @@ class PostViewModel : ViewModel() {
     private val _deleteCommentResult = MutableLiveData<Boolean>()
     val deleteCommentResult: LiveData<Boolean> = _deleteCommentResult
 
+    private val _commentsLiveData = MutableLiveData<List<Comment>?>()
+    val commentsLiveData: MutableLiveData<List<Comment>?> = _commentsLiveData
+
+    private val _addCommentResult = MutableLiveData<String?>()
+    val addCommentResult: LiveData<String?> = _addCommentResult
+
     val posts = liveData {
         val postData = repository.getAllPosts()
+        println(postData)
         emit(postData ?: emptyList())
     }
-
 
 
     fun fetchPostById(postId: String) {
@@ -37,12 +44,14 @@ class PostViewModel : ViewModel() {
                 val postDetail = repository.getPostById(postId)
                 _singlePost.value = postDetail
             } catch (e: Exception) {
-                println("\"Error fetching post")
+                println("Error fetching post")
 
                 _singlePost.value = null
             }
         }
     }
+
+
 
     // Method to add a like to a post
     fun addLike(postId: String) {
@@ -75,7 +84,7 @@ class PostViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val result = repository.isPostLiked(postId)
-                _isPostLiked.value = result.toBoolean()
+                _isPostLiked.value = result!!
             } catch (e: Exception) {
                 _isPostLiked.value = false
 
@@ -86,24 +95,33 @@ class PostViewModel : ViewModel() {
     fun addCommentToPost(postId: String, commentText: String) {
         viewModelScope.launch {
             try {
-                val response = repository.addComment(postId, commentText)
-                if (response != null) {
-
-                }
+                     repository.addComment(postId,commentText)
+                    _addCommentResult.postValue("ok")
             } catch (e: Exception) {
-
+                    _addCommentResult.postValue("error")
             }
         }
     }
-    fun deleteComment(commentId: String) {
+    fun deleteComment(commentId: String,postId: String) {
         viewModelScope.launch {
             try {
                 repository.deleteComment(commentId)
+
                 _deleteCommentResult.value = true
             } catch (e: Exception) {
                 _deleteCommentResult.value = false
             }
         }
     }
+   // private fun refreshComments(postId: String) {
+    //    viewModelScope.launch {
+      //      try {
+     //           val comments = repository.getCommentsByIdPost(postId)
+     //           _commentsLiveData.value = comments
+     //       } catch (e: Exception) {
+
+       //     }
+      //  }
+   // }
 
 }

@@ -22,16 +22,21 @@ class PostRepository {
         return RetrofitClient.postService.dislikePost(postId).body()
     }
 
-    suspend fun isPostLiked(postId: String): String? {
+    suspend fun isPostLiked(postId: String): Boolean? {
         return RetrofitClient.postService.isPostLiked(postId).body()
     }
 
-    suspend fun addComment(postId: String, commentText: String): String? {
+    suspend fun addComment(postId: String,commentText: String): Unit? {
         val commentRequest = CommentRequest(commentText)
-        return RetrofitClient.postService.addComment(postId, commentRequest).body()
+        return RetrofitClient.postService.addComment(postId,commentRequest).body()
     }
+
     suspend fun deleteComment(commentId: String): Unit? {
         return RetrofitClient.postService.deleteComment(commentId).body()
+    }
+
+    suspend fun getCommentsByIdPost(postId: String): List<Comment>? {
+        return RetrofitClient.postService.getCommentByIdPost(postId).body()
     }
 
 

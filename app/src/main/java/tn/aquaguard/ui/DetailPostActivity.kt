@@ -1,6 +1,7 @@
 package tn.aquaguard.ui
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import tn.aquaguard.R
@@ -23,20 +25,70 @@ import tn.aquaguard.models.Like
 
 import tn.aquaguard.viewmodel.PostViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import tn.aquaguard.databinding.ActivityDetailPostBinding
+
+import tn.aquaguard.fragments.ForumFragment
 import tn.aquaguard.models.Post
 
 
 class DetailPostActivity : AppCompatActivity() {
     private lateinit var viewModel: PostViewModel
 
+    private lateinit var binding: ActivityDetailPostBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_post)
-
+        binding = ActivityDetailPostBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        viewModel = ViewModelProvider(this).get(PostViewModel::class.java)
+        val postId = intent.getStringExtra("POST_ID")
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            // Extract the POST_ID from the current intent
+            val postId = intent.getStringExtra("POST_ID")
+
+            val refreshIntent = Intent(this, DetailPostActivity::class.java)
+
+            // Include the POST_ID extra in the new intent
+            if (postId != null) {
+                refreshIntent.putExtra("POST_ID", postId)
+            }
+
+            // Set the FLAG_ACTIVITY_CLEAR_TOP flag
+            refreshIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+
+            // Start the activity with the new intent
+            startActivity(refreshIntent)
+
+            // Stop the refresh animation
+            binding.swipeRefreshLayout.post { binding.swipeRefreshLayout.isRefreshing = false }
+        }
+
+        viewModel.deleteCommentResult.observe(this, Observer { result ->
+            // Assuming 'result' indicates the success or status of the deletion operation
+
+            // If the activity needs to be refreshed (though direct UI update is recommended)
+            if (result) { // Assuming 'result' is a boolean indicating success
+                val postId = intent.getStringExtra("POST_ID")
+                val refreshIntent = Intent(this, DetailPostActivity::class.java)
+
+                // Include the POST_ID extra in the new intent
+                postId?.let { refreshIntent.putExtra("POST_ID", it) }
+
+                // Set the FLAG_ACTIVITY_CLEAR_TOP flag
+                refreshIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+
+                // Start the activity with the new intent
+                startActivity(refreshIntent)
+            }
+
+            // Stop the refresh animation
+            binding.swipeRefreshLayout.isRefreshing = false
+        })
 
         var namefragment : TextView = findViewById(R.id.nameofcurentFragment)
         namefragment.text = "Detail Post"
@@ -56,9 +108,7 @@ class DetailPostActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        viewModel = ViewModelProvider(this).get(PostViewModel::class.java)
 
-        val postId = intent.getStringExtra("POST_ID")
         if (postId != null) {
             viewModel.fetchPostById(postId)
         }
@@ -74,6 +124,9 @@ class DetailPostActivity : AppCompatActivity() {
                 }
             }
         }
+
+
+
 
 
 
@@ -103,8 +156,9 @@ class DetailPostActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.nbshare).text = post.nbShare.toString()
     }
     private fun showCommentsDialog(commentList: List<Comment>) {
-        val dialog = Dialog(this)
+        val dialog = BottomSheetDialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
         dialog.setContentView(R.layout.comments_post)
 
         // Initialize views
@@ -115,26 +169,26 @@ class DetailPostActivity : AppCompatActivity() {
         val cancelButton = dialog.findViewById<ImageView>(R.id.cancelButton)
 
 
-        numberOfCommentsTextView.text = commentList.size.toString()
+        numberOfCommentsTextView?.text = commentList.size.toString()
 
         if (commentList.isEmpty()) {
 
-            emptyCommentsImageView.visibility = View.VISIBLE
-            noCommentsTextView.visibility = View.VISIBLE
-            recyclerView.visibility = View.GONE
+            emptyCommentsImageView?.visibility = View.VISIBLE
+            noCommentsTextView?.visibility = View.VISIBLE
+            recyclerView?.visibility = View.GONE
         } else {
             // Show the RecyclerView, hide the placeholder image and text
-            recyclerView.visibility = View.VISIBLE
-            emptyCommentsImageView.visibility = View.GONE
-            noCommentsTextView.visibility = View.GONE
+            recyclerView?.visibility = View.VISIBLE
+            emptyCommentsImageView?.visibility = View.GONE
+            noCommentsTextView?.visibility = View.GONE
 
             // Set up the RecyclerView
-            recyclerView.layoutManager = LinearLayoutManager(this)
-            val commentAdapter = CommentAdapter(commentList,viewModel)
-            recyclerView.adapter = commentAdapter
+            recyclerView?.layoutManager = LinearLayoutManager(this)
+            val commentAdapter = CommentAdapter(commentList,viewModel,this)
+            recyclerView?.adapter = commentAdapter
         }
 
-        cancelButton.setOnClickListener { dialog.dismiss() }
+        cancelButton?.setOnClickListener { dialog.dismiss() }
         dialog.show()
         dialog.window!!.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -146,7 +200,7 @@ class DetailPostActivity : AppCompatActivity() {
 
 
     private fun showLikesDialog(likesList: List<Like>) {
-        val dialog = Dialog(this)
+        val dialog = BottomSheetDialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.likes_post)
 
@@ -158,25 +212,25 @@ class DetailPostActivity : AppCompatActivity() {
 
 
 
-        numberOfLikesTextView.text = likesList.size.toString()
+        numberOfLikesTextView?.text = likesList.size.toString()
 
         if (likesList.isEmpty()) {
-            emptyLikesImageView.visibility = View.VISIBLE
-            noLiketxt.visibility = View.VISIBLE
+            emptyLikesImageView?.visibility = View.VISIBLE
+            noLiketxt?.visibility = View.VISIBLE
             recyclerView?.visibility = View.GONE
         } else {
 
             recyclerView?.visibility = View.VISIBLE
-            emptyLikesImageView.visibility = View.GONE
-            noLiketxt.visibility = View.GONE
+            emptyLikesImageView?.visibility = View.GONE
+            noLiketxt?.visibility = View.GONE
 
             // Set up the RecyclerView
-            recyclerView.layoutManager = LinearLayoutManager(this)
+            recyclerView?.layoutManager = LinearLayoutManager(this)
             val likeAdapter = LikeAdapter(likesList)
-            recyclerView.adapter = likeAdapter
+            recyclerView?.adapter = likeAdapter
         }
 
-        cancelButton.setOnClickListener { dialog.dismiss() }
+        cancelButton?.setOnClickListener { dialog.dismiss() }
         dialog.show()
         dialog.window!!.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,

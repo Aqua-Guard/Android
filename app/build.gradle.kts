@@ -73,5 +73,6 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
 
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
 }

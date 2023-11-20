@@ -28,11 +28,15 @@ interface PostService {
     suspend fun dislikePost(@Path("postId") postId: String): Response<String>
 
     @GET("/posts/isLiked/{postId}")
-    suspend fun isPostLiked(@Path("postId") postId: String): Response<String>
+    suspend fun isPostLiked(@Path("postId") postId: String): Response<Boolean>
 
     @POST("/posts/{postId}/comments")
-    suspend fun addComment(@Path("postId") postId: String, @Body request: CommentRequest): Response<String?>
+    suspend fun addComment(@Path("postId") postId: String, @Body request: CommentRequest): Response<Unit>
 
     @DELETE("/comments/{commentId}")
     suspend fun deleteComment(@Path("commentId") commentId: String): Response<Unit>
+
+    @GET("posts/{postId}/comments")
+    suspend fun getCommentByIdPost(@Path("postId") postId: String): Response<List<Comment>>
+
 }
