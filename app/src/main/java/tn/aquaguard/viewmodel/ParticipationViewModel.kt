@@ -63,4 +63,18 @@ class ParticipationViewModel: ViewModel() {
             }
         }
     }
+
+
+    fun deleteParticipation(eventId : String){
+        viewModelScope.launch {
+            try {
+                val result = repository.deleteParticipation(eventId)
+                print(result)
+
+            }catch (e: Exception) {
+                print("error add participation")
+            }
+        }
+    }
+
 }

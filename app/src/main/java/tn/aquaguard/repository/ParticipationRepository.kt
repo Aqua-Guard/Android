@@ -15,4 +15,8 @@ class ParticipationRepository {
     suspend fun isParticip(eventId: String?):Boolean?{
         return RetrofitClient.participationService.isParticipated(eventId).body();
     }
+
+    suspend fun deleteParticipation(eventId: String):String?{
+        return RetrofitClient.participationService.deleteParticipation(eventId).body();
+    }
 }
