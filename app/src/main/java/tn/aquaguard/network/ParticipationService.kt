@@ -1,6 +1,7 @@
 package tn.aquaguard.network
 
 import retrofit2.Response
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -16,5 +17,8 @@ interface ParticipationService {
 
     @GET("participations/participate/{eventId}")
     suspend fun isParticipated(@Path("eventId") eventId: String?): Response<Boolean>
+
+    @DELETE("participations/participate/{eventId}")
+    suspend fun deleteParticipation(@Path("eventId") eventId:String): Response<String>
 
 }

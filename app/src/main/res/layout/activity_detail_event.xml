@@ -95,6 +95,14 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:text="Participate" />
+
+            <Button
+                android:id="@+id/btnDeleteParticipation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:backgroundTint="@color/red"
+                android:text="Cancel Participation" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
