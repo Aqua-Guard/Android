@@ -13,7 +13,7 @@ class SessionManager (context: Context) {
         const val USERNAME = "username"
         const val ROLE = "role"
         const val EMAIL = "email"
-        const val ISACTIVATED = "role"
+        const val ISACTIVATED = "isActivated"
     }
 
     fun saveToken(token: String, username:String, role:String, email: String, isActivated: Boolean) {
@@ -47,8 +47,8 @@ class SessionManager (context: Context) {
     fun getUsername(): String? {
         return prefs.getString(USERNAME, null)
     }
-    fun getIsActivated(): String? {
-        return prefs.getString(ISACTIVATED, null)
+    fun getIsActivated(): Boolean? {
+        return prefs.getBoolean(ISACTIVATED,false)
     }
 
 }

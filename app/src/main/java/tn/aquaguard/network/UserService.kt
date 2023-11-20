@@ -4,7 +4,9 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.POST
+import retrofit2.http.Path
 import tn.aquaguard.models.ActivationCodeResponse
 import tn.aquaguard.models.LoginRequest
 import tn.aquaguard.models.LoginResponse
@@ -16,7 +18,7 @@ import tn.aquaguard.models.ChangePassword
 interface UserService {
 
     @POST("/user/login")
-    suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse?>
+    suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse?>?
 
     @POST("/user/registerAndroidIOS")
     suspend fun signup(@Body request: SignupRequest): Response<LoginResponse?>
@@ -33,6 +35,8 @@ interface UserService {
     @POST("/user/changePassword")
     suspend fun changePassword(@Body request: ChangePassword): Response<ChangePassword?>?
 
+    @DELETE("/user/deleteUser/{email}")
+    suspend fun deleteAccount(@Path("email") email: String?)
 
     companion object {
         private const val BASE_URL = "http://10.0.2.2:9090/"

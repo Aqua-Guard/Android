@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import tn.aquaguard.R
 import tn.aquaguard.models.ChangePassword
+import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.UserViewModel
 
 class ChangePasswordActivity : AppCompatActivity() {
@@ -35,15 +36,15 @@ class ChangePasswordActivity : AppCompatActivity() {
 
                         viewModel.changePassword(
                             ChangePassword(
-                                "amira.benmbarek@esprit.tn",
+                                SessionManager.EMAIL,
                                 oldPassword,
                                 newPassword,
                                 confirmPassword
                             )
                         )
-                        if (viewModel.response?.isSuccessful == true) {
+                        if (viewModel.responsePass?.isSuccessful == true) {
                             startActivity(intent)
-                        } else if (viewModel.response!!.code() == 400) {
+                        } else if (viewModel.responsePass!!.code() == 400) {
                             Toast.makeText(
                                 applicationContext,
                                 "Wrong Information",
