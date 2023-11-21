@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import tn.aquaguard.R
 import tn.aquaguard.adapters.EventAdapter
+import tn.aquaguard.adapters.MyPostAdapter
 import tn.aquaguard.databinding.FragmentEventsBinding
 import tn.aquaguard.viewmodel.EventViewModel
 
@@ -24,12 +25,26 @@ class EventFragment : Fragment() {
         binding = FragmentEventsBinding.inflate(layoutInflater)
 
 
+        binding.rvEvents.adapter = EventAdapter(emptyList(),viewModel, this)
         binding.rvEvents.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         viewModel.events.observe(viewLifecycleOwner) { events ->
 
             println("Event API :"+events.toString())
-            binding.rvEvents.adapter = EventAdapter(events,viewModel,this)
+            if (events.isEmpty()) {
+                // Show image and text for empty events list
+                binding.emptyEventsImageView.visibility = View.VISIBLE
+                binding.noevents.visibility = View.VISIBLE
+                binding.rvEvents.visibility = View.GONE
+            } else {
+                // Hide image and text if events list is not empty
+                binding.emptyEventsImageView.visibility = View.GONE
+                binding.noevents.visibility = View.GONE
+                binding.rvEvents.visibility = View.VISIBLE
+
+                // Set up the RecyclerView adapter with non-empty events list
+                binding.rvEvents.adapter = EventAdapter(events, viewModel, this)
+            }
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {

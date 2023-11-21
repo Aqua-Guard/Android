@@ -69,6 +69,10 @@ class MyCalenderFragment : Fragment() {
                 val clickedParticipations = participationViewModel.participations.value
                     ?.filter { it.DateEvent == clickedDate }
 
+                if (clickedParticipations.isNullOrEmpty()) {
+                    // No participations for the clicked date, do nothing or show a message
+                    return
+                }
                 // Show the dialog with all events for the clicked date
                 clickedParticipations?.let {
                     showEventDialog(it)
