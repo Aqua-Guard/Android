@@ -1,6 +1,7 @@
 package tn.aquaguard.fragments
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import tn.aquaguard.adapters.MyPostAdapter
 
 
 import tn.aquaguard.databinding.FragmentMyPostFramentBinding
+import tn.aquaguard.ui.DetailPostActivity
 import tn.aquaguard.viewmodel.PostViewModel
 
 
@@ -39,6 +41,15 @@ class MyPostFrament : Fragment() {
             }
         })
 
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            if (isAdded) { // Check if the fragment is currently added to its activity
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, MyPostFrament())
+                    .commitAllowingStateLoss()
+            }
+            binding.swipeRefreshLayout.post { binding.swipeRefreshLayout.isRefreshing = false }
+        }
         return binding.root
     }
 

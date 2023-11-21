@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/baseline_mode_edit_24"
-                android:visibility="gone"
+                android:visibility="visible"
                  />
 
             <ImageView
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/baseline_delete_24"
                 android:layout_marginLeft="5dp"
-                android:visibility="gone"
+                android:visibility="visible"
                  />
         </LinearLayout>
 

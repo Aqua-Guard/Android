@@ -25,13 +25,9 @@ class CommentViewHolder(private val context: Context, val itemCommentBinding: It
 
         // Set visibility based on whether the current user posted the comment
         itemCommentBinding.commentdelete.visibility = if (current_user_id == comment.idUser) View.VISIBLE else View.GONE
-        itemCommentBinding.commentEdit.visibility = itemCommentBinding.commentdelete.visibility
 
-        viewModel.commentsLiveData.observe(lifecycleOwner, Observer { comments ->
-            itemCommentBinding.commentdelete.visibility = if (current_user_id == comment.idUser) View.VISIBLE else View.GONE
-            itemCommentBinding.commentEdit.visibility = itemCommentBinding.commentdelete.visibility
 
-        })
+
 
 
         itemCommentBinding.commentEdit.setOnClickListener {
@@ -70,7 +66,7 @@ class CommentViewHolder(private val context: Context, val itemCommentBinding: It
         if (isMyPostFragment){
             itemCommentBinding.commentEdit.visibility = View.GONE
         }else{
-            itemCommentBinding.commentEdit.visibility = View.VISIBLE
+            itemCommentBinding.commentEdit.visibility = if (current_user_id == comment.idUser) View.VISIBLE else View.GONE
         }
     }
 }
