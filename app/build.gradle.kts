@@ -76,7 +76,6 @@ dependencies {
 
     //-------------------------------
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation ("com.facebook.android:facebook-android-sdk:[5,6)")
 
 
 

@@ -14,7 +14,7 @@ import tn.aquaguard.viewmodel.EventViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class EventViewHolder (private val context: Context, val itemEventBinding: SingleItemEventsBinding  ,private val viewModel: EventViewModel, private val lifecycleOwner: LifecycleOwner
+class MyEventViewHolder (private val context: Context, val itemEventBinding: SingleItemEventsBinding, private val viewModel: EventViewModel, private val lifecycleOwner: LifecycleOwner
 ) : RecyclerView.ViewHolder(itemEventBinding.root) {
     fun setData( event : Event){
 

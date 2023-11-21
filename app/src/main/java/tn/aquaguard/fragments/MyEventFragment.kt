@@ -10,32 +10,33 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import tn.aquaguard.R
 import tn.aquaguard.adapters.EventAdapter
-import tn.aquaguard.databinding.FragmentEventsBinding
+import tn.aquaguard.adapters.MyEventAdapter
+import tn.aquaguard.databinding.FragmentMyEventsBinding
 import tn.aquaguard.viewmodel.EventViewModel
 
 
-class EventFragment : Fragment() {
+class MyEventFragment : Fragment() {
 
-    private lateinit var binding: FragmentEventsBinding
+    private lateinit var binding: FragmentMyEventsBinding
     private val viewModel: EventViewModel by viewModels()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentEventsBinding.inflate(layoutInflater)
+        binding = FragmentMyEventsBinding.inflate(layoutInflater)
 
 
         binding.rvEvents.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-        viewModel.events.observe(viewLifecycleOwner) { events ->
+        viewModel.myevents.observe(viewLifecycleOwner) { myevents ->
 
-            println("Event API :"+events.toString())
-            binding.rvEvents.adapter = EventAdapter(events,viewModel,this)
+            println("My Event API :"+myevents.toString())
+            binding.rvEvents.adapter = MyEventAdapter(myevents,viewModel,this)
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             if (isAdded) { // Check if the fragment is currently added to its activity
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, EventFragment())
+                    .replace(R.id.fragment_container, MyEventFragment())
                     .commitAllowingStateLoss()
             }
             binding.swipeRefreshLayout.post { binding.swipeRefreshLayout.isRefreshing = false }
