@@ -42,6 +42,12 @@ class PostViewModel : ViewModel() {
         emit(postData ?: emptyList())
     }
 
+     val myposts = liveData {
+        val postData = repository.getAllPostsByCurentUser()
+        println(postData)
+        emit(postData ?: emptyList())
+    }
+
 
     fun fetchPostById(postId: String) {
         viewModelScope.launch {
@@ -49,14 +55,10 @@ class PostViewModel : ViewModel() {
                 val postDetail = repository.getPostById(postId)
                 _singlePost.value = postDetail
             } catch (e: Exception) {
-                println("Error fetching post")
-
                 _singlePost.value = null
             }
         }
     }
-
-
 
     // Method to add a like to a post
     fun addLike(postId: String) {

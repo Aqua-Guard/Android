@@ -11,6 +11,11 @@ class PostRepository {
     suspend fun getAllPosts(): List<Post>? {
         return RetrofitClient.postService.getAllPosts().body()
     }
+
+    suspend fun getAllPostsByCurentUser(): List<Post>? {
+        return RetrofitClient.postService.getAllPostsByCurentUser().body()
+    }
+
     suspend fun getPostById(postId: String): Post? {
         return RetrofitClient.postService.getPostById(postId).body()
     }

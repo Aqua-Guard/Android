@@ -11,7 +11,7 @@ import tn.aquaguard.viewHolders.CommentViewHolder
 import tn.aquaguard.viewmodel.PostViewModel
 
 
-class CommentAdapter (var commentList: List<Comment>,private val viewModel: PostViewModel,private val lifecycleOwner: LifecycleOwner, private val maxItemCount: Int = -1) : RecyclerView.Adapter<CommentViewHolder>(){
+class CommentAdapter (var commentList: List<Comment>,private val viewModel: PostViewModel,private val lifecycleOwner: LifecycleOwner, private val maxItemCount: Int = -1, private val isMyPostFragment: Boolean = false) : RecyclerView.Adapter<CommentViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemCommentBinding = ItemCommentBinding.inflate(inflater, parent, false)
@@ -24,7 +24,7 @@ class CommentAdapter (var commentList: List<Comment>,private val viewModel: Post
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         val comment = commentList[position]
-        holder.setData(comment)
+        holder.setData(comment,isMyPostFragment)
     }
 
     fun updateData(newData: List<Comment>) {

@@ -18,6 +18,8 @@ interface PostService {
     @GET("/posts")
     suspend fun getAllPosts(): Response<List<Post>>
 
+    @GET("/posts/postByCurrentUser")
+    suspend fun getAllPostsByCurentUser(): Response<List<Post>>
 
     @GET("posts/{postId}")
     suspend fun getPostById(@Path("postId") postId: String): Response<Post>
@@ -41,5 +43,7 @@ interface PostService {
 
     @GET("posts/{postId}/comments")
     suspend fun getCommentByIdPost(@Path("postId") postId: String): Response<List<Comment>>
+
+
 
 }

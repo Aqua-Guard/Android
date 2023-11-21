@@ -16,7 +16,11 @@ import tn.aquaguard.viewmodel.PostViewModel
 
 
 class CommentViewHolder(private val context: Context, val itemCommentBinding: ItemCommentBinding,private val viewModel: PostViewModel,private val lifecycleOwner: LifecycleOwner) : RecyclerView.ViewHolder(itemCommentBinding.root) {
-    fun setData(comment : Comment){
+    fun setData(comment : Comment,isMyPostFragment: Boolean){
+        // Edit Comment icon display gone when isMyPostFragment is true
+
+
+
         val current_user_id = "65572f11bcaa0c0abb35f25d" // This should be fetched from a session or auth manager
 
         // Set visibility based on whether the current user posted the comment
@@ -28,6 +32,7 @@ class CommentViewHolder(private val context: Context, val itemCommentBinding: It
             itemCommentBinding.commentEdit.visibility = itemCommentBinding.commentdelete.visibility
 
         })
+
 
         itemCommentBinding.commentEdit.setOnClickListener {
             // Context is 'this' in an Activity
@@ -60,5 +65,12 @@ class CommentViewHolder(private val context: Context, val itemCommentBinding: It
 
         itemCommentBinding.commentUsername.text = comment.commentUsername
         itemCommentBinding.commentText.text = comment.comment
+
+
+        if (isMyPostFragment){
+            itemCommentBinding.commentEdit.visibility = View.GONE
+        }else{
+            itemCommentBinding.commentEdit.visibility = View.VISIBLE
+        }
     }
 }
