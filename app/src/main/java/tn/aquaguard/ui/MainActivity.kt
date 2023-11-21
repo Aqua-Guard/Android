@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
+import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.view.Window
@@ -91,6 +92,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         binding.navView.setNavigationItemSelectedListener(this)
+
+        val myEventsItem: MenuItem = binding.navView.menu.findItem(R.id.nav_my_events)
+        if (SessionManager(applicationContext).getRole() != "partenaire") {
+            myEventsItem.isVisible = false
+        }
 
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
