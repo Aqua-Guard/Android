@@ -14,5 +14,7 @@ interface EventService {
     @POST("/events")
     suspend fun addEvent(@Body request: AddEventRequest): Response<String?>
 
+    @GET("/events/eventByCurrentUser")
+    suspend fun getAllEventsByCurrentUser(): Response<List<Event>>
 
 }

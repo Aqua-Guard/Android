@@ -38,6 +38,7 @@ import tn.aquaguard.fragments.EventFragment
 import tn.aquaguard.fragments.ForumFragment
 import tn.aquaguard.fragments.HomeFragment
 import tn.aquaguard.fragments.MyCalenderFragment
+import tn.aquaguard.fragments.MyEventFragment
 import tn.aquaguard.fragments.MyPostFrament
 import tn.aquaguard.fragments.StoreFragment
 import tn.aquaguard.models.AddEventRequest
@@ -183,6 +184,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_my_posts ->{
                 replaceFragment(MyPostFrament())
                 binding.include3.nameofcurentFragment.text = "My Posts"
+            }
+            R.id.nav_my_events ->{
+                replaceFragment(MyEventFragment())
+                binding.include3.nameofcurentFragment.text = "My Events"
             }
             R.id.nav_notification -> Toast.makeText(this, "notification!", Toast.LENGTH_SHORT).show()
 

@@ -10,4 +10,8 @@ class EventRepository {
    /* suspend fun addEvent(event: Event){
         return RetrofitClient.eventService.addEvent(event).body()
     }*/
+
+    suspend fun getAllEventsByCurrentUser(): List<Event>? {
+        return RetrofitClient.eventService.getAllEventsByCurrentUser().body()
+    }
 }
