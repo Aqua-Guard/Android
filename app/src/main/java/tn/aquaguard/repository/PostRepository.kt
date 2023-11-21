@@ -45,6 +45,10 @@ class PostRepository {
         return RetrofitClient.postService.deleteComment(commentId).body()
     }
 
+    suspend fun deletePost(postId: String): Unit? {
+        return RetrofitClient.postService.deletePost(postId).body()
+    }
+
     suspend fun getCommentsByIdPost(postId: String): List<Comment>? {
         return RetrofitClient.postService.getCommentByIdPost(postId).body()
     }

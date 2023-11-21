@@ -27,6 +27,9 @@ class PostViewModel : ViewModel() {
     private val _deleteCommentResult = MutableLiveData<Boolean>()
     val deleteCommentResult: LiveData<Boolean> = _deleteCommentResult
 
+    private val _deletePostResult = MutableLiveData<Boolean>()
+    val deletePostResult: LiveData<Boolean> = _deletePostResult
+
     private val _commentsLiveData = MutableLiveData<List<Comment>?>()
     val commentsLiveData: MutableLiveData<List<Comment>?> = _commentsLiveData
 
@@ -150,7 +153,21 @@ class PostViewModel : ViewModel() {
             }
         }
     }
-   // private fun refreshComments(postId: String) {
+
+    fun deletePost(postId: String) {
+        viewModelScope.launch {
+            try {
+                repository.deletePost(postId)
+                _deletePostResult.value = true
+            } catch (e: Exception) {
+                _deletePostResult.value = false
+            }
+        }
+    }
+
+
+
+    // private fun refreshComments(postId: String) {
     //    viewModelScope.launch {
       //      try {
      //           val comments = repository.getCommentsByIdPost(postId)

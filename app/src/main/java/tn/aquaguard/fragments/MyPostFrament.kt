@@ -26,6 +26,13 @@ class MyPostFrament : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentMyPostFramentBinding.inflate(layoutInflater)
 
+        viewModel.deletePostResult.observe(viewLifecycleOwner, Observer { result ->
+            if (isAdded) {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, MyPostFrament())
+                    .commitAllowingStateLoss()
+            }
+        })
 
         binding.myPostsRV.layoutManager = LinearLayoutManager(requireContext())
         binding.myPostsRV.adapter = MyPostAdapter(emptyList(),viewModel, this)
