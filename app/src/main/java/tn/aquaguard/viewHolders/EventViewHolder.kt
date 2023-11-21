@@ -3,15 +3,19 @@ package tn.aquaguard.viewHolders
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import tn.aquaguard.databinding.SingleItemEventsBinding
 import tn.aquaguard.models.Event
 import tn.aquaguard.ui.DetailEventActivity
+import tn.aquaguard.viewmodel.EventViewModel
+
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class EventViewHolder (private val context: Context, val itemEventBinding: SingleItemEventsBinding) : RecyclerView.ViewHolder(itemEventBinding.root) {
+class EventViewHolder (private val context: Context, val itemEventBinding: SingleItemEventsBinding  ,private val viewModel: EventViewModel, private val lifecycleOwner: LifecycleOwner
+) : RecyclerView.ViewHolder(itemEventBinding.root) {
     fun setData( event : Event){
 
         Picasso.with(context).load("http://10.0.2.2:9090/images/event/"+event.eventImage).fit().centerInside().into(itemEventBinding.eventImage)
