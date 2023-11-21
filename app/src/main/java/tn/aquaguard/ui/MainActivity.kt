@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.navView.setNavigationItemSelectedListener(this)
 
         val myEventsItem: MenuItem = binding.navView.menu.findItem(R.id.nav_my_events)
-        if (SessionManager(applicationContext).getRole() != "Partenaire") {
+        if (SessionManager(applicationContext).getRole() != "partenaire") {
             myEventsItem.isVisible = false
         }
 
