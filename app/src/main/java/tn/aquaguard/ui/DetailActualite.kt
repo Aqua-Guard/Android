@@ -32,14 +32,17 @@ class DetailActualite : AppCompatActivity() {
 
         var namefragment : TextView = findViewById(R.id.nameofcurentFragment)
         namefragment.text = titre
+        var image : ImageView = findViewById(R.id.ActualiteDetailimage)
+
         var title : TextView = findViewById(R.id.ActualiteDetailTitle)
         var description : TextView = findViewById(R.id.ActualiteDetailDescription)
         var text : TextView = findViewById(R.id.ActualiteDetailtext)
-
+        var actualiteImage = intent.getStringExtra("ACTUAITEIMAGE")
         title.text=intent.getStringExtra("ACTUALITETITLE")
         description.text=intent.getStringExtra("ACTUAITEDESCRIPTION")
         text.text=intent.getStringExtra("ACTUALITETEXT")
-//
+        Picasso.with(this).load("http://10.0.2.2:9090/image/actualite/"+actualiteImage).fit().centerInside().into(image)
+
 //
 
 

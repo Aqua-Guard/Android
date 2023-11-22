@@ -14,7 +14,7 @@ class ActualiteViewHolder (private val context: Context, val ActualiteItem :Actu
     fun setData(actualite:Actualites) {
 
 
-        Picasso.with(context).load( ""+actualite.image ).fit().centerInside().into(ActualiteItem.newsImage)
+        Picasso.with(context).load( "http://10.0.2.2:9090/image/actualite/"+actualite.image ).fit().centerInside().into(ActualiteItem.newsImage)
         ActualiteItem.newsTitle.text=actualite.title
         ActualiteItem.newsDescription.text=actualite.description
 
@@ -23,6 +23,7 @@ class ActualiteViewHolder (private val context: Context, val ActualiteItem :Actu
             intent.putExtra("ACTUALITETITLE", actualite.title)
             intent.putExtra("ACTUALITETEXT", actualite.text)
             intent.putExtra("ACTUAITEDESCRIPTION", actualite.description)
+            intent.putExtra("ACTUAITEIMAGE", actualite.image)
 
 
             context.startActivity(intent)
