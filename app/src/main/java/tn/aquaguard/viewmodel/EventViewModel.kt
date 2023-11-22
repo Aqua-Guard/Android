@@ -23,6 +23,12 @@ class EventViewModel: ViewModel() {
         emit(eventData ?: emptyList())
     }
 
+    val myevents = liveData {
+        val EventData = repository.getAllEventsByCurrentUser()
+        println(EventData)
+        emit(EventData ?: emptyList())
+    }
+
 
     suspend fun addEvent(event: AddEventRequest){
 
