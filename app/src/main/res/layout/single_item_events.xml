@@ -79,6 +79,12 @@
                     android:layout_height="wrap_content"
 
                     android:src="@drawable/baseline_info_24" />
+                <ImageView
+                    android:id="@+id/infobtnmenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:src="@drawable/baseline_more_vert_24" />
             </LinearLayout>
 
 

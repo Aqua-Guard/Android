@@ -3,8 +3,12 @@ package tn.aquaguard.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import retrofit2.Response
 import tn.aquaguard.models.AddEventRequest
 import tn.aquaguard.models.Event
@@ -15,6 +19,9 @@ class EventViewModel: ViewModel() {
 
     var errorMessage: String by mutableStateOf("")
     var response: Response<String?>? = null
+
+    private val _iseventDeleted = MutableLiveData<Boolean>()
+    val deleteEventResult: LiveData<Boolean> = _iseventDeleted
 
     private val repository = EventRepository()
 
@@ -54,5 +61,18 @@ class EventViewModel: ViewModel() {
         } catch (e: Exception) {
             errorMessage = e.message.toString()
         }
+    }
+
+    suspend fun deleteEvent(eventId : String){
+
+            try {
+                val result = repository.deleteEvent(eventId)
+                _iseventDeleted.value = true
+            } catch (e: Exception) {
+                _iseventDeleted.value = false
+
+            }
+
+
     }
 }

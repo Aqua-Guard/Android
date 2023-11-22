@@ -14,4 +14,8 @@ class EventRepository {
     suspend fun getAllEventsByCurrentUser(): List<Event>? {
         return RetrofitClient.eventService.getAllEventsByCurrentUser().body()
     }
+
+    suspend fun deleteEvent(eventId: String):String? {
+        return RetrofitClient.eventService.deleteEvent(eventId).body()
+    }
 }

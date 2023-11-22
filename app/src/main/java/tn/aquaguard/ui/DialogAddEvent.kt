@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
+import com.squareup.picasso.Picasso
 import tn.aquaguard.R
 import tn.aquaguard.models.AddEventRequest
 import tn.aquaguard.models.Event
@@ -35,7 +36,9 @@ fun DialogAddEvent (activity: MainActivity,onBtnAddImageClick: () -> Unit,onBtnS
     addImage.setOnClickListener {
         onBtnAddImageClick.invoke()
         imagePickerUtils.pickImageGallery()
-        imageView.setImageURI(imagePickerUtils.getSelectedImageUri())
+        Picasso.with(activity).load(imagePickerUtils.getSelectedImageUri())
+            .into(imageView)
+
 
     }
 
