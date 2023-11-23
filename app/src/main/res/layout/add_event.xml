@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/dialogbg"
     android:orientation="vertical">
@@ -112,7 +112,9 @@
             android:ems="10"
             android:drawableRight="@drawable/baseline_date_range_24"
             android:hint="Start Date"
-            android:inputType="date" />
+            android:inputType="none"
+            android:focusable="false"
+            android:onClick="showStartDatePickerDialog" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -126,9 +128,19 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="End Date"
-                android:inputType="date"
+                android:inputType="none"
+                android:focusable="false"
+                android:onClick="showEndDatePickerDialog"
                 android:drawableRight="@drawable/baseline_date_range_24"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/errorMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#FF0000"
+            android:visibility="gone" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
