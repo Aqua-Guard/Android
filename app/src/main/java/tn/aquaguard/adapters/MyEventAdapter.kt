@@ -24,4 +24,5 @@ class MyEventAdapter (val events: List<Event>, private val viewModel: EventViewM
         val event = events[position]
         holder.setData(event)
     }
+
 }
