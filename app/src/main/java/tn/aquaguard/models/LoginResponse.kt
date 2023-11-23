@@ -10,6 +10,9 @@ data class LoginResponse (
     @SerializedName("username")
     var username: String,
 
+    @SerializedName("userId")
+    var userId: String,
+
     @SerializedName("email")
     var email: String,
 

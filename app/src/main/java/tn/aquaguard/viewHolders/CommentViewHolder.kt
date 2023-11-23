@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso
 import tn.aquaguard.R
 import tn.aquaguard.databinding.ItemCommentBinding
 import tn.aquaguard.models.Comment
+import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.PostViewModel
 
 
@@ -28,7 +29,9 @@ class CommentViewHolder(private val context: Context, val itemCommentBinding: It
 
 
 
-        val current_user_id = "65572f11bcaa0c0abb35f25d" // This should be fetched from a session or auth manager
+        val current_user_id = SessionManager(context).getUserId()
+
+
 
         // Set visibility based on whether the current user posted the comment
         itemCommentBinding.commentdelete.visibility = if (current_user_id == comment.idUser) View.VISIBLE else View.GONE

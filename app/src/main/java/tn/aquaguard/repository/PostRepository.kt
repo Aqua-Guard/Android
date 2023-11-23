@@ -18,6 +18,11 @@ class PostRepository {
     suspend fun addPost(description: RequestBody, image: MultipartBody.Part): Response<String> {
         return RetrofitClient.postService.addPost(description, image)
     }
+
+    suspend fun updatePost(description: RequestBody, image: MultipartBody.Part): Response<String> {
+        return RetrofitClient.postService.addPost(description, image)
+    }
+
     suspend fun getAllPostsByCurentUser(): List<Post>? {
         return RetrofitClient.postService.getAllPostsByCurentUser().body()
     }

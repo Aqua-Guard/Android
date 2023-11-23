@@ -72,6 +72,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
+        println("-------------------------------------+"+SessionManager(applicationContext).getRole())
+        println("-------------------------------------+"+SessionManager(applicationContext).getUserId())
+
         // Initialize ViewModel
         postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
 

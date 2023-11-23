@@ -39,6 +39,13 @@ interface PostService {
         @Part image: MultipartBody.Part
     ): Response<String>
 
+    @Multipart
+    @PUT("/posts")
+    suspend fun updatePost(
+        @Part("description") description: RequestBody,
+        @Part image: MultipartBody.Part
+    ): Response<String>
+
     @POST("/posts/dislike/{postId}")
     suspend fun dislikePost(@Path("postId") postId: String): Response<String>
 
