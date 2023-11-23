@@ -1,69 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.DetailActualite">
-    <include
-        android:id="@+id/appbarr"
-        layout="@layout/appbar_layout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="60dp">
-        <ImageView
-            android:id="@+id/ActualiteDetailimage"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/sidi_bou_said" />
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/ActualiteDetailTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="event name"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+        <include
+            android:id="@+id/appbarr"
+            layout="@layout/appbar_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/ActualiteDetailDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="Une initiative communautaire pour nettoyer les plages et protéger l'environnement." />
-        <TextView
-            android:id="@+id/ActualiteDetailtext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="Une initiativemdfkmlkmdlkmlkd ldkmlwe kmfkldwdomwwmdkwdwk k  dkmedmdwkdmowe efmepmwewoemiwe eipokdpwe wpopd wpmfwow womw w8u9wdf wfoijwdf98wf wiwjoijd dod dcdc dcdnkjsd  dcowioicowcnoiodcow coioiwjoiw dcosd c o oio osd o onon 8su s dn n jn wd communautaire pour nettoyer les plages et protéger l'environnement." />
-        <Button
-            android:id="@+id/ActualiteShareButton"
-            android:layout_width="30dp"
-            android:layout_gravity="end"
-            android:layout_height="30dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/baseline_share_24"></Button>
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:hint="what you think ?"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-            <AutoCompleteTextView
-                android:id="@+id/auto_complete_txt"
+            app:layout_constraintTop_toBottomOf="@id/appbarr"
+            android:orientation="vertical"
+           >
+
+            <ImageView
+                android:id="@+id/ActualiteDetailimage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/sidi_bou_said" />
+
+            <TextView
+                android:id="@+id/ActualiteDetailTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="event name"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ActualiteDetailDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="Une initiative communautaire pour nettoyer les plages et protéger l'environnement." />
+
+            <TextView
+                android:id="@+id/ActualiteDetailtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="Une initiativemdfkmlkmdlkmlkd ldkmlwe kmfkldwdomwwmdkwdwk k dkmedmdwkdmowe efmepmwewoemiwe eipokdpwe wpopd wpmfwow womw w8u9wdf wfoijwdf98wf wiwjoijd dod dcdc dcdnkjsd dcowioicowcnoiodcow coioiwjoiw dcosd c o oio osd o onon 8su s dn n jn wd communautaire pour nettoyer les plages et protéger l'environnement." />
+
+            <Button
+                android:id="@+id/ActualiteShareButton"
+                android:layout_width="30dp"
+                android:layout_gravity="end"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/baseline_share_24" />
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none"/>
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_margin="16dp"
+                android:hint="what you think ?"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+                <AutoCompleteTextView
+                    android:id="@+id/auto_complete_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/lastrating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+
+
+           />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
