@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import tn.aquaguard.R
 import tn.aquaguard.adapters.CommentAdapter
@@ -46,6 +47,12 @@ class MyPostViewHolder(
         itemMyPostBinding.nbcomments.text = post.nbComments.toString()
         itemMyPostBinding.nblikes.text = post.nbLike.toString()
 
+        //---------------On Click Delete Post ------------------------------
+        itemMyPostBinding.postDelete.setOnClickListener {
+            viewModel.deletePost(post.idPost)
+            Snackbar.make(itemMyPostBinding.root, "Post deleted successfully", Snackbar.LENGTH_SHORT).show()
+        }
+        //----------------------------------------------------------------
 
         //----------------call function when i get one post --------------
         viewModel.fetchPostById(post.idPost)

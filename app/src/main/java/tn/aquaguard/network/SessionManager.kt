@@ -9,6 +9,7 @@ class SessionManager (context: Context) {
     private var prefs: SharedPreferences = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
 
     companion object {
+        const val USERID = "userId"
         const val TOKEN = "token"
         const val USERNAME = "username"
         const val ROLE = "role"
@@ -16,10 +17,11 @@ class SessionManager (context: Context) {
         const val ISACTIVATED = "isActivated"
     }
 
-    fun saveToken(token: String, username:String, role:String, email: String, isActivated: Boolean) {
+    fun saveToken(token: String, username:String,userId:String, role:String, email: String, isActivated: Boolean) {
         val editor = prefs.edit()
         editor.putString(TOKEN, token)
         editor.putString(USERNAME, username)
+        editor.putString(USERID, userId)
         editor.putString(ROLE, role)
         editor.putString(EMAIL, email)
         editor.putBoolean(ISACTIVATED, isActivated)
@@ -46,6 +48,9 @@ class SessionManager (context: Context) {
     }
     fun getUsername(): String? {
         return prefs.getString(USERNAME, null)
+    }
+    fun getUserId(): String? {
+        return prefs.getString(USERID, null)
     }
     fun getIsActivated(): Boolean? {
         return prefs.getBoolean(ISACTIVATED,false)

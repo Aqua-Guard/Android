@@ -7,8 +7,11 @@ import tn.aquaguard.repository.PostRepository
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.json.JSONException
 import org.json.JSONObject
+import retrofit2.Response
 import tn.aquaguard.models.Comment
 import tn.aquaguard.models.Post
 
@@ -27,6 +30,9 @@ class PostViewModel : ViewModel() {
     private val _deleteCommentResult = MutableLiveData<Boolean>()
     val deleteCommentResult: LiveData<Boolean> = _deleteCommentResult
 
+    private val _deletePostResult = MutableLiveData<Boolean>()
+    val deletePostResult: LiveData<Boolean> = _deletePostResult
+
     private val _commentsLiveData = MutableLiveData<List<Comment>?>()
     val commentsLiveData: MutableLiveData<List<Comment>?> = _commentsLiveData
 
@@ -35,6 +41,10 @@ class PostViewModel : ViewModel() {
 
     private val _updateComment = MutableLiveData<String?>()
     val updateComment: LiveData<String?> = _updateComment
+
+    // LiveData to observe adding post status
+    private val _addPostStatus = MutableLiveData<Response<String>>()
+    val addPostStatus: LiveData<Response<String>> = _addPostStatus
 
     val posts = liveData {
         val postData = repository.getAllPosts()
@@ -46,6 +56,14 @@ class PostViewModel : ViewModel() {
         val postData = repository.getAllPostsByCurentUser()
         println(postData)
         emit(postData ?: emptyList())
+    }
+
+    // Function to add a post
+    fun addPost(description: RequestBody, image: MultipartBody.Part) {
+        viewModelScope.launch {
+            val response = repository.addPost(description, image)
+            _addPostStatus.postValue(response)
+        }
     }
 
 
@@ -150,7 +168,21 @@ class PostViewModel : ViewModel() {
             }
         }
     }
-   // private fun refreshComments(postId: String) {
+
+    fun deletePost(postId: String) {
+        viewModelScope.launch {
+            try {
+                repository.deletePost(postId)
+                _deletePostResult.value = true
+            } catch (e: Exception) {
+                _deletePostResult.value = false
+            }
+        }
+    }
+
+
+
+    // private fun refreshComments(postId: String) {
     //    viewModelScope.launch {
       //      try {
      //           val comments = repository.getCommentsByIdPost(postId)

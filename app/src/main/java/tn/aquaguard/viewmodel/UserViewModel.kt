@@ -31,6 +31,7 @@ class UserViewModel : ViewModel(){
             sessionManager.saveToken(
                 response?.body()!!.token,
                 response?.body()!!.username,
+                response?.body()!!.userId,
                 response?.body()!!.role,
                 response?.body()!!.email,
                 response?.body()!!.isActivated)
