@@ -1,20 +1,15 @@
 package tn.aquaguard.ui
 
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
-
 import android.view.LayoutInflater
 import android.view.MenuItem
-import android.view.ViewGroup
-import android.view.Window
 import android.webkit.MimeTypeMap
 import android.widget.Button
 import android.widget.ImageView
@@ -29,7 +24,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -37,15 +31,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.Callback
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
-import retrofit2.Response
 import tn.aquaguard.R
 import tn.aquaguard.databinding.ActivityMainBinding
 import tn.aquaguard.fragments.EventFragment
@@ -56,12 +45,7 @@ import tn.aquaguard.fragments.MyEventFragment
 import tn.aquaguard.fragments.MyPostFrament
 import tn.aquaguard.fragments.StoreFragment
 import tn.aquaguard.models.AddEventRequest
-import tn.aquaguard.models.Event
-import tn.aquaguard.network.PostService
-import tn.aquaguard.network.RetrofitClient
 import tn.aquaguard.network.SessionManager
-import tn.aquaguard.utils.ImagePickerCallback
-import tn.aquaguard.utils.ImagePickerUtils
 import tn.aquaguard.viewmodel.EventViewModel
 import tn.aquaguard.viewmodel.PostViewModel
 import java.io.File
@@ -120,6 +104,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         binding.navView.setNavigationItemSelectedListener(this)
+
+        val myEventsItem: MenuItem = binding.navView.menu.findItem(R.id.nav_my_events)
+        if (SessionManager(applicationContext).getRole() != "partenaire") {
+            myEventsItem.isVisible = false
+        }
 
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
