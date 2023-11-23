@@ -3,6 +3,7 @@ package tn.aquaguard.viewHolders
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
@@ -29,6 +30,7 @@ class EventViewHolder (private val context: Context, val itemEventBinding: Singl
 
         itemEventBinding.dateEvent.text = "$dateDebutFormatted to $dateFinFormatted"
         itemEventBinding.eventlocation.text = event.lieu
+        itemEventBinding.infobtnmenu.visibility = View.GONE
         itemEventBinding.infobtn.setOnClickListener{
             val intent = Intent(context, DetailEventActivity::class.java)
             intent.putExtra("EventName",event.eventName)
