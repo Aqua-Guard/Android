@@ -178,7 +178,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val isPost =
             binding.include3.nameofcurentFragment.text == "Forum" || binding.include3.nameofcurentFragment.text == "My Posts"
-        if (isEvent && isPartenaire ) {
+        if (isEvent  ) {
 
             val inflater = LayoutInflater.from(this)
             val dialogViewEvent = inflater.inflate(R.layout.add_event, null)
@@ -390,13 +390,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         }
 
 
-                    val startDatereq = formatDateForRequest(startDateText)
-                    val endDatereq = formatDateForRequest(endDateText)
+                   // val startDatereq = formatDateForRequest(startDateText)
+                  //  val endDatereq = formatDateForRequest(endDateText)
 
                     val description = RequestBody.create(MediaType.parse("text/plain"), descriptionText)
                     val name = RequestBody.create(MediaType.parse("text/plain"), nameText)
-                    val startDate = RequestBody.create(MediaType.parse("text/plain"), startDatereq)
-                    val endDate = RequestBody.create(MediaType.parse("text/plain"), endDatereq)
+                    val startDate = RequestBody.create(MediaType.parse("text/plain"), startDateText)
+                    val endDate = RequestBody.create(MediaType.parse("text/plain"), endDateText)
                     val lieu = RequestBody.create(MediaType.parse("text/plain"), eventlocationText)
 
 
