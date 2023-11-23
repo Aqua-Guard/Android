@@ -11,9 +11,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import tn.aquaguard.models.Avis
-import tn.aquaguard.models.SignupRequest
-import tn.aquaguard.network.ActualiteService
-import tn.aquaguard.network.UserService
 import tn.aquaguard.repository.ActualiteRepository
 
 class ActualiteViewModel: ViewModel() {
@@ -22,23 +19,54 @@ class ActualiteViewModel: ViewModel() {
     var errorMessage: String by mutableStateOf("")
     var response: Response<String?>? = null
 
+    private val _avisByIds = MutableLiveData<Avis?>()
+    val avisByIds: LiveData<Avis?> = _avisByIds
+
+    private val _addOrUpdateAvisResult = MutableLiveData<String?>()
+    val addOrUpdateAvisResult: LiveData<String?> = _addOrUpdateAvisResult
+
     private val _addAvisResult = MutableLiveData<String?>()
     val addAvisResult: LiveData<String?> = _addAvisResult
 
+    private val _addAvisStatues = MutableLiveData<Response<String>>()
+    val addAvisStatues: LiveData<Response<String>> = _addAvisStatues
 
-    val events = liveData {
+
+    val actualites = liveData {
         val ActualiteData = repository.getAll()
         emit(ActualiteData ?: emptyList())
     }
-    fun addAvis(avis: Avis) {
+     fun addAvis(idUser: String, idActualites: String, aviss: Any) {
+         viewModelScope.launch {
+             try {
+             val response = repository.addAvis(idUser,idActualites,aviss)
+                 _addAvisResult.postValue("ok")
+             } catch (e: Exception) {
+                 _addAvisResult.postValue("error")
+             }
+         }
+     }
+
+    fun getAvisByIds(idUser: String, idActualites: String) {
         viewModelScope.launch {
             try {
-                repository.addAvis(avis)
-                _addAvisResult.postValue("ok")
+                val avis = repository.getAvisByIds(idUser, idActualites)
+                _avisByIds.postValue(avis)
             } catch (e: Exception) {
-                _addAvisResult.postValue("error")
+                errorMessage = "Error getting avis by ids: ${e.message}"
+            }
+        }
+    }
+    fun addOrUpdateAvis(avis: Avis) {
+        viewModelScope.launch {
+            try {
+                repository.addOrUpdateAvis(avis)
+                _addOrUpdateAvisResult.postValue("ok")
+            } catch (e: Exception) {
+                _addOrUpdateAvisResult.postValue("error")
             }
         }
     }
 
-}
+    }
+
