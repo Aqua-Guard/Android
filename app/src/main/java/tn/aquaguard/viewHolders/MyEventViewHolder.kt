@@ -15,6 +15,7 @@ import tn.aquaguard.R
 import tn.aquaguard.databinding.SingleItemEventsBinding
 import tn.aquaguard.models.Event
 import tn.aquaguard.ui.DetailEventActivity
+import tn.aquaguard.ui.UpdateMyEventActivity
 import tn.aquaguard.viewmodel.EventViewModel
 
 import java.text.SimpleDateFormat
@@ -60,6 +61,15 @@ class MyEventViewHolder (private val context: Context, val itemEventBinding: Sin
 
 
                     R.id.menu_item_edit -> {
+                        val intent = Intent(context, UpdateMyEventActivity::class.java)
+                        intent.putExtra("EventName",event.eventName)
+                        intent.putExtra("description",event.description)
+                        intent.putExtra("DateDebut",dateDebutFormatted)
+                        intent.putExtra("DateFin",dateFinFormatted)
+                        intent.putExtra("eventImage",event.eventImage)
+                        intent.putExtra("lieu",event.lieu)
+                        intent.putExtra("eventId",event.idEvent)
+                        context.startActivity(intent)
                         true
                     }
                     R.id.menu_item_delete -> {

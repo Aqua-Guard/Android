@@ -8,6 +8,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import tn.aquaguard.models.AddEventRequest
@@ -25,6 +26,18 @@ interface EventService {
 
     @DELETE("/events/{eventId}")
     suspend fun deleteEvent(@Path("eventId") postId: String): Response<String?>
+
+    @Multipart
+    @PUT("/events/{id}")
+    suspend fun updateEvent(
+        @Path("id") eventId: String,
+        @Part image: MultipartBody.Part?,
+        @Part("name") name: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("location") location: RequestBody,
+        @Part("startDate") startDate: RequestBody,
+        @Part("endDate") endDate: RequestBody
+    ): Response<String?>
 
 
 }
