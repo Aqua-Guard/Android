@@ -55,6 +55,10 @@
         <activity android:name=".splashscreens.SplashScreen2" />
         <activity android:name=".splashscreens.SplashScreen3" />
         <activity android:name=".splashscreens.SplashScreen4" />
+        <provider android:authorities="com.facebook.app.FacebookContentProvider2562148130629105"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"/>
+
     </application>
 
 </manifest>
