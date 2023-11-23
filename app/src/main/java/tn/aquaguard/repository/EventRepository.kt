@@ -12,9 +12,14 @@ class EventRepository {
     suspend fun getAllEvents(): List<Event>? {
         return RetrofitClient.eventService.getAllEvents().body()
     }
-   /* suspend fun addEvent(event: Event){
-        return RetrofitClient.eventService.addEvent(event).body()
-    }*/
+    suspend fun addEvent(imageUri:MultipartBody.Part,
+                         name: RequestBody,
+                         description: RequestBody,
+                         location: RequestBody,
+                         startDate: RequestBody,
+                         endDate: RequestBody): Response<String>  {
+        return RetrofitClient.eventService.addEvent(imageUri, name, description, location, startDate, endDate)
+    }
 
     suspend fun getAllEventsByCurrentUser(): List<Event>? {
         return RetrofitClient.eventService.getAllEventsByCurrentUser().body()

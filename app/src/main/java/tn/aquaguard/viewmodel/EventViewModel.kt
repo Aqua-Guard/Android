@@ -29,6 +29,9 @@ class EventViewModel : ViewModel() {
     private val _updateEventResult = MutableLiveData<Response<String?>>()
     val updateEventResult: LiveData<Response<String?>> = _updateEventResult
 
+    private val _addEventResult = MutableLiveData<Response<String>>()
+    val addEventResult: LiveData<Response<String>> = _addEventResult
+
     private val repository = EventRepository()
 
     val events = liveData {
@@ -43,30 +46,18 @@ class EventViewModel : ViewModel() {
     }
 
 
-    suspend fun addEvent(event: AddEventRequest) {
+     fun addEvent(imageUri:MultipartBody.Part,
+                         name: RequestBody,
+                         description: RequestBody,
+                         location: RequestBody,
+                         startDate: RequestBody,
+                         endDate: RequestBody) {
 
-        val retrofit = RetrofitClient.eventService
-
-        try {
-            response = retrofit.addEvent(event)
-            println(event)
-            if (response?.isSuccessful == true) {
-                // Check for the expected 201 status code
-                if (response?.code() == 201) {
-                    // Successful creation of an event
-                    errorMessage = "Event added successfully!"
-                } else {
-                    // Handle unexpected status codes
-                    errorMessage = "Unexpected status code: ${response?.code()}"
-                }
-            } else {
-                // Handle unsuccessful response
-                errorMessage = "Error: ${response?.errorBody()?.string()}"
+            viewModelScope.launch {
+                val response = repository.addEvent(imageUri, name, description, location, startDate, endDate)
+                _addEventResult.postValue(response)
             }
 
-        } catch (e: Exception) {
-            errorMessage = e.message.toString()
-        }
     }
 
     suspend fun deleteEvent(eventId: String) {
