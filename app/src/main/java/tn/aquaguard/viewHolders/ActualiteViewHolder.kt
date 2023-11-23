@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import tn.aquaguard.databinding.ActualiteItemBinding
 import tn.aquaguard.models.Actualites
+import tn.aquaguard.network.SessionManager
 import tn.aquaguard.ui.DetailActualite
 
 
