@@ -1,9 +1,7 @@
 package tn.aquaguard.models
 
-import java.util.Date
-
-data class Avis (
-    var Iduser: String,
+data class Avis(
+    var userId: String,
     val actualiteTitle: String,
-    val avis: String,
+    val avis: Any,
 )
