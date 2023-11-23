@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.webkit.MimeTypeMap
@@ -178,7 +179,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val isPost =
             binding.include3.nameofcurentFragment.text == "Forum" || binding.include3.nameofcurentFragment.text == "My Posts"
-        if (isEvent  ) {
+        if (isEvent && isPartenaire) {
 
             val inflater = LayoutInflater.from(this)
             val dialogViewEvent = inflater.inflate(R.layout.add_event, null)
@@ -572,10 +573,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fragmentTransaction.commit()
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.nav_calendar -> {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.nav_menu, menu)
+        val myEventsMenuItem = menu?.findItem(R.id.nav_my_events)
 
+        if (SessionManager(applicationContext).getRole() == "partenaire") {
+            myEventsMenuItem?.isVisible = true
+        } else {
+            myEventsMenuItem?.isVisible = false
+        }
+
+        return true
+    }
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val isPartenaire = SessionManager(applicationContext).getRole() == "partenaire"
+
+        when (item.itemId) {
+
+            R.id.nav_calendar -> {
                 replaceFragment(MyCalenderFragment())
                 binding.include3.nameofcurentFragment.text = "My calender"
             }

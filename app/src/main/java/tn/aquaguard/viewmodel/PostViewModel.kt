@@ -46,6 +46,9 @@ class PostViewModel : ViewModel() {
     private val _addPostStatus = MutableLiveData<Response<String>>()
     val addPostStatus: LiveData<Response<String>> = _addPostStatus
 
+    private val _updatePostStatus = MutableLiveData<Response<String>>()
+    val updatePostStatus: LiveData<Response<String>> = _updatePostStatus
+
     val posts = liveData {
         val postData = repository.getAllPosts()
         println(postData)
@@ -66,6 +69,12 @@ class PostViewModel : ViewModel() {
         }
     }
 
+    fun updatePost(postId:String,description: RequestBody) {
+        viewModelScope.launch {
+            val response = repository.updatePost(postId,description)
+            _updatePostStatus.postValue(response)
+        }
+    }
 
     fun fetchPostById(postId: String) {
         viewModelScope.launch {
