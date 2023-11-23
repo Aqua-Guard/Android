@@ -2,6 +2,7 @@ package tn.aquaguard.ui
 
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -10,8 +11,10 @@ import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import android.webkit.MimeTypeMap
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -50,6 +53,10 @@ import tn.aquaguard.viewmodel.EventViewModel
 import tn.aquaguard.viewmodel.PostViewModel
 import java.io.File
 import java.io.FileOutputStream
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -63,9 +70,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val eventViewModel: EventViewModel by viewModels()
 
     private lateinit var selectedImage: ImageView
+    private lateinit var selectedImageEvent: ImageView
     private var selectedImageUri: Uri? = null
+    private var selectedImageEventUri: Uri? = null
     companion object {
         val IMAGE_REQUEST_CODE = 100;
+        val IMAGE_EVENT_REQUEST_CODE_ = 150;
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -150,55 +160,295 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
+    fun formatDate(year: Int, month: Int, day: Int): String {
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month - 1, day) // Note: month is zero-based, so subtract 1
+        val dateFormat =
+            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return dateFormat.format(calendar.time)
+    }
+
+
+
     private fun showBottomDialog() {
 
-        val isEvent = binding.include3.nameofcurentFragment.text == "Event"
+        val isEvent = binding.include3.nameofcurentFragment.text == "Event"|| binding.include3.nameofcurentFragment.text == "My Events"
+        val isPartenaire = SessionManager(applicationContext).getRole() == "partenaire"
+
 
         val isPost =
             binding.include3.nameofcurentFragment.text == "Forum" || binding.include3.nameofcurentFragment.text == "My Posts"
-        if (isEvent) {
-            val onBtnAddImageClick: () -> Unit = {
+        if (isEvent && isPartenaire ) {
+
+            val inflater = LayoutInflater.from(this)
+            val dialogViewEvent = inflater.inflate(R.layout.add_event, null)
+
+            selectedImageEvent = dialogViewEvent.findViewById(R.id.event_image)
+            selectedImageEvent.setImageDrawable(null)
+
+            val addImage =  dialogViewEvent.findViewById<Button>(R.id.addEventImage)
+            val closeButton = dialogViewEvent.findViewById<ImageView>(R.id.closeButton)
+            val btnSubmit = dialogViewEvent.findViewById<Button>(R.id.btnsubmitEvent)
+            val btncancel = dialogViewEvent.findViewById<Button>(R.id.btncancelEvent)
+
+            val eventName = dialogViewEvent.findViewById<TextInputEditText>(R.id.eventname)
+            val eventdescription = dialogViewEvent.findViewById<TextInputEditText>(R.id.eventdescription)
+            val editTextStartDate = dialogViewEvent.findViewById<TextInputEditText>(R.id.editTextStartDate)
+            val editTextEndDate = dialogViewEvent.findViewById<TextInputEditText>(R.id.editTextEndDate)
+            val eventlocation = dialogViewEvent.findViewById<TextInputEditText>(R.id.eventlocation)
+
+
+             fun showStartDatePickerDialog(view: View) {
+                val editTextStartDate = dialogViewEvent.findViewById<EditText>(R.id.editTextStartDate)
+
+                val calendar = Calendar.getInstance()
+                val year = calendar.get(Calendar.YEAR)
+                val month = calendar.get(Calendar.MONTH)
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+                val datePickerDialog = DatePickerDialog(
+                    this,
+                    DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                        // Note: monthOfYear is zero-based, so add 1 to get the correct month
+                        val selectedDate = formatDate(year, monthOfYear + 1, dayOfMonth)
+                        editTextStartDate.setText(selectedDate)
+                    },
+                    year,
+                    month,
+                    day
+                )
+
+                datePickerDialog.show()
             }
 
-            val onBtnSubmitClick: (AddEventRequest) -> Unit = { event ->
-                lifecycleScope.launch {
-                    println("-----------" + event);
+             fun showEndDatePickerDialog(view: View) {
+                val editTextEndDate = dialogViewEvent.findViewById<EditText>(R.id.editTextEndDate)
 
-                    eventViewModel.addEvent(event)
+                val calendar = Calendar.getInstance()
+                val year = calendar.get(Calendar.YEAR)
+                val month = calendar.get(Calendar.MONTH)
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-                    val response = eventViewModel.response
+                val datePickerDialog = DatePickerDialog(
+                    this,
+                    DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                        // Note: monthOfYear is zero-based, so add 1 to get the correct month
+                        val selectedDate = formatDate(year, monthOfYear + 1, dayOfMonth)
+                        editTextEndDate.setText(selectedDate)
+                    },
+                    year,
+                    month,
+                    day
+                )
 
-                    // Check the response code after the coroutine completes
-                    if (response?.isSuccessful == true) {
-                        // Check for the expected 201 status code
-                        if (response.code() == 201) {
-                            // Successful creation of an event
-                            Toast.makeText(
-                                this@MainActivity,
-                                "Event added successfully!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            // Handle unexpected status codes
-                            Toast.makeText(
-                                this@MainActivity,
-                                "Unexpected status code: ${response.code()}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    } else {
-                        // Handle unsuccessful response
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Error: ${response?.code()}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                datePickerDialog.show()
+            }
 
+            editTextStartDate.setOnClickListener {
+                showStartDatePickerDialog(editTextStartDate)
+            }
+
+            editTextEndDate.setOnClickListener {
+                showEndDatePickerDialog(editTextEndDate)
+            }
+
+
+
+            val dialogBuilderEvent = AlertDialog.Builder(this)
+                .setView(dialogViewEvent)
+                .setCancelable(false)
+
+            val dialogEvent = dialogBuilderEvent.create()
+
+
+            if (closeButton != null) {
+                closeButton.setOnClickListener {
+                    dialogEvent.dismiss()
                 }
             }
 
-            DialogAddEvent(this, onBtnAddImageClick, onBtnSubmitClick)
+            fun pickImageFromGallery() {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
+                startActivityForResult(intent, IMAGE_EVENT_REQUEST_CODE_)
+            }
+
+
+            if (addImage != null) {
+                addImage.setOnClickListener {
+                    pickImageFromGallery()
+                }
+            }
+
+            if (btncancel != null) {
+                btncancel.setOnClickListener {
+                    eventlocation.text = Editable.Factory.getInstance().newEditable("")
+                    editTextStartDate.text = Editable.Factory.getInstance().newEditable("")
+                    editTextEndDate.text = Editable.Factory.getInstance().newEditable("")
+                    eventName.text = Editable.Factory.getInstance().newEditable("")
+                    eventdescription.text = Editable.Factory.getInstance().newEditable("")
+                    selectedImageEvent.setImageDrawable(null)
+                }
+            }
+
+
+            if (btnSubmit != null) {
+                btnSubmit.setOnClickListener {
+                    println("submit event")
+                    val nameText = eventName.text.toString()
+                    val descriptionText = eventdescription.text.toString()
+                    val eventlocationText = eventlocation.text.toString()
+                    val startDateText = editTextStartDate.text.toString()
+                    val endDateText = editTextEndDate.text.toString()
+
+
+//                    fun isValidDateFormat(dateString: String): Boolean {
+//                        val regexPattern = """^\d{4}-\d{2}-\d{2}$""".toRegex()
+//                        return regexPattern.matches(dateString)
+//                    }
+
+                    // Validate input fields
+                    var isValid = true
+
+                    if (nameText.isEmpty()) {
+                        eventName.error = "Please enter a name"
+                        isValid = false
+                    }else if (nameText.length < 3 || nameText.length > 30) {
+                        eventName.error = "Name must be between 3 and 30 characters"
+                        isValid = false
+                    }
+
+                    else {
+                        eventName.error = null
+                    }
+
+                    if (descriptionText.isEmpty()) {
+                        eventdescription.error = "Please enter a description"
+                        isValid = false
+                    }else if (descriptionText.length < 10 || descriptionText.length > 100) {
+                        eventdescription.error = "Description must be between 3 and 30 characters"
+                        isValid = false
+                    }
+                    else {
+                        eventdescription.error = null
+                    }
+
+                    if (eventlocationText.isEmpty()) {
+                        eventlocation.error = "Please enter a location"
+                        isValid = false
+                    }
+                    else if (eventlocationText.length < 3 || eventlocationText.length > 30) {
+                        eventlocation.error = "Location must be between 3 and 30 characters"
+                        isValid = false
+                    }else {
+                        eventlocation.error = null
+                    }
+
+                     fun formatDateForRequest(inputDate: String): String {
+                        try {
+                            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                            val outputFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.US)
+
+                            val date = inputFormat.parse(inputDate)
+                            return outputFormat.format(date)
+                        } catch (e: ParseException) {
+                            e.printStackTrace()
+                        }
+                        return inputDate // Return the original date in case of any error
+                    }
+
+
+                    // Additional date checks
+
+                    val currentDate = Calendar.getInstance()
+                    val currentDateString = formatDate(
+                        currentDate.get(Calendar.YEAR),
+                        currentDate.get(Calendar.MONTH) + 1,
+                        currentDate.get(Calendar.DAY_OF_MONTH)
+                    )
+
+                        if (startDateText >= endDateText) {
+                            editTextEndDate.error = "End date must be greater than start date"
+                            isValid = false
+                        } else {
+                            editTextEndDate.error = null
+                        }
+
+                        if (startDateText < currentDateString) {
+                            editTextStartDate.error =
+                                "Start date must be equal to or greater than the current date"
+                            isValid = false
+                        } else {
+                            editTextStartDate.error = null
+                        }
+
+                        if (endDateText <= startDateText) {
+                            editTextEndDate.error = "End date must be greater than start date"
+                            isValid = false
+                        } else {
+                            editTextEndDate.error = null
+                        }
+
+
+                    val startDatereq = formatDateForRequest(startDateText)
+                    val endDatereq = formatDateForRequest(endDateText)
+
+                    val description = RequestBody.create(MediaType.parse("text/plain"), descriptionText)
+                    val name = RequestBody.create(MediaType.parse("text/plain"), nameText)
+                    val startDate = RequestBody.create(MediaType.parse("text/plain"), startDatereq)
+                    val endDate = RequestBody.create(MediaType.parse("text/plain"), endDatereq)
+                    val lieu = RequestBody.create(MediaType.parse("text/plain"), eventlocationText)
+
+
+                    selectedImageEventUri?.let { uri ->
+                        contentResolver.openInputStream(uri)?.use { inputStream ->
+                            val mimeType = contentResolver.getType(uri) ?: "image/jpeg" // Default to "image/jpeg" if MIME type is null
+
+                            val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "jpg"
+
+
+
+                            val tempFile = File.createTempFile("prefix_", "_image.$extension", cacheDir)
+                            FileOutputStream(tempFile).use { outputStream ->
+                                inputStream.copyTo(outputStream)
+                            }
+
+                            val requestFile = RequestBody.create(MediaType.parse(mimeType), tempFile)
+                            val imageBody = MultipartBody.Part.createFormData("image", "image_$extension", requestFile)
+
+                            eventViewModel.addEvent(imageBody,name,description, lieu,startDate,endDate)
+
+                            eventViewModel.addEventResult.observe(this, { resource ->
+
+                                if (resource.isSuccessful) {
+                                    Snackbar.make(
+                                        it,
+                                        "Event Created successfully.",
+                                        Snackbar.LENGTH_LONG
+                                    ).setBackgroundTint(Color.parseColor("#90EE90")).show()
+                                    dialogEvent.dismiss()
+
+                                }else {
+                                    Snackbar.make(
+                                        it,
+                                        "Error fileds.",
+                                        Snackbar.LENGTH_LONG
+                                    ).setBackgroundTint(Color.parseColor("#90EE90")).show()
+                                }
+
+
+                            })
+
+
+                            dialogEvent.show()
+                        } ?: run {
+                            Log.e("MainActivity", "Failed to open InputStream from URI")
+                        }
+                    }
+                }
+            }
+
+            dialogEvent.show()
         }
         if (isPost) {
 
@@ -354,10 +604,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
-            selectedImageUri = data?.data // Store the selected image URI
-            selectedImage.setImageURI(selectedImageUri)
-        }
+
+           when (requestCode) {
+               IMAGE_REQUEST_CODE -> {
+                   if (resultCode == RESULT_OK) {
+                       selectedImageUri = data?.data // Store the selected image URI
+                       selectedImage.setImageURI(selectedImageUri)
+                   }
+               }
+               IMAGE_EVENT_REQUEST_CODE_ -> {
+                   if (resultCode == RESULT_OK) {
+                       selectedImageEventUri = data?.data // Store the selected image URI
+                       selectedImageEvent.setImageURI(selectedImageEventUri)
+                   }
+               }
+               // Add more cases for additional image request codes if needed
+           }
     }
 
 }

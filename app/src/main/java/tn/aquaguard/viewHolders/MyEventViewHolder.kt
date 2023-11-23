@@ -30,7 +30,7 @@ class MyEventViewHolder (private val context: Context, val itemEventBinding: Sin
         itemEventBinding.eventDescription.text = event.description
         Log.d("khkhk: ",event.description)
 
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val dateDebutFormatted = dateFormat.format(event.DateDebut)
         val dateFinFormatted = dateFormat.format(event.DateFin)
 
