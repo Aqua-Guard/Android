@@ -4,6 +4,7 @@ package tn.aquaguard.ui
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 
 import android.os.Bundle
@@ -34,6 +35,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -256,29 +258,57 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 okButton.setOnClickListener {
                     println("Button clicked")
                     val descriptionText = descriptionEditText.text.toString()
+
+                    if (descriptionText.isBlank() || selectedImageUri == null) {
+                        // Show Snackbar when validation fails
+                        Snackbar.make(
+                            it,
+                            "Please provide both a description and an image.",
+                            Snackbar.LENGTH_LONG
+                        ).setBackgroundTint(Color.parseColor("#FF0000")).show()
+                        return@setOnClickListener
+                    }
+
                     val description = RequestBody.create(MediaType.parse("text/plain"), descriptionText)
 
                     selectedImageUri?.let { uri ->
                         contentResolver.openInputStream(uri)?.use { inputStream ->
-                            val mimeType = contentResolver.getType(uri)
+                            val mimeType = contentResolver.getType(uri) ?: "image/jpeg" // Default to "image/jpeg" if MIME type is null
+
                             val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "jpg"
 
-                            Log.d("MainActivity", "MIME Type: $mimeType, Extension: $extension")
+
 
                             val tempFile = File.createTempFile("prefix_", "_image.$extension", cacheDir)
                             FileOutputStream(tempFile).use { outputStream ->
                                 inputStream.copyTo(outputStream)
                             }
 
-                            val requestFile = RequestBody.create(MediaType.parse("image/*"), tempFile)
+                            val requestFile = RequestBody.create(MediaType.parse(mimeType), tempFile)
+                            val imageBody = MultipartBody.Part.createFormData("image", "image_$extension", requestFile)
 
-                            println("walah la na3rech kjsdf :::::::::::"+tempFile.name)
-
-                            val imageBody = MultipartBody.Part.createFormData("image", "image_.$extension", requestFile)
-
-                            println("----------------------------"+imageBody.body().toString())
                             postViewModel.addPost(description, imageBody)
-                            println("Request sent")
+                            postViewModel.addPostStatus.observe(this, { resource ->
+                              if (resource.isSuccessful) {
+                                  Snackbar.make(
+                                      it,
+                                      "Post Created successfully.",
+                                      Snackbar.LENGTH_LONG
+                                  ).setBackgroundTint(Color.parseColor("#90EE90")).show()
+                                dialog.dismiss()
+                              }
+                                else {
+                                  Snackbar.make(
+                                      it,
+                                      "The description contains inappropriate language..",
+                                      Snackbar.LENGTH_LONG
+                                  ).setBackgroundTint(Color.parseColor("#FF0000")).show()
+                              }
+
+                            })
+
+
+                            dialog.show()
                         } ?: run {
                             Log.e("MainActivity", "Failed to open InputStream from URI")
                         }
