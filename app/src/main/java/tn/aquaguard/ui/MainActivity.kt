@@ -330,7 +330,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         eventlocation.error = null
                     }
 
+                     fun formatDateForRequest(inputDate: String): String {
+                        try {
+                            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                            val outputFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.US)
 
+                            val date = inputFormat.parse(inputDate)
+                            return outputFormat.format(date)
+                        } catch (e: ParseException) {
+                            e.printStackTrace()
+                        }
+                        return inputDate // Return the original date in case of any error
+                    }
 
 
                     // Additional date checks
@@ -365,11 +376,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         }
 
 
+                    val startDatereq = formatDateForRequest(startDateText)
+                    val endDatereq = formatDateForRequest(endDateText)
 
                     val description = RequestBody.create(MediaType.parse("text/plain"), descriptionText)
                     val name = RequestBody.create(MediaType.parse("text/plain"), nameText)
-                    val startDate = RequestBody.create(MediaType.parse("text/plain"), startDateText)
-                    val endDate = RequestBody.create(MediaType.parse("text/plain"), endDateText)
+                    val startDate = RequestBody.create(MediaType.parse("text/plain"), startDatereq)
+                    val endDate = RequestBody.create(MediaType.parse("text/plain"), endDatereq)
                     val lieu = RequestBody.create(MediaType.parse("text/plain"), eventlocationText)
 
 

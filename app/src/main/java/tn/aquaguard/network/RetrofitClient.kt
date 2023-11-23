@@ -16,7 +16,7 @@ class RetrofitClient {
 
 
 
-                    .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTRkZjE4YjUzNWVjMDRlZmVkYWJiMGIiLCJ1c2VybmFtZSI6Im1hbGVrIiwiaWF0IjoxNzAwNzAyOTE1LCJleHAiOjE3MDA3MTAxMTV9.F5iGvmQhnol6hEzrfE_gzDdeMuNSTTkkPNn90AmpodE")
+                    .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTRkZjE4YjUzNWVjMDRlZmVkYWJiMGIiLCJ1c2VybmFtZSI6Im1hbGVrIiwiaWF0IjoxNzAwNzYyMTQ0LCJleHAiOjE3MDA3NjkzNDR9.uHXg2UkYsY5B3GDA9-nBmUw5MdsP3UT4gYhfC4804og")
 
                     .method(original.method(), original.body())
                 val request = requestBuilder.build()
