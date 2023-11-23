@@ -1,5 +1,7 @@
 package tn.aquaguard.repository
 
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import tn.aquaguard.models.Comment
 import tn.aquaguard.models.CommentRequest
@@ -10,6 +12,15 @@ import tn.aquaguard.network.RetrofitClient
 class PostRepository {
     suspend fun getAllPosts(): List<Post>? {
         return RetrofitClient.postService.getAllPosts().body()
+    }
+
+    // Method to add a new post
+    suspend fun addPost(description: RequestBody, image: MultipartBody.Part): Response<String> {
+        return RetrofitClient.postService.addPost(description, image)
+    }
+
+    suspend fun updatePost(description: RequestBody, image: MultipartBody.Part): Response<String> {
+        return RetrofitClient.postService.addPost(description, image)
     }
 
     suspend fun getAllPostsByCurentUser(): List<Post>? {
@@ -43,6 +54,10 @@ class PostRepository {
     }
     suspend fun deleteComment(commentId: String): Unit? {
         return RetrofitClient.postService.deleteComment(commentId).body()
+    }
+
+    suspend fun deletePost(postId: String): Unit? {
+        return RetrofitClient.postService.deletePost(postId).body()
     }
 
     suspend fun getCommentsByIdPost(postId: String): List<Comment>? {
