@@ -173,10 +173,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun showBottomDialog() {
 
         val isEvent = binding.include3.nameofcurentFragment.text == "Event"|| binding.include3.nameofcurentFragment.text == "My Events"
+        val isPartenaire = SessionManager(applicationContext).getRole() == "partenaire"
+
 
         val isPost =
             binding.include3.nameofcurentFragment.text == "Forum" || binding.include3.nameofcurentFragment.text == "My Posts"
-        if (isEvent ) {
+        if (isEvent && isPartenaire ) {
 
             val inflater = LayoutInflater.from(this)
             val dialogViewEvent = inflater.inflate(R.layout.add_event, null)
@@ -185,8 +187,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             selectedImageEvent.setImageDrawable(null)
 
             val addImage =  dialogViewEvent.findViewById<Button>(R.id.addEventImage)
-            val closeButton = dialogViewEvent.findViewById<ImageView>(R.id.cancelButton)
+            val closeButton = dialogViewEvent.findViewById<ImageView>(R.id.closeButton)
             val btnSubmit = dialogViewEvent.findViewById<Button>(R.id.btnsubmitEvent)
+            val btncancel = dialogViewEvent.findViewById<Button>(R.id.btncancelEvent)
 
             val eventName = dialogViewEvent.findViewById<TextInputEditText>(R.id.eventname)
             val eventdescription = dialogViewEvent.findViewById<TextInputEditText>(R.id.eventdescription)
@@ -274,6 +277,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (addImage != null) {
                 addImage.setOnClickListener {
                     pickImageFromGallery()
+                }
+            }
+
+            if (btncancel != null) {
+                btncancel.setOnClickListener {
+                    eventlocation.text = Editable.Factory.getInstance().newEditable("")
+                    editTextStartDate.text = Editable.Factory.getInstance().newEditable("")
+                    editTextEndDate.text = Editable.Factory.getInstance().newEditable("")
+                    eventName.text = Editable.Factory.getInstance().newEditable("")
+                    eventdescription.text = Editable.Factory.getInstance().newEditable("")
+                    selectedImageEvent.setImageDrawable(null)
                 }
             }
 

@@ -3,6 +3,7 @@ package tn.aquaguard.ui
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,6 +18,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
@@ -27,6 +29,7 @@ import tn.aquaguard.R
 import tn.aquaguard.viewmodel.EventViewModel
 import java.io.File
 import java.io.FileOutputStream
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -54,6 +57,8 @@ class UpdateMyEventActivity : AppCompatActivity() {
 
 
         var eventImage = intent.getStringExtra("eventImage")
+        //print( "Event Image: $eventImage")
+
 
 
         val startDateLayout = findViewById<TextInputLayout>(R.id.startDateLayout)
@@ -77,9 +82,8 @@ class UpdateMyEventActivity : AppCompatActivity() {
         lieu.setText(intent.getStringExtra("lieu"))
         dateD.setText(intent.getStringExtra("DateDebut"))
         dateF.setText(intent.getStringExtra("DateFin"))
-        Picasso.with(this).load("http://10.0.2.2:9090/images/event/" + eventImage).fit().centerInside().into(image)
+       // Picasso.with(this).load("http://10.0.2.2:9090/images/event/" + eventImage).fit().centerInside().into(image)
 
-         //eventId = intent.getStringExtra("eventId").toString()
 
         var btnUpdateImage: Button = findViewById(R.id.addEventImage)
 
@@ -162,6 +166,20 @@ class UpdateMyEventActivity : AppCompatActivity() {
                 endDateLayout.error = null
             }
 
+
+            fun formatDateForRequest(inputDate: String): String {
+                try {
+                    val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    val outputFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.US)
+
+                    val date = inputFormat.parse(inputDate)
+                    return outputFormat.format(date)
+                } catch (e: ParseException) {
+                    e.printStackTrace()
+                }
+                return inputDate // Return the original date in case of any error
+            }
+
             selectedImageUri?.let { uri ->
                 contentResolver.openInputStream(uri)?.use { inputStream ->
                     val mimeType = contentResolver.getType(uri)
@@ -180,63 +198,47 @@ class UpdateMyEventActivity : AppCompatActivity() {
                     val imageBody =
                         MultipartBody.Part.createFormData("image", "image_$extension", requestFile)
 
+                    val startDatereq = formatDateForRequest(startDatetxt)
+                    val endDatereq = formatDateForRequest(endDatetxt)
+
                     val description = RequestBody.create(MediaType.parse("text/plain"), descriptiontxt)
                     val name = RequestBody.create(MediaType.parse("text/plain"), nametxt)
                     val location = RequestBody.create(MediaType.parse("text/plain"), locationtxt)
-                    val startDate = RequestBody.create(MediaType.parse("text/plain"), startDatetxt)
-                    val endDate = RequestBody.create(MediaType.parse("text/plain"), endDatetxt)
+                    val startDate = RequestBody.create(MediaType.parse("text/plain"), startDatereq)
+                    val endDate = RequestBody.create(MediaType.parse("text/plain"), endDatereq)
 
                     if (isValid) {
-
+                        viewModel.updateEvent(
+                            eventId,
+                            imageBody,
+                            name,
+                            description,
+                            location,
+                            startDate,
+                            endDate
+                        )
                         // Observe the updateEventResult LiveData to get updates on the API call
-                        viewModel.updateEventResult.observe(this) { result ->
-                            viewModel.updateEvent(
-                                eventId,
-                                imageBody,
-                                name,
-                                description,
-                                location,
-                                startDate,
-                                endDate
-                            )
+                        viewModel.updateEventResult.observe(this) { resource ->
 
-                            val response = viewModel.response
-
-                            // Check the response code after the coroutine completes
-                            if (response?.isSuccessful == true) {
-                                // Check for the expected 201 status code
-                                if (response.code() == 201) {
-                                    // Successful creation of an event
-                                    Toast.makeText(
-                                        this,
-                                        "Event added successfully!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    // Handle unexpected status codes
-                                    Toast.makeText(
-                                        this,
-                                        "Unexpected status code: ${response.code()}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            } else {
-                                // Handle unsuccessful response
-                                Toast.makeText(
-                                    this,
-                                    "Error: ${response?.code()}",
-                                    Toast.LENGTH_SHORT
+                            if (resource.isSuccessful) {
+                                Snackbar.make(
+                                    it,
+                                    "Event Updated successfully.",
+                                    Snackbar.LENGTH_LONG
                                 ).show()
+
+
+                            }else {
+                                Snackbar.make(
+                                    it,
+                                    "Please fill in all fields",
+                                    Snackbar.LENGTH_LONG
+                                ).setBackgroundTint(Color.parseColor("#90EE90")).show()
                             }
-                        }
-                        Toast.makeText(this, "Event Updated successfully!", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
-        }
+        }}
 
                 // Enable the back arrow
                 supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -261,6 +263,13 @@ class UpdateMyEventActivity : AppCompatActivity() {
 
                 }
             }
+    fun formatDate(year: Int, month: Int, day: Int): String {
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month - 1, day) // Note: month is zero-based, so subtract 1
+        val dateFormat =
+            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return dateFormat.format(calendar.time)
+    }
 
             fun showStartDatePickerDialog(view: View) {
                 val editTextStartDate = findViewById<EditText>(R.id.editTextStartDate)
@@ -309,12 +318,6 @@ class UpdateMyEventActivity : AppCompatActivity() {
                 datePickerDialog.show()
             }
 
-            fun formatDate(year: Int, month: Int, day: Int): String {
-                val calendar = Calendar.getInstance()
-                calendar.set(year, month - 1, day) // Note: month is zero-based, so subtract 1
-                val dateFormat =
-                    SimpleDateFormat("yyyy-MM-dd'T'00:00:00.000'Z'", Locale.getDefault())
-                return dateFormat.format(calendar.time)
-            }
+
 
 }

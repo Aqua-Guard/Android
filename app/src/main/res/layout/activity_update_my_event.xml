@@ -42,7 +42,7 @@
             android:layout_weight="1"
             android:backgroundTint="@color/gray"
             android:drawableLeft="@drawable/baseline_add_photo_alternate_24"
-            android:text="Add Event image"
+            android:text="Update Event image"
             android:textColor="@color/darkBlue" />
 
         <com.google.android.material.textfield.TextInputLayout

@@ -39,10 +39,10 @@ interface EventService {
         @Path("id") eventId: String,
         @Part image: MultipartBody.Part?,
         @Part("name") name: RequestBody,
-        @Part("description") description: RequestBody,
-        @Part("location") location: RequestBody,
-        @Part("startDate") startDate: RequestBody,
-        @Part("endDate") endDate: RequestBody
+        @Part("Description") description: RequestBody,
+        @Part("lieu") location: RequestBody,
+        @Part("DateDebut") startDate: RequestBody,
+        @Part("DateFin") endDate: RequestBody
     ): Response<String?>
 
 
