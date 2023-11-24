@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import tn.aquaguard.R
 import tn.aquaguard.adapters.EventAdapter
@@ -46,6 +47,15 @@ class EventFragment : Fragment() {
                 binding.rvEvents.adapter = EventAdapter(events, viewModel, this)
             }
         }
+
+
+        viewModel.addEventResult.observe(viewLifecycleOwner, Observer { result ->
+            if (result.isSuccessful) { // Check if the fragment is currently added to its activity
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, EventFragment())
+                    .commitAllowingStateLoss()
+            }
+        })
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             if (isAdded) { // Check if the fragment is currently added to its activity

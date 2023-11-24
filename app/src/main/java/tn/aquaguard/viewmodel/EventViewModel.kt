@@ -20,7 +20,6 @@ import tn.aquaguard.repository.EventRepository
 
 class EventViewModel : ViewModel() {
 
-    var errorMessage: String by mutableStateOf("")
     var response: Response<String?>? = null
 
     private val _iseventDeleted = MutableLiveData<Boolean>()
@@ -34,11 +33,13 @@ class EventViewModel : ViewModel() {
 
     private val repository = EventRepository()
 
+    //-----get All events
     val events = liveData {
         val eventData = repository.getAllEvents()
         emit(eventData ?: emptyList())
     }
 
+    //----- get events of the current user
     val myevents = liveData {
         val EventData = repository.getAllEventsByCurrentUser()
         println(EventData)
@@ -46,6 +47,7 @@ class EventViewModel : ViewModel() {
     }
 
 
+    //------add event
      fun addEvent(imageUri:MultipartBody.Part,
                          name: RequestBody,
                          description: RequestBody,
@@ -60,6 +62,7 @@ class EventViewModel : ViewModel() {
 
     }
 
+    //------delete event
     suspend fun deleteEvent(eventId: String) {
 
         try {
@@ -73,6 +76,7 @@ class EventViewModel : ViewModel() {
 
 
 
+   //------update event
     fun updateEvent(
         eventId: String,
         imageUri: MultipartBody.Part,
@@ -96,4 +100,5 @@ class EventViewModel : ViewModel() {
 
         }
     }
+
 }

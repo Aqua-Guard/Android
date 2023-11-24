@@ -107,9 +107,6 @@ class MyCalenderFragment : Fragment() {
         titleTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.darkBlue))
         messageTextView.text = stringBuilder.toString()
 
-        // Debugging logs
-        print( "Participations: $participations")
-        print("StringBuilder: $stringBuilder")
 
         val dialogBuilder = AlertDialog.Builder(requireContext())
             .setView(customView)
