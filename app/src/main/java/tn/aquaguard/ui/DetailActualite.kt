@@ -29,7 +29,7 @@ class DetailActualite() : AppCompatActivity() {
 
 
         /////////////
-        var userid = SessionManager(applicationContext).getUserId()
+        var userid = SessionManager(applicationContext).getId()
         var idatualite = intent.getStringExtra("ACTUALITEID")
         //set up the toolbar
         var titre =intent.getStringExtra("ACTUALITETITLE")
