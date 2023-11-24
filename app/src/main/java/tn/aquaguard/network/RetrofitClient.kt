@@ -13,7 +13,7 @@ class RetrofitClient {
             .addInterceptor { chain ->
                 val original = chain.request()
                 val requestBuilder = original.newBuilder()
-                    .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTU3MmYxMWJjYWEwYzBhYmIzNWYyNWQiLCJ1c2VybmFtZSI6ImFtaXJhIiwiaWF0IjoxNzAwNzc1MzE2LCJleHAiOjE3MDA3ODI1MTZ9.pR7H6irKhxrAW5DpLqIraUGj9_vVbTb_ZUZLtEANj5Y")
+                    .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTU3MmYxMWJjYWEwYzBhYmIzNWYyNWQiLCJ1c2VybmFtZSI6ImFtaXJhIiwiaWF0IjoxNzAwNzg1OTE4LCJleHAiOjE3MDA3OTMxMTh9.D8udeYOSgfoS86UIIoKs6au82DMcnjoC8GcLQ3nuqqo")
                     .method(original.method(), original.body())
                 val request = requestBuilder.build()
                 chain.proceed(request)
