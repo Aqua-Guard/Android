@@ -1,146 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.ProfileActivity">
-
-    <ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/background_splash_screen" />
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageViewProfile"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/user"
-        android:padding="8dp" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background_splash_screen" />
 
-    <TextView
-        android:id="@+id/textViewName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageViewProfile"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="Malek"
-        android:textColor="@color/black"
-        android:textSize="26dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/textViewName"
-        android:orientation="vertical"
-        android:paddingStart="16dp">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageViewProfile"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:padding="8dp" />
 
         <TextView
-            android:id="@+id/settings"
+            android:id="@+id/textViewName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/imageViewProfile"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="Account Settings"
-            android:textColor="@color/darkBlue"
+            android:textColor="@color/black"
             android:textSize="26dp" />
 
-        <Button
-            android:id="@+id/btnEditProfile"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/transparent"
-            android:gravity="start|center_vertical"
-            android:paddingStart="0dp"
-            android:text="Edit profile"
-            android:textColor="@color/black"
-            android:textSize="22sp" />
-
-        <Button
-            android:id="@+id/btnChangePassword"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/transparent"
-            android:gravity="start|center_vertical"
-            android:paddingStart="0dp"
-            android:text="Change password"
-            android:textColor="@color/black"
-            android:textSize="22sp" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_below="@id/textViewName"
+            android:orientation="vertical"
+            android:paddingStart="16dp">
+
+            <TextView
+                android:id="@+id/settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Account Settings"
+                android:textColor="@color/darkBlue"
+                android:textSize="26dp" />
 
             <Button
-                android:id="@+id/btnDarkMode"
-                android:layout_width="wrap_content"
+                android:id="@+id/btnEditProfile"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="@color/transparent"
                 android:gravity="start|center_vertical"
                 android:paddingStart="0dp"
-                android:text="Dark Mode"
+                android:text="Edit profile"
                 android:textColor="@color/black"
                 android:textSize="22sp" />
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:gravity="end|center_vertical">
-
-            </androidx.appcompat.widget.SwitchCompat>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <Button
-                android:id="@+id/btnTwoFactAuth"
-                android:layout_width="wrap_content"
+                android:id="@+id/btnChangePassword"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="@color/transparent"
                 android:gravity="start|center_vertical"
                 android:paddingStart="0dp"
-                android:text="Two-Factor Authentication"
+                android:text="Change password"
                 android:textColor="@color/black"
                 android:textSize="22sp" />
 
-            <androidx.appcompat.widget.SwitchCompat
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:gravity="end|center_vertical">
+                android:orientation="horizontal">
 
-            </androidx.appcompat.widget.SwitchCompat>
+                <Button
+                    android:id="@+id/btnDarkMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:background="@color/transparent"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="0dp"
+                    android:text="Dark Mode"
+                    android:textColor="@color/black"
+                    android:textSize="22sp" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="10dp"
+                    android:gravity="end|center_vertical">
+
+                </androidx.appcompat.widget.SwitchCompat>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnTwoFactAuth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:background="@color/transparent"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="0dp"
+                    android:text="Two-Factor Authentication"
+                    android:textColor="@color/black"
+                    android:textSize="22sp" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="10dp"
+                    android:gravity="end|center_vertical">
+
+                </androidx.appcompat.widget.SwitchCompat>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/transparent"
+                android:gravity="start|center_vertical"
+                android:paddingStart="0dp"
+                android:text="Language"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
+
+            <Button
+                android:id="@+id/btnDeleteAccount"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/transparent"
+                android:gravity="start|center_vertical"
+                android:paddingStart="0dp"
+                android:text="Delete Account"
+                android:textColor="@color/red"
+                android:textSize="22sp" />
+
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btnLanguage"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/transparent"
-            android:gravity="start|center_vertical"
-            android:paddingStart="0dp"
-            android:text="Language"
-            android:textColor="@color/black"
-            android:textSize="22sp" />
-
-        <Button
-            android:id="@+id/btnDeleteAccount"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/transparent"
-            android:gravity="start|center_vertical"
-            android:paddingStart="0dp"
-            android:text="Delete Account"
-            android:textColor="@color/red"
-            android:textSize="22sp" />
-
-    </LinearLayout>
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

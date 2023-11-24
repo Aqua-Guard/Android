@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import tn.aquaguard.R
 import tn.aquaguard.databinding.ResetPasswordBinding
 import tn.aquaguard.models.ActivationCodeResponse
+import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.ForgotPasswordViewModel
 
 
@@ -27,25 +28,22 @@ class ActivationCodeActivity : AppCompatActivity() {
 
         binding = ResetPasswordBinding.inflate(layoutInflater)
 
-        val emailAddress = intent.getStringExtra("EMAIL_ADDRESS")
         val btnForgotCode = findViewById<Button>(R.id.btnForgotCode)
 
         btnForgotCode.setOnClickListener {
                 val intent = Intent(this, ResetPasswordActivity::class.java)
-            val finalValue = Integer.valueOf(findViewById<EditText>(R.id.editActivationCode).text.toString())
 
             try {
                 viewModel.viewModelScope.launch {
 
                     viewModel.verifyCode(
                         ActivationCodeResponse(
-                            emailAddress,
+                            SessionManager(applicationContext).getEmail(),
                             Integer.valueOf(findViewById<EditText>(R.id.editActivationCode).text.toString())
                             )
                     )
 
                     if (viewModel.response!!.isSuccessful) {
-                        intent.putExtra("EMAIL",emailAddress)
                         startActivity(intent)
                     }
                     else

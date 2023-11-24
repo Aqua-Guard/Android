@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         println("-------------------------------------+"+SessionManager(applicationContext).getRole())
-        println("-------------------------------------+"+SessionManager(applicationContext).getUserId())
+        println("-------------------------------------+"+SessionManager(applicationContext).getId())
 
         // Initialize ViewModel
         postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)

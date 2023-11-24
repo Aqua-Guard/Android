@@ -15,6 +15,7 @@ import tn.aquaguard.R
 import tn.aquaguard.databinding.ResetPasswordBinding
 import tn.aquaguard.models.ActivationCodeResponse
 import tn.aquaguard.models.ResetPasswordRequest
+import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.ForgotPasswordViewModel
 import java.io.IOException
 
@@ -26,7 +27,6 @@ class ResetPasswordActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.reset_password)
         binding = ResetPasswordBinding.inflate(layoutInflater)
-        val email = intent.getStringExtra("EMAIL")
         val btnResetPassword = findViewById<Button>(R.id.btnResetPassword)
 
         btnResetPassword.setOnClickListener {
@@ -37,12 +37,13 @@ class ResetPasswordActivity : AppCompatActivity() {
 
                     viewModel.resetPassword(
                         ResetPasswordRequest(
-                            email,
+                            SessionManager(applicationContext).getEmail(),
                             findViewById<EditText>(R.id.editPassword).text.toString(),
                             findViewById<EditText>(R.id.editConfirmPassword).text.toString(),
                         )
                     )
-                    if (findViewById<EditText>(R.id.editTextForgotEmail).text.toString()
+                    if (findViewById<EditText>(R.id.editPassword).text.toString()
+                            .isNotEmpty() && findViewById<EditText>(R.id.editConfirmPassword).text.toString()
                             .isNotEmpty()
                     ) {
                         if (viewModel.resetResponse?.isSuccessful == true) {
