@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import com.squareup.picasso.Picasso
 import tn.aquaguard.R
 import tn.aquaguard.models.Avis
+import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.ActualiteViewModel
 
 
@@ -25,8 +26,11 @@ class DetailActualite() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_actualite)
 
-        var idatualite = intent.getStringExtra("ACTUALITEID")
 
+
+        /////////////
+        var userid = SessionManager(applicationContext).getUserId()
+        var idatualite = intent.getStringExtra("ACTUALITEID")
         //set up the toolbar
         var titre =intent.getStringExtra("ACTUALITETITLE")
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -63,13 +67,13 @@ class DetailActualite() : AppCompatActivity() {
 
         autoComplete.onItemClickListener = AdapterView.OnItemClickListener { _, _, i, _ ->
             val itemSelected = adapter.getItem(i)
-
-            val userId = "6554092c88519a44716228d4"
             val actualiteID = idatualite
 
             if (actualiteID != null) {
-                val avis = Avis(userId, actualiteID, itemSelected.toString())
-                viewModel.addOrUpdateAvis(avis)
+                val avis = userid?.let { Avis(it, actualiteID, itemSelected.toString()) }
+                if (avis != null) {
+                    viewModel.addOrUpdateAvis(avis)
+                }
             }
         }
 
