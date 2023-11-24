@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         println("-------------------------------------+"+SessionManager(applicationContext).getRole())
-        println("-------------------------------------+"+SessionManager(applicationContext).getUserId())
+        println("-------------------------------------+"+SessionManager(applicationContext).getId())
 
         // Initialize ViewModel
         postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
@@ -97,7 +97,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         bottomAppBar = findViewById(R.id.bottomAppBar)
         fab = findViewById(R.id.fab)
-
 
         // Set the BottomAppBar to act as the ActionBar
         setSupportActionBar(bottomAppBar)
@@ -161,13 +160,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-    fun formatDate(year: Int, month: Int, day: Int): String {
-        val calendar = Calendar.getInstance()
-        calendar.set(year, month - 1, day) // Note: month is zero-based, so subtract 1
-        val dateFormat =
-            SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        return dateFormat.format(calendar.time)
-    }
+
 
 
 
@@ -197,6 +190,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val editTextStartDate = dialogViewEvent.findViewById<TextInputEditText>(R.id.editTextStartDate)
             val editTextEndDate = dialogViewEvent.findViewById<TextInputEditText>(R.id.editTextEndDate)
             val eventlocation = dialogViewEvent.findViewById<TextInputEditText>(R.id.eventlocation)
+
+            fun formatDate(year: Int, month: Int, day: Int): String {
+                val calendar = Calendar.getInstance()
+                calendar.set(year, month - 1, day) // Note: month is zero-based, so subtract 1
+                val dateFormat =
+                    SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                return dateFormat.format(calendar.time)
+            }
 
 
              fun showStartDatePickerDialog(view: View) {
@@ -573,20 +574,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fragmentTransaction.commit()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.nav_menu, menu)
-        val myEventsMenuItem = menu?.findItem(R.id.nav_my_events)
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.nav_menu, menu)
+//        val myEventsMenuItem = menu?.findItem(R.id.nav_my_events)
+//
+//        // Check the user's role and set the visibility accordingly
+//        val userRole = SessionManager(applicationContext).getRole()
+//        Log.d("UserRole", "User role: $userRole")
+//
+//        myEventsMenuItem?.isVisible = userRole == "partenaire"
+//
+//        return true
+//    }
 
-        if (SessionManager(applicationContext).getRole() == "partenaire") {
-            myEventsMenuItem?.isVisible = true
-        } else {
-            myEventsMenuItem?.isVisible = false
-        }
 
-        return true
-    }
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val isPartenaire = SessionManager(applicationContext).getRole() == "partenaire"
 
         when (item.itemId) {
 
@@ -595,14 +597,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 binding.include3.nameofcurentFragment.text = "My calender"
             }
 
+            R.id.nav_profile -> {
+                try {
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    Log.e("ProfileActivity", "Error starting ProfileActivity", e)
+                }
+            }
+
             R.id.nav_my_posts -> {
                 replaceFragment(MyPostFrament())
                 binding.include3.nameofcurentFragment.text = "My Posts"
             }
 
             R.id.nav_my_events -> {
-                replaceFragment(MyEventFragment())
-                binding.include3.nameofcurentFragment.text = "My Events"
+                if (SessionManager(applicationContext).getRole() == "partenaire") {
+                    replaceFragment(MyEventFragment())
+                    binding.include3.nameofcurentFragment.text = "My Events"
+                } else {
+
+                    Toast.makeText(this, "You don't have access to My Events", Toast.LENGTH_SHORT).show()
+                }
             }
 
             R.id.nav_notification -> Toast.makeText(this, "notification!", Toast.LENGTH_SHORT)
@@ -612,7 +628,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.nav_command -> Toast.makeText(this, "command!", Toast.LENGTH_SHORT).show()
 
-            R.id.nav_logout -> Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show()
+            R.id.nav_logout ->
+            {
+                try {
+                    val intent = Intent(this, LoginActivity::class.java)
+                    SessionManager(applicationContext).clear()
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    Log.e("LoginActivity", "Error starting LoginActivity", e)
+                }
+            }
+
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true

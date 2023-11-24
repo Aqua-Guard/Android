@@ -77,6 +77,8 @@ dependencies {
     //-------------------------------
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
+    implementation ("com.edmodo:cropper:1.0.1")
 
 }
