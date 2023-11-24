@@ -18,8 +18,8 @@ class ImagePickerUtils(
     companion object {
         const val IMAGE_REQUEST_CODE = 100
     }
-    private var selectedImageUri: Uri? = null
 
+    private var selectedImageUri: Uri? = null
 
     fun pickImageGallery() {
         val intent = Intent(Intent.ACTION_PICK)

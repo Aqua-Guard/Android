@@ -1,8 +1,9 @@
 package tn.aquaguard.models
 
-import java.util.Date
+
 
 data class Actualites (
+    val idactualite:String,
     val userId:String,
     val title:String,
     val description:String,

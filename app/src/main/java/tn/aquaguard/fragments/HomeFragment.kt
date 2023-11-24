@@ -29,7 +29,7 @@ class HomeFragment : Fragment() {
         binding.rvactualite.adapter= ActualitesAdapter(emptyList())
 
         // Observe the LiveData from ViewModel
-        viewModel.events.observe(viewLifecycleOwner) {ActualiteList ->
+        viewModel.actualites.observe(viewLifecycleOwner) {ActualiteList ->
             println("Post API :"+ActualiteList.toString())
             binding.rvactualite.adapter = ActualitesAdapter(ActualiteList)
 
@@ -37,6 +37,7 @@ class HomeFragment : Fragment() {
 
         return binding.root
     }
+
 
 
 }

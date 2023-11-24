@@ -1,5 +1,6 @@
 package tn.aquaguard.ui
 
+import android.R.attr.value
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +14,9 @@ import kotlinx.coroutines.launch
 import tn.aquaguard.R
 import tn.aquaguard.databinding.ResetPasswordBinding
 import tn.aquaguard.models.ActivationCodeResponse
+import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.ForgotPasswordViewModel
+
 
 class ActivationCodeActivity : AppCompatActivity() {
     private lateinit var binding: ResetPasswordBinding
@@ -22,8 +25,9 @@ class ActivationCodeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activation_code)
+
         binding = ResetPasswordBinding.inflate(layoutInflater)
-        val emailAddress = intent.getStringExtra("EMAIL_ADDRESS")
+
         val btnForgotCode = findViewById<Button>(R.id.btnForgotCode)
 
         btnForgotCode.setOnClickListener {
@@ -34,13 +38,12 @@ class ActivationCodeActivity : AppCompatActivity() {
 
                     viewModel.verifyCode(
                         ActivationCodeResponse(
-                            emailAddress,
+                            SessionManager(applicationContext).getEmail(),
                             Integer.valueOf(findViewById<EditText>(R.id.editActivationCode).text.toString())
                             )
                     )
 
                     if (viewModel.response!!.isSuccessful) {
-                        intent.putExtra("EMAIL",emailAddress)
                         startActivity(intent)
                     }
                     else
@@ -52,6 +55,7 @@ class ActivationCodeActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 Log.e("error", "Email not found!", e)
             }
+
         }
 
     }

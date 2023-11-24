@@ -2,6 +2,7 @@ package tn.aquaguard.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -24,19 +25,17 @@ class DetailEventActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         var namefragment : TextView = findViewById(R.id.nameofcurentFragment)
-        namefragment.text = "Detail Event"
-
-
         var eventImage = intent.getStringExtra("eventImage")
-
-
         var name : TextView = findViewById(R.id.titleEventDetail)
         var descriptionevent : TextView = findViewById(R.id.descriptionEventDetail)
         var lieu : TextView = findViewById(R.id.eventlocation)
         var dateDF : TextView = findViewById(R.id.dateEvent)
         var image : ImageView = findViewById(R.id.eventImage)
         val btnParticipate : Button = findViewById(R.id.btnParticipate)
+        val btnDeleteParticipation : Button = findViewById(R.id.btnDeleteParticipation)
+        val eventId = intent.getStringExtra("eventId")
 
+        namefragment.text = "Detail Event"
 
         name.text = intent.getStringExtra("EventName")
         descriptionevent.text = intent.getStringExtra("description")
@@ -44,29 +43,47 @@ class DetailEventActivity : AppCompatActivity() {
         dateDF.text = intent.getStringExtra("DateDebut") + " to " + intent.getStringExtra("DateFin")
         Picasso.with(this).load("http://10.0.2.2:9090/images/event/"+eventImage).fit().centerInside().into(image)
 
-       val eventId = intent.getStringExtra("eventId")
 
 
-// Observe changes to _isEventParticipation in your activity
+
+        // Observe changes to _isEventParticipation in your activity
         participationViewModel.isEventParticipation.observe(this) { isParticipating ->
             if (isParticipating) {
                 btnParticipate.isEnabled = false
                 btnParticipate.text = "You are already Participated in this Event!"
+
+
+                btnDeleteParticipation.visibility = View.VISIBLE
+                btnDeleteParticipation.setOnClickListener {
+                    eventId?.let { it1 -> participationViewModel.deleteParticipation(it1) }
+                    Toast.makeText(this, "Participation deleted successfully!", Toast.LENGTH_SHORT).show()
+                    btnParticipate.isEnabled = true
+                    btnParticipate.text = "Participate"
+                    btnDeleteParticipation.visibility = View.GONE
+                }
+
             } else {
+                btnDeleteParticipation.visibility = View.GONE
                 btnParticipate.setOnClickListener {
                     eventId?.let { it1 -> participationViewModel.addParticipation(it1) }
                     Toast.makeText(this, "Participation added successfully!", Toast.LENGTH_SHORT)
                         .show()
                     btnParticipate.isEnabled = false
                     btnParticipate.text = "You are already Participated in this Event!"
-
+                    btnDeleteParticipation.visibility = View.VISIBLE
+                    btnDeleteParticipation.setOnClickListener {
+                        eventId?.let { it1 -> participationViewModel.deleteParticipation(it1) }
+                        Toast.makeText(this, "Participation deleted successfully!", Toast.LENGTH_SHORT).show()
+                        btnParticipate.isEnabled = true
+                        btnParticipate.text = "Participate"
+                        btnDeleteParticipation.visibility = View.GONE
+                    }
                 }
             }
         }
 
-// Call the checkIfEventParticip function
+        // Call the checkIfEventParticip function
         eventId?.let { participationViewModel.checkIfEventParticip(it) }
-
 
         // Enable the back arrow
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

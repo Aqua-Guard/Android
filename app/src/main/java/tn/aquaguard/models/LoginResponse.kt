@@ -7,6 +7,15 @@ data class LoginResponse (
     @SerializedName("token")
     var token: String,
 
+    @SerializedName("id")
+    var id: String,
+
+    @SerializedName("image")
+    var image: String,
+
+    @SerializedName("nbPts")
+    var nbPts: Int,
+
     @SerializedName("username")
     var username: String,
 

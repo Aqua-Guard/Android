@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/userimage"
+                    android:layout_width="50dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/user" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Malek Labidi"
+                        android:textAppearance="?attr/textAppearanceTitleMedium" />
+                    <TextView
+                        android:id="@+id/user_role"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Partenaire"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?android:attr/textColorSecondary" />
+
+                </LinearLayout>
+
+                <!-- Edit Icon -->
+                <ImageView
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="90dp"
+                    android:id="@+id/post_edit"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/baseline_mode_edit_24"
+                    android:visibility="visible"
+                    />
+
+                <ImageView
+                    android:id="@+id/post_delete"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/baseline_delete_24"
+                    android:layout_marginLeft="5dp"
+
+                    android:visibility="visible"
+                    />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/darker_gray" />
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="Dive into the serene beauty of aquatic life with AquaGard! 🐠💧 Whether you're a seasoned aquarist or just starting your water gardening journey, our latest post offers a treasure trove of insights"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?android:attr/textColorSecondary" />
+            <!-- Post Image -->
+            <ImageView
+                android:id="@+id/postimage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/post1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Simple horizontal line -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray" />
+
+                <!-- Icons with labels and counts -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp">
+
+                    <!-- Like icon with label and count -->
+                    <ImageView
+                        android:id="@+id/likeicon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/outline_favorite_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="Like" />
+
+                    <TextView
+                        android:id="@+id/nblikes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:text="100" />
+
+                    <!-- Comment icon with label and count -->
+                    <ImageView
+                        android:id="@+id/commeticon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:src="@drawable/baseline_comment_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="Comment" />
+
+                    <TextView
+                        android:id="@+id/nbcomments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:text="50" />
+
+                    <!-- Share icon with label and count -->
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:src="@drawable/baseline_ios_share_24" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="Share" />
+
+
+                </LinearLayout>
+                <!-- Divider -->
+
+                <!-- Comment Input Section -->
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>

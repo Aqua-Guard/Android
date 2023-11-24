@@ -1,0 +1,85 @@
+package tn.aquaguard.ui
+
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.viewModelScope
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.launch
+import tn.aquaguard.R
+import tn.aquaguard.models.ChangePassword
+import tn.aquaguard.network.SessionManager
+import tn.aquaguard.viewmodel.UserViewModel
+
+class ChangePasswordActivity : AppCompatActivity() {
+    private val viewModel by viewModels<UserViewModel>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.change_password)
+
+        val btnSubmit = findViewById<Button>(R.id.btnSubmit)
+        var image = findViewById<ImageView>(R.id.imageViewProfile)
+        var textViewName = findViewById<TextView>(R.id.textViewName)
+        Picasso.with(this).load("http://10.0.2.2:9090/images/user/"+ SessionManager(applicationContext).getImage()).fit().centerInside().into(image)
+        textViewName.text = SessionManager(applicationContext).getUsername()
+
+        btnSubmit.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+
+            val oldPassword = findViewById<EditText>(R.id.oldPassword).text.toString()
+            val newPassword = findViewById<EditText>(R.id.newPassword).text.toString()
+            val confirmPassword = findViewById<EditText>(R.id.confirmPassword).text.toString()
+            try {
+                if (oldPassword.isNotEmpty() && newPassword.isNotEmpty() && confirmPassword.isNotEmpty() && newPassword == confirmPassword) {
+                    viewModel.viewModelScope.launch {
+
+                        viewModel.changePassword(
+                            ChangePassword(
+                                SessionManager.EMAIL,
+                                oldPassword,
+                                newPassword,
+                                confirmPassword
+                            )
+                        )
+                        if (viewModel.responsePass?.isSuccessful == true) {
+                            startActivity(intent)
+                        } else if (viewModel.responsePass!!.code() == 400) {
+                            Toast.makeText(
+                                applicationContext,
+                                "Wrong Information",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(applicationContext, "server issue", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                } else if (newPassword != confirmPassword) {
+                    Toast.makeText(
+                        applicationContext,
+                        "password and confirm password are different",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Fields can't be empty",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            } catch (e: Exception) {
+                Log.e("ProfileActivity", "Error starting ProfileActivity", e)
+            }
+        }
+    }
+}

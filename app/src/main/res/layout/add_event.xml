@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
     android:background="@drawable/dialogbg"
     android:orientation="vertical">
 
@@ -32,11 +30,11 @@
             android:textSize="25dp" />
 
         <ImageView
-            android:id="@+id/cancelButton"
+            android:id="@+id/closeButton"
             android:layout_width="39dp"
             android:layout_height="42dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="160dp"
+            android:layout_marginLeft="120dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/baseline_clear_24"
 
@@ -112,7 +110,9 @@
             android:ems="10"
             android:drawableRight="@drawable/baseline_date_range_24"
             android:hint="Start Date"
-            android:inputType="date" />
+            android:inputType="none"
+            android:focusable="false"
+            android:onClick="showStartDatePickerDialog" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -126,9 +126,19 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="End Date"
-                android:inputType="date"
+                android:inputType="none"
+                android:focusable="false"
+                android:onClick="showEndDatePickerDialog"
                 android:drawableRight="@drawable/baseline_date_range_24"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/errorMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#FF0000"
+            android:visibility="gone" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -154,6 +164,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Submit" />
+        <Button
+            android:id="@+id/btncancelEvent"
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/red"
+            android:text="Cancel" />
 
     </LinearLayout>
 

@@ -9,10 +9,9 @@ data class Post (
     val description: String,
     val userImage: String,
     val postImage: String,
-    val nbLike:Int,
+    var nbLike:Int,
     val nbComments :Int,
     val nbShare : Int,
-    var isLiked : Boolean,
     val likes: List<Like>,
     val comments: List<Comment>
 )
