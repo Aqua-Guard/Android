@@ -1,161 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.LoginActivity">
-
-    <ImageView
-        android:id="@+id/imageView3"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/login_background"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        android:layout_gravity="center"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="-92dp">
+        android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageView3"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:srcCompat="@drawable/logo" />
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/login_background"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/editTextUsername"
-                    android:layout_marginBottom="16dp"
-                    android:hint="Username"
-                    android:background="@drawable/custom_textfield"
-                    android:textColor="@android:color/black" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:id="@+id/editTextPassword"
-                    android:hint="Password"
-                    android:background="@drawable/custom_textfield"
-                    android:textColor="@android:color/black" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/lightBlue"
-            android:text="Login"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/buttonForgotPassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@color/transparent"
-            android:text="Forgot Password?"
-            android:textColor="@color/lightBlue"
-            android:textSize="22sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
             android:layout_gravity="center"
-            android:text="- Or sign in with -"
-            android:layout_marginTop="16dp"
-            android:textColor="@color/black"
-            android:textSize="16dp"></TextView>
+            tools:layout_editor_absoluteX="-16dp"
+            tools:layout_editor_absoluteY="-92dp">
 
-        <LinearLayout
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="22dp"
-            android:orientation="horizontal"
-            android:padding="12dp">
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:srcCompat="@drawable/logo" />
 
-
-            <ImageButton
-                android:id="@+id/btnGoogle"
-                android:layout_width="40dp"
-                android:layout_height="37dp"
-                android:layout_marginRight="50dp"
-                android:background="@color/white"
-                android:contentDescription="Login with Google"
-                android:onClick="loginWithGoogle"
-                android:src="@drawable/google_logo" />
-
-
-            <ImageButton
-                android:id="@+id/btnFb"
-                android:layout_width="36dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:adjustViewBounds="true"
-                android:background="@color/white"
-                android:contentDescription="Login with Facebook"
-                android:onClick="loginWithFacebook"
-                android:scaleType="fitCenter"
-                android:src="@drawable/facebook_logo" />
-        </LinearLayout>
+                android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextUsername"
+                        android:layout_marginBottom="16dp"
+                        android:hint="Username"
+                        android:background="@drawable/custom_textfield"
+                        android:textColor="@android:color/black" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:id="@+id/editTextPassword"
+                        android:hint="Password"
+                        android:background="@drawable/custom_textfield"
+                        android:textColor="@android:color/black" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/lightBlue"
+                android:text="Login"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/buttonForgotPassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/transparent"
+                android:text="Forgot Password?"
+                android:textColor="@color/lightBlue"
+                android:textSize="22sp" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:text="Don't have an account?"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="- Or sign in with -"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/black"
-                android:textSize="18dp"></TextView>
+                android:textSize="16dp"></TextView>
 
-            <Button
-                android:id="@+id/btnRegister"
+            <LinearLayout
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="22dp"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+
+                <ImageButton
+                    android:id="@+id/btnGoogle"
+                    android:layout_width="40dp"
+                    android:layout_height="37dp"
+                    android:layout_marginRight="50dp"
+                    android:background="@color/white"
+                    android:contentDescription="Login with Google"
+                    android:onClick="loginWithGoogle"
+                    android:src="@drawable/google_logo" />
+
+
+                <ImageButton
+                    android:id="@+id/btnFb"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:adjustViewBounds="true"
+                    android:background="@color/white"
+                    android:contentDescription="Login with Facebook"
+                    android:onClick="loginWithFacebook"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/facebook_logo" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/transparent"
-                android:text="Register Now"
-                android:textColor="@color/lightBlue"
-                android:textSize="18dp" />
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:text="Don't have an account?"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"></TextView>
+
+                <Button
+                    android:id="@+id/btnRegister"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/transparent"
+                    android:text="Register Now"
+                    android:textColor="@color/lightBlue"
+                    android:textSize="18dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

@@ -24,7 +24,7 @@ class CommentViewHolder(private val context: Context, val itemCommentBinding: It
 
 
 
-        val current_user_id = SessionManager(context).getUserId()
+        val current_user_id = SessionManager(context).getId()
 
 
 

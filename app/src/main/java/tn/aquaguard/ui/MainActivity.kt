@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         println("-------------------------------------+"+SessionManager(applicationContext).getRole())
-        println("-------------------------------------+"+SessionManager(applicationContext).getUserId())
+        println("-------------------------------------+"+SessionManager(applicationContext).getId())
 
         // Initialize ViewModel
         postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
@@ -97,7 +97,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         bottomAppBar = findViewById(R.id.bottomAppBar)
         fab = findViewById(R.id.fab)
-
 
         // Set the BottomAppBar to act as the ActionBar
         setSupportActionBar(bottomAppBar)
@@ -598,6 +597,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 binding.include3.nameofcurentFragment.text = "My calender"
             }
 
+            R.id.nav_profile -> {
+                try {
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    Log.e("ProfileActivity", "Error starting ProfileActivity", e)
+                }
+            }
+
             R.id.nav_my_posts -> {
                 replaceFragment(MyPostFrament())
                 binding.include3.nameofcurentFragment.text = "My Posts"
@@ -620,7 +628,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.nav_command -> Toast.makeText(this, "command!", Toast.LENGTH_SHORT).show()
 
-            R.id.nav_logout -> Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show()
+            R.id.nav_logout ->
+            {
+                try {
+                    val intent = Intent(this, LoginActivity::class.java)
+                    SessionManager(applicationContext).clear()
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    Log.e("LoginActivity", "Error starting LoginActivity", e)
+                }
+            }
+
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true

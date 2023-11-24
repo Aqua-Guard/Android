@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.viewModelScope
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 import tn.aquaguard.R
 import tn.aquaguard.models.ChangePassword
@@ -23,6 +26,10 @@ class ChangePasswordActivity : AppCompatActivity() {
         setContentView(R.layout.change_password)
 
         val btnSubmit = findViewById<Button>(R.id.btnSubmit)
+        var image = findViewById<ImageView>(R.id.imageViewProfile)
+        var textViewName = findViewById<TextView>(R.id.textViewName)
+        Picasso.with(this).load("http://10.0.2.2:9090/images/user/"+ SessionManager(applicationContext).getImage()).fit().centerInside().into(image)
+        textViewName.text = SessionManager(applicationContext).getUsername()
 
         btnSubmit.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
