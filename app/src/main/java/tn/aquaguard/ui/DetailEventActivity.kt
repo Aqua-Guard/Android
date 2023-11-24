@@ -25,12 +25,7 @@ class DetailEventActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         var namefragment : TextView = findViewById(R.id.nameofcurentFragment)
-        namefragment.text = "Detail Event"
-
-
         var eventImage = intent.getStringExtra("eventImage")
-
-
         var name : TextView = findViewById(R.id.titleEventDetail)
         var descriptionevent : TextView = findViewById(R.id.descriptionEventDetail)
         var lieu : TextView = findViewById(R.id.eventlocation)
@@ -38,7 +33,9 @@ class DetailEventActivity : AppCompatActivity() {
         var image : ImageView = findViewById(R.id.eventImage)
         val btnParticipate : Button = findViewById(R.id.btnParticipate)
         val btnDeleteParticipation : Button = findViewById(R.id.btnDeleteParticipation)
+        val eventId = intent.getStringExtra("eventId")
 
+        namefragment.text = "Detail Event"
 
         name.text = intent.getStringExtra("EventName")
         descriptionevent.text = intent.getStringExtra("description")
@@ -46,10 +43,10 @@ class DetailEventActivity : AppCompatActivity() {
         dateDF.text = intent.getStringExtra("DateDebut") + " to " + intent.getStringExtra("DateFin")
         Picasso.with(this).load("http://10.0.2.2:9090/images/event/"+eventImage).fit().centerInside().into(image)
 
-       val eventId = intent.getStringExtra("eventId")
 
 
-// Observe changes to _isEventParticipation in your activity
+
+        // Observe changes to _isEventParticipation in your activity
         participationViewModel.isEventParticipation.observe(this) { isParticipating ->
             if (isParticipating) {
                 btnParticipate.isEnabled = false
@@ -85,9 +82,8 @@ class DetailEventActivity : AppCompatActivity() {
             }
         }
 
-// Call the checkIfEventParticip function
+        // Call the checkIfEventParticip function
         eventId?.let { participationViewModel.checkIfEventParticip(it) }
-
 
         // Enable the back arrow
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
