@@ -29,7 +29,7 @@ class DetailActualite() : AppCompatActivity() {
 
 
         /////////////
-        var username = SessionManager(applicationContext).getUsername()
+        var userid = SessionManager(applicationContext).getUserId()
         var idatualite = intent.getStringExtra("ACTUALITEID")
         //set up the toolbar
         var titre =intent.getStringExtra("ACTUALITETITLE")
@@ -67,13 +67,13 @@ class DetailActualite() : AppCompatActivity() {
 
         autoComplete.onItemClickListener = AdapterView.OnItemClickListener { _, _, i, _ ->
             val itemSelected = adapter.getItem(i)
-
-            val userId = "6554092c88519a44716228d4"
             val actualiteID = idatualite
 
             if (actualiteID != null) {
-                val avis = Avis(userId, actualiteID, itemSelected.toString())
-                viewModel.addOrUpdateAvis(avis)
+                val avis = userid?.let { Avis(it, actualiteID, itemSelected.toString()) }
+                if (avis != null) {
+                    viewModel.addOrUpdateAvis(avis)
+                }
             }
         }
 
@@ -83,7 +83,7 @@ class DetailActualite() : AppCompatActivity() {
             if (result == "ok") {
                 Toast.makeText(
                     applicationContext,
-                    "Avis added/updated successfully$username",
+                    "Avis added/updated successfully",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {

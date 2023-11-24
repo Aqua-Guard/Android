@@ -3,15 +3,10 @@ package tn.aquaguard.viewHolders
 import android.app.AlertDialog
 import android.content.Context
 import android.text.Editable
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -67,7 +62,7 @@ class CommentViewHolder(private val context: Context, val itemCommentBinding: It
     private fun showEditCommentDialog(context: Context,idComment : String,comment: String) {
 
         val inflater = LayoutInflater.from(itemView.context)
-        val customView = inflater.inflate(R.layout.custom_edit_post_dialog, null)
+        val customView = inflater.inflate(R.layout.custom_edit_comment_dialog, null)
         val textInputEditText = customView.findViewById<TextInputEditText>(R.id.comment)
         val okButton = customView.findViewById<Button>(R.id.okButton)
         val cancelBinding = customView.findViewById<Button>(R.id.cancelButton)
