@@ -5,14 +5,17 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 import tn.aquaguard.models.Actualites
 import tn.aquaguard.models.Avis
+import tn.aquaguard.models.SearchRequest
 
 interface ActualiteService {
 
     @GET("/act")
     suspend fun getAll(): Response<List<Actualites>>
-
+    @POST("/act/search")
+    suspend fun searchActualites(@Body request: SearchRequest): Response<List<Actualites>>
     @GET("/avis/{iduser}/{idactualite}")
     suspend fun getAvisByIds(
         @Path("iduser") iduser: String,

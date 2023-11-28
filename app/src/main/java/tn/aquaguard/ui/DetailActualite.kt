@@ -60,10 +60,7 @@ class DetailActualite() : AppCompatActivity() {
 
 
 
-        //add an action while clicking on the items of the dropdown menu
-// ui/DetailActualite.kt
 
-// ... (existing code)
 
         autoComplete.onItemClickListener = AdapterView.OnItemClickListener { _, _, i, _ ->
             val itemSelected = adapter.getItem(i)
@@ -83,7 +80,7 @@ class DetailActualite() : AppCompatActivity() {
             if (result == "ok") {
                 Toast.makeText(
                     applicationContext,
-                    "Avis added/updated successfully",
+                    "Avis added successfully",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
