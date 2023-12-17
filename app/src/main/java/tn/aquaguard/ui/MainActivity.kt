@@ -1,6 +1,8 @@
 package tn.aquaguard.ui
 
 
+import ReclamationFragment
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -10,7 +12,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.webkit.MimeTypeMap
@@ -29,13 +30,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -47,8 +46,8 @@ import tn.aquaguard.fragments.HomeFragment
 import tn.aquaguard.fragments.MyCalenderFragment
 import tn.aquaguard.fragments.MyEventFragment
 import tn.aquaguard.fragments.MyPostFrament
+
 import tn.aquaguard.fragments.StoreFragment
-import tn.aquaguard.models.AddEventRequest
 import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.EventViewModel
 import tn.aquaguard.viewmodel.PostViewModel
@@ -164,14 +163,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
 
+    @SuppressLint("SuspiciousIndentation")
     private fun showBottomDialog() {
 
         val isEvent = binding.include3.nameofcurentFragment.text == "Event"|| binding.include3.nameofcurentFragment.text == "My Events"
         val isPartenaire = SessionManager(applicationContext).getRole() == "partenaire"
+        val isreclamation = binding.include3.nameofcurentFragment.text == "ReclamationFragment"
 
 
-        val isPost =
-            binding.include3.nameofcurentFragment.text == "Forum" || binding.include3.nameofcurentFragment.text == "My Posts"
+        val isPost = binding.include3.nameofcurentFragment.text == "Forum" || binding.include3.nameofcurentFragment.text == "My Posts"
         if (isEvent && isPartenaire) {
 
             val inflater = LayoutInflater.from(this)
@@ -564,6 +564,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             dialog.show()
         }
+        if (isreclamation) {
+
+            val inflater = LayoutInflater.from(this)
+            val dialogView = inflater.inflate(R.layout.costom_add_reclamation_dialog, null)
+            val closeButton = dialogView.findViewById<Button>(R.id.cancelButton)
+            val dialogBuilder = AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+            val dialog = dialogBuilder.create()
+            dialog.show()
+            if (closeButton != null) {
+                closeButton.setOnClickListener {
+                    dialog.dismiss()
+                }
+            }
+
+
+
+
+        }
     }
 
 
@@ -624,7 +644,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_notification -> Toast.makeText(this, "notification!", Toast.LENGTH_SHORT)
                 .show()
 
-            R.id.nav_reclamation -> Toast.makeText(this, "reclmation!", Toast.LENGTH_SHORT).show()
+            R.id.nav_reclamation -> {
+                replaceFragment(ReclamationFragment())
+                binding.include3.nameofcurentFragment.text = "ReclamationFragment"
+            }
 
             R.id.nav_command -> Toast.makeText(this, "command!", Toast.LENGTH_SHORT).show()
 

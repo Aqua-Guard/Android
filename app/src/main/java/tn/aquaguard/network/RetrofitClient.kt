@@ -26,7 +26,7 @@ class RetrofitClient {
             .client(okHttpClient)
             .build()
 
-
+        val reclamationservice: ReclamationService= retrofit.create(ReclamationService::class.java)
         val postService: PostService = retrofit.create(PostService::class.java)
         val eventService: EventService = retrofit.create(EventService::class.java)
         val actualiteService : ActualiteService = retrofit.create(ActualiteService::class.java)
