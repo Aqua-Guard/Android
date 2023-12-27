@@ -16,7 +16,7 @@ class ActualiteViewHolder (private val context: Context, val ActualiteItem :Actu
     fun setData(actualite:Actualites) {
 
         var username =SessionManager(context).getUsername()
-        Picasso.with(context).load( "http://10.0.2.2:9090/image/actualite/"+actualite.image ).fit().centerInside().into(ActualiteItem.newsImage)
+        Picasso.with(context).load( "http://10.0.2.2:9090/images/actualite/"+actualite.image ).fit().centerInside().into(ActualiteItem.newsImage)
         ActualiteItem.newsTitle.text=actualite.title
         ActualiteItem.newsDescription.text=actualite.description
 

@@ -29,9 +29,11 @@ class DetailActualite() : AppCompatActivity() {
 
 
         /////////////
-        var userid = SessionManager(applicationContext).getId()
         var idatualite = intent.getStringExtra("ACTUALITEID")
-        //set up the toolbar
+
+        var userid = SessionManager(applicationContext).getId()
+
+
         var titre =intent.getStringExtra("ACTUALITETITLE")
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -45,11 +47,10 @@ class DetailActualite() : AppCompatActivity() {
 
 }
 
-        //trying to call user_id
 
 
 
-        //set up of the dropdown menu
+
         val items = listOf("true","not true","i dont think so","may be")
 
         val autoComplete :AutoCompleteTextView = findViewById(R.id.auto_complete_txt)
@@ -74,7 +75,6 @@ class DetailActualite() : AppCompatActivity() {
             }
         }
 
-// ... (existing code)
 
         viewModel.addOrUpdateAvisResult.observe(this, Observer { result ->
             if (result == "ok") {
@@ -92,7 +92,6 @@ class DetailActualite() : AppCompatActivity() {
             }
         })
 
-// ... (existing code)
 
 
 
@@ -109,7 +108,7 @@ class DetailActualite() : AppCompatActivity() {
         title.text=intent.getStringExtra("ACTUALITETITLE")
         description.text=intent.getStringExtra("ACTUAITEDESCRIPTION")
         text.text=intent.getStringExtra("ACTUALITETEXT")
-        Picasso.with(this).load("http://10.0.2.2:9090/image/actualite/"+actualiteImage).fit().centerInside().into(image)
+        Picasso.with(this).load("http://10.0.2.2:9090/images/actualite/"+actualiteImage).fit().centerInside().into(image)
 
  ////////////////////////////////////////////test//////////////////
 
@@ -131,9 +130,8 @@ class DetailActualite() : AppCompatActivity() {
                 last.text=""
             }
         })
-        val userId = "6554092c88519a44716228d4"
         if (idatualite != null) {
-            viewModel.getAvisByIds(userId, idatualite)
+            viewModel.getAvisByIds(userid.toString(), idatualite)
         }
 
     }

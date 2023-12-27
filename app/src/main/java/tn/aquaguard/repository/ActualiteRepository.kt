@@ -16,10 +16,7 @@ class ActualiteRepository {
     suspend fun searchActualites(about: SearchRequest): List<Actualites>? {
         return RetrofitClient.actualiteService.searchActualites(about).body()
     }
-    suspend fun addAvis(idUser: String, idActualites: String, aviss: Any): Unit? {
-        var avis =Avis(idUser,idActualites,aviss)
-        return RetrofitClient.actualiteService.addOnceAvis(avis).body()
-    }
+
 
     suspend fun addOrUpdateAvis(avis: Avis): Unit? {
         return RetrofitClient.actualiteService.addOrUpdateAvis(avis).body()

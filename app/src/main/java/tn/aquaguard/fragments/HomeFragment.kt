@@ -39,7 +39,7 @@ binding.searchButton.setOnClickListener {
 
         // Observe the LiveData from ViewModel
         viewModel.actualites.observe(viewLifecycleOwner) {ActualiteList ->
-            println("Post API :"+ActualiteList.toString())
+            println("actualite API :"+ActualiteList.toString())
             binding.rvactualite.adapter = ActualitesAdapter(ActualiteList)
 
         }
