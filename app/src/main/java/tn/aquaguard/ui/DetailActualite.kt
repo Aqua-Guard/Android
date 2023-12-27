@@ -21,7 +21,6 @@ import tn.aquaguard.viewmodel.ActualiteViewModel
 
 class DetailActualite() : AppCompatActivity() {
     private val viewModel by viewModels<ActualiteViewModel>()
-    var userid = SessionManager(applicationContext).getId()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +31,7 @@ class DetailActualite() : AppCompatActivity() {
         /////////////
         var idatualite = intent.getStringExtra("ACTUALITEID")
 
+        var userid = SessionManager(applicationContext).getId()
 
 
         var titre =intent.getStringExtra("ACTUALITETITLE")
@@ -108,7 +108,7 @@ class DetailActualite() : AppCompatActivity() {
         title.text=intent.getStringExtra("ACTUALITETITLE")
         description.text=intent.getStringExtra("ACTUAITEDESCRIPTION")
         text.text=intent.getStringExtra("ACTUALITETEXT")
-        Picasso.with(this).load("http://10.0.2.2:9090/image/actualite/"+actualiteImage).fit().centerInside().into(image)
+        Picasso.with(this).load("http://10.0.2.2:9090/images/actualite/"+actualiteImage).fit().centerInside().into(image)
 
  ////////////////////////////////////////////test//////////////////
 

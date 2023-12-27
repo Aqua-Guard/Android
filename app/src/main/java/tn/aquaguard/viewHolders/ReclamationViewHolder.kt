@@ -13,8 +13,11 @@ class ReclamationViewHolder  (private val context: Context, val ReclamationItem 
         Picasso.with(context).load( "http://10.0.2.2:9090/images/reclamation/"+reclamation.image ).fit().centerInside().into(ReclamationItem.Imagereclamation)
         ReclamationItem.titlereclamation.text=reclamation.title
         ReclamationItem.descriptiontext.text=reclamation.description
+        ReclamationItem.reclamationid.text=reclamation.idreclamation
 
+ReclamationItem.buttonDiscussion.setOnClickListener {
 
+}
 
 
     }

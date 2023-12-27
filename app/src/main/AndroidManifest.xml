@@ -20,7 +20,7 @@
         android:theme="@style/Theme.AquaGuard"
         tools:targetApi="31">
         <activity
-            android:name=".ui.Reclamation"
+            android:name=".fragments.Discutionfragment"
             android:exported="false" />
         <activity
             android:name=".ui.UpdateMyEventActivity"

@@ -32,7 +32,7 @@ class ReclamationFragment : Fragment() {
 
 
 
-        viewModel.reclamations.observe(viewLifecycleOwner) {ReclamationList ->
+        viewModel.getReclamationsByUserId().observe(viewLifecycleOwner) {ReclamationList ->
             println("reclamation API :"+ReclamationList.toString())
             binding.recyclerViewMessages.adapter=ReclamationAdapter(ReclamationList)
 
