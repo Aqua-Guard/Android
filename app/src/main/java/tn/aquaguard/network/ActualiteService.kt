@@ -25,5 +25,6 @@ interface ActualiteService {
     suspend fun addOrUpdateAvis(@Body request: Avis): Response<Unit>
     @POST("/avis")
     suspend fun addOnceAvis(@Body request: Avis): Response<Unit>
-
+@POST("act/views/{actualiteId}")
+suspend fun addview(@Path("actualiteId") actualiteId: String):Response<String?>
 }

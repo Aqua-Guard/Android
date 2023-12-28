@@ -2,15 +2,19 @@ package tn.aquaguard.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.marginEnd
+import androidx.core.view.marginStart
 import androidx.lifecycle.Observer
 import com.squareup.picasso.Picasso
 import tn.aquaguard.R
@@ -35,10 +39,18 @@ class DetailActualite() : AppCompatActivity() {
 
 
         var titre =intent.getStringExtra("ACTUALITETITLE")
+        if (titre!!.length>15){
+            title =titre.substring(0, 15)+"..."
+        }
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         var namefragment : TextView = findViewById(R.id.nameofcurentFragment)
-        namefragment.text = titre
+
+        namefragment.gravity = Gravity.START
+        namefragment.text = if (titre.toString()!!.length>15){
+           titre.substring(0, 25)+"...";
+
+        }else titre
 
 //        testing the avis
         val btn = findViewById<Button>(R.id.ActualiteShareButton)
@@ -113,22 +125,7 @@ class DetailActualite() : AppCompatActivity() {
  ////////////////////////////////////////////test//////////////////
 
         viewModel.avisByIds.observe(this, Observer { avis ->
-            if (avis != null) {
-                Toast.makeText(
-                    applicationContext,
-                    "Avis exists",
-                    Toast.LENGTH_SHORT
-                ).show()
 
-                last.text="u have all rady rate this news as ${avis.avis}"
-            } else {
-                Toast.makeText(
-                    applicationContext,
-                    "u have rating this n",
-                    Toast.LENGTH_SHORT
-                ).show()
-                last.text=""
-            }
         })
         if (idatualite != null) {
             viewModel.getAvisByIds(userid.toString(), idatualite)

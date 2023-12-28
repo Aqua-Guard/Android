@@ -28,6 +28,9 @@ lateinit var Actualitesy : List<Actualites>
     private val _actualitesearched = MutableLiveData<List<Actualites?>>()
     val actualitesearched: MutableLiveData<List<Actualites?>> = _actualitesearched
 
+    private val _isactualiteviewd = MutableLiveData<Boolean>()
+    val isactualiteviewd: LiveData<Boolean> = _isactualiteviewd
+
 
     private val _addOrUpdateAvisResult = MutableLiveData<String?>()
     val addOrUpdateAvisResult: LiveData<String?> = _addOrUpdateAvisResult
@@ -77,5 +80,17 @@ lateinit var Actualitesy : List<Actualites>
             }
         }
     }
+     fun addview(actualiteId:String){
+         viewModelScope.launch {
+             try {
+                 val result = repository.addview(actualiteId)
+                 _isactualiteviewd.value = true
+             } catch (e: Exception) {
+                 _isactualiteviewd.value = false
+
+             }
+         }
+     }
+
     }
 
