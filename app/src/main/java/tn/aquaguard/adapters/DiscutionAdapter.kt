@@ -30,7 +30,7 @@ class DiscutionAdapter(private val DiscutionList: List<Discution>,private val vi
             val handler = android.os.Handler(Looper.getMainLooper())
             handler.postDelayed({
                 binding.bottomHalf.visibility = View.GONE
-            }, 3000) // 2000 milliseconds (2 seconds)
+            }, 1500)
         }
 //        binding.topHalf.
 

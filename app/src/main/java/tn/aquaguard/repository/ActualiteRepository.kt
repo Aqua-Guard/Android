@@ -21,4 +21,7 @@ class ActualiteRepository {
     suspend fun addOrUpdateAvis(avis: Avis): Unit? {
         return RetrofitClient.actualiteService.addOrUpdateAvis(avis).body()
     }
+    suspend fun addview(actualiteId :String):String?{
+        return RetrofitClient.actualiteService.addview(actualiteId).body()
+    }
 }

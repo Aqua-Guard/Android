@@ -87,6 +87,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         println("-------------------------------------+"+SessionManager(applicationContext).getRole())
         println("-------------------------------------+"+SessionManager(applicationContext).getId())
+        println("-------------------------------------+"+SessionManager(applicationContext).getToken())
+
         bundle.putString("userid", SessionManager(applicationContext).getId())
 
         // Initialize ViewModel

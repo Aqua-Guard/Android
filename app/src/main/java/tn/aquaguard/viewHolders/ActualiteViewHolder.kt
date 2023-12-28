@@ -9,9 +9,11 @@ import tn.aquaguard.databinding.ActualiteItemBinding
 import tn.aquaguard.models.Actualites
 import tn.aquaguard.network.SessionManager
 import tn.aquaguard.ui.DetailActualite
+import tn.aquaguard.viewmodel.ActualiteViewModel
+import tn.aquaguard.viewmodel.DiscutionViewModel
 
 
-class ActualiteViewHolder (private val context: Context, val ActualiteItem :ActualiteItemBinding): RecyclerView.ViewHolder(ActualiteItem.root){
+class ActualiteViewHolder (private val context: Context, val ActualiteItem :ActualiteItemBinding,private val viewModel: ActualiteViewModel): RecyclerView.ViewHolder(ActualiteItem.root){
 
     fun setData(actualite:Actualites) {
 
@@ -21,6 +23,7 @@ class ActualiteViewHolder (private val context: Context, val ActualiteItem :Actu
         ActualiteItem.newsDescription.text=actualite.description
 
         ActualiteItem.content.setOnClickListener {
+            viewModel.addview(actualite.idactualite)
             val intent = Intent(context, DetailActualite::class.java)
             intent.putExtra("USERNAME",username)
             intent.putExtra("ACTUALITETITLE", actualite.title)

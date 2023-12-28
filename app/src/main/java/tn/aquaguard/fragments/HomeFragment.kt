@@ -23,7 +23,7 @@ class HomeFragment : Fragment() {
         var test = binding.editTextUsername.text.toString()
         // Set up RecyclerView with an empty adapter initially
         binding.rvactualite.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvactualite.adapter= ActualitesAdapter(emptyList())
+        binding.rvactualite.adapter= ActualitesAdapter(emptyList(),viewModel)
 
 
         ////////////////////////////////////////
@@ -34,13 +34,13 @@ binding.searchButton.setOnClickListener {
 
         viewModel.actualitesearched.observe(viewLifecycleOwner) { searchedActualites ->
             println("Searched Actualites: $searchedActualites")
-            binding.rvactualite.adapter = ActualitesAdapter(searchedActualites)
+            binding.rvactualite.adapter = ActualitesAdapter(searchedActualites,viewModel)
         }
 
         // Observe the LiveData from ViewModel
         viewModel.actualites.observe(viewLifecycleOwner) {ActualiteList ->
             println("actualite API :"+ActualiteList.toString())
-            binding.rvactualite.adapter = ActualitesAdapter(ActualiteList)
+            binding.rvactualite.adapter = ActualitesAdapter(ActualiteList,viewModel)
 
         }
         return binding.root
