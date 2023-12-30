@@ -31,7 +31,7 @@ class DiscutionViewHolder (private val context: Context, val messageReclamation 
         messageReclamation.topHalf.setBackgroundResource(R.drawable.graduated_color_2)
     } else {
         // Set background color to gray for other roles
-        messageReclamation.topHalf.setBackgroundResource(R.drawable.graduated_color_1)
+        messageReclamation.topHalf.setBackgroundResource(R.color.white)
     }
     messageReclamation.id.text = discution.Id
     messageReclamation.descriptiontext.text = discution.message
@@ -148,7 +148,7 @@ class DiscutionViewHolder (private val context: Context, val messageReclamation 
 
         }
         else {
-            val builder = AlertDialog.Builder(context)
+             val builder = AlertDialog.Builder(context)
                 builder.setMessage("Do you want to delete this message?")
 
 
