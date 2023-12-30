@@ -9,18 +9,21 @@ import tn.aquaguard.databinding.ActualiteItemBinding
 import tn.aquaguard.models.Actualites
 import tn.aquaguard.network.SessionManager
 import tn.aquaguard.ui.DetailActualite
+import tn.aquaguard.viewmodel.ActualiteViewModel
+import tn.aquaguard.viewmodel.DiscutionViewModel
 
 
-class ActualiteViewHolder (private val context: Context, val ActualiteItem :ActualiteItemBinding): RecyclerView.ViewHolder(ActualiteItem.root){
+class ActualiteViewHolder (private val context: Context, val ActualiteItem :ActualiteItemBinding,private val viewModel: ActualiteViewModel): RecyclerView.ViewHolder(ActualiteItem.root){
 
     fun setData(actualite:Actualites) {
 
         var username =SessionManager(context).getUsername()
-        Picasso.with(context).load( "http://10.0.2.2:9090/image/actualite/"+actualite.image ).fit().centerInside().into(ActualiteItem.newsImage)
+        Picasso.with(context).load( "http://10.0.2.2:9090/images/actualite/"+actualite.image ).fit().centerInside().into(ActualiteItem.newsImage)
         ActualiteItem.newsTitle.text=actualite.title
         ActualiteItem.newsDescription.text=actualite.description
 
         ActualiteItem.content.setOnClickListener {
+            viewModel.addview(actualite.idactualite)
             val intent = Intent(context, DetailActualite::class.java)
             intent.putExtra("USERNAME",username)
             intent.putExtra("ACTUALITETITLE", actualite.title)

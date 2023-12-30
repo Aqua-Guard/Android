@@ -2,19 +2,24 @@ package tn.aquaguard.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.marginEnd
+import androidx.core.view.marginStart
 import androidx.lifecycle.Observer
 import com.squareup.picasso.Picasso
 import tn.aquaguard.R
 import tn.aquaguard.models.Avis
+import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.ActualiteViewModel
 
 
@@ -25,14 +30,27 @@ class DetailActualite() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_actualite)
 
+
+
+        /////////////
         var idatualite = intent.getStringExtra("ACTUALITEID")
 
-        //set up the toolbar
+        var userid = SessionManager(applicationContext).getId()
+
+
         var titre =intent.getStringExtra("ACTUALITETITLE")
+        if (titre!!.length>15){
+            title =titre.substring(0, 15)+"..."
+        }
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         var namefragment : TextView = findViewById(R.id.nameofcurentFragment)
-        namefragment.text = titre
+
+        namefragment.gravity = Gravity.START
+        namefragment.text = if (titre.toString()!!.length>15){
+           titre.substring(0, 25)+"...";
+
+        }else titre
 
 //        testing the avis
         val btn = findViewById<Button>(R.id.ActualiteShareButton)
@@ -41,11 +59,10 @@ class DetailActualite() : AppCompatActivity() {
 
 }
 
-        //trying to call user_id
 
 
 
-        //set up of the dropdown menu
+
         val items = listOf("true","not true","i dont think so","may be")
 
         val autoComplete :AutoCompleteTextView = findViewById(R.id.auto_complete_txt)
@@ -56,30 +73,26 @@ class DetailActualite() : AppCompatActivity() {
 
 
 
-        //add an action while clicking on the items of the dropdown menu
-// ui/DetailActualite.kt
 
-// ... (existing code)
 
         autoComplete.onItemClickListener = AdapterView.OnItemClickListener { _, _, i, _ ->
             val itemSelected = adapter.getItem(i)
-
-            val userId = "6554092c88519a44716228d4"
             val actualiteID = idatualite
 
             if (actualiteID != null) {
-                val avis = Avis(userId, actualiteID, itemSelected.toString())
-                viewModel.addOrUpdateAvis(avis)
+                val avis = userid?.let { Avis(it, actualiteID, itemSelected.toString()) }
+                if (avis != null) {
+                    viewModel.addOrUpdateAvis(avis)
+                }
             }
         }
 
-// ... (existing code)
 
         viewModel.addOrUpdateAvisResult.observe(this, Observer { result ->
             if (result == "ok") {
                 Toast.makeText(
                     applicationContext,
-                    "Avis added/updated successfully",
+                    "Avis added successfully",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
@@ -91,7 +104,6 @@ class DetailActualite() : AppCompatActivity() {
             }
         })
 
-// ... (existing code)
 
 
 
@@ -108,31 +120,15 @@ class DetailActualite() : AppCompatActivity() {
         title.text=intent.getStringExtra("ACTUALITETITLE")
         description.text=intent.getStringExtra("ACTUAITEDESCRIPTION")
         text.text=intent.getStringExtra("ACTUALITETEXT")
-        Picasso.with(this).load("http://10.0.2.2:9090/image/actualite/"+actualiteImage).fit().centerInside().into(image)
+        Picasso.with(this).load("http://10.0.2.2:9090/images/actualite/"+actualiteImage).fit().centerInside().into(image)
 
  ////////////////////////////////////////////test//////////////////
 
         viewModel.avisByIds.observe(this, Observer { avis ->
-            if (avis != null) {
-                Toast.makeText(
-                    applicationContext,
-                    "Avis exists",
-                    Toast.LENGTH_SHORT
-                ).show()
 
-                last.text="u have all rady rate this news as ${avis.avis}"
-            } else {
-                Toast.makeText(
-                    applicationContext,
-                    "u have rating this n",
-                    Toast.LENGTH_SHORT
-                ).show()
-                last.text=""
-            }
         })
-        val userId = "6554092c88519a44716228d4"
         if (idatualite != null) {
-            viewModel.getAvisByIds(userId, idatualite)
+            viewModel.getAvisByIds(userid.toString(), idatualite)
         }
 
     }

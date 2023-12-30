@@ -10,7 +10,9 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import tn.aquaguard.models.Actualites
 import tn.aquaguard.models.Avis
+import tn.aquaguard.models.SearchRequest
 import tn.aquaguard.repository.ActualiteRepository
 
 class ActualiteViewModel: ViewModel() {
@@ -18,9 +20,17 @@ class ActualiteViewModel: ViewModel() {
     private val repository =ActualiteRepository()
     var errorMessage: String by mutableStateOf("")
     var response: Response<String?>? = null
-
+lateinit var Actualitesy : List<Actualites>
     private val _avisByIds = MutableLiveData<Avis?>()
     val avisByIds: LiveData<Avis?> = _avisByIds
+
+
+    private val _actualitesearched = MutableLiveData<List<Actualites?>>()
+    val actualitesearched: MutableLiveData<List<Actualites?>> = _actualitesearched
+
+    private val _isactualiteviewd = MutableLiveData<Boolean>()
+    val isactualiteviewd: LiveData<Boolean> = _isactualiteviewd
+
 
     private val _addOrUpdateAvisResult = MutableLiveData<String?>()
     val addOrUpdateAvisResult: LiveData<String?> = _addOrUpdateAvisResult
@@ -36,16 +46,8 @@ class ActualiteViewModel: ViewModel() {
         val ActualiteData = repository.getAll()
         emit(ActualiteData ?: emptyList())
     }
-     fun addAvis(idUser: String, idActualites: String, aviss: Any) {
-         viewModelScope.launch {
-             try {
-             val response = repository.addAvis(idUser,idActualites,aviss)
-                 _addAvisResult.postValue("ok")
-             } catch (e: Exception) {
-                 _addAvisResult.postValue("error")
-             }
-         }
-     }
+
+
 
     fun getAvisByIds(idUser: String, idActualites: String) {
         viewModelScope.launch {
@@ -67,6 +69,28 @@ class ActualiteViewModel: ViewModel() {
             }
         }
     }
+
+    fun searchActualites(about: SearchRequest) {
+        viewModelScope.launch {
+            try {
+                val actualites = repository.searchActualites(about)
+                _actualitesearched.postValue(actualites ?: emptyList())
+            } catch (e: Exception) {
+                errorMessage = "Error searching actualites: ${e.message}"
+            }
+        }
+    }
+     fun addview(actualiteId:String){
+         viewModelScope.launch {
+             try {
+                 val result = repository.addview(actualiteId)
+                 _isactualiteviewd.value = true
+             } catch (e: Exception) {
+                 _isactualiteviewd.value = false
+
+             }
+         }
+     }
 
     }
 

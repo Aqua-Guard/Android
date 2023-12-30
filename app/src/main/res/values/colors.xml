@@ -9,5 +9,8 @@
     <color name="gray">#CCDBDC</color>
     <color name="babyBlue">#89CFF0</color>
     <color name="red">#B0FF0000</color>
+   <color name="softred">#FFEBEB</color>
+    <color name="expandedCardBackground">#FF000000</color>
+    <color name="collapsedCardBackground">#FF000000</color>
 
 </resources>

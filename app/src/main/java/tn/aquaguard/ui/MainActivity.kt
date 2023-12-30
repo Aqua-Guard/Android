@@ -1,7 +1,10 @@
 package tn.aquaguard.ui
 
 
+import ReclamationFragment
+import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.Application
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
@@ -10,7 +13,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.webkit.MimeTypeMap
@@ -29,13 +31,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -47,11 +47,12 @@ import tn.aquaguard.fragments.HomeFragment
 import tn.aquaguard.fragments.MyCalenderFragment
 import tn.aquaguard.fragments.MyEventFragment
 import tn.aquaguard.fragments.MyPostFrament
+
 import tn.aquaguard.fragments.StoreFragment
-import tn.aquaguard.models.AddEventRequest
 import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.EventViewModel
 import tn.aquaguard.viewmodel.PostViewModel
+import tn.aquaguard.viewmodel.ReclamationViewModel
 import java.io.File
 import java.io.FileOutputStream
 import java.text.ParseException
@@ -67,13 +68,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var fab: FloatingActionButton
     private lateinit var bottomAppBar: BottomAppBar
     private lateinit var binding: ActivityMainBinding
-
+    private val reclamationViewModel: ReclamationViewModel by viewModels()
     private val eventViewModel: EventViewModel by viewModels()
-
     private lateinit var selectedImage: ImageView
     private lateinit var selectedImageEvent: ImageView
     private var selectedImageUri: Uri? = null
     private var selectedImageEventUri: Uri? = null
+    val bundle = Bundle()
+
     companion object {
         val IMAGE_REQUEST_CODE = 100;
         val IMAGE_EVENT_REQUEST_CODE_ = 150;
@@ -84,7 +86,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         println("-------------------------------------+"+SessionManager(applicationContext).getRole())
-        println("-------------------------------------+"+SessionManager(applicationContext).getUserId())
+        println("-------------------------------------+"+SessionManager(applicationContext).getId())
+        println("-------------------------------------+"+SessionManager(applicationContext).getToken())
+
+        bundle.putString("userid", SessionManager(applicationContext).getId())
 
         // Initialize ViewModel
         postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
@@ -97,7 +102,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         bottomAppBar = findViewById(R.id.bottomAppBar)
         fab = findViewById(R.id.fab)
-
 
         // Set the BottomAppBar to act as the ActionBar
         setSupportActionBar(bottomAppBar)
@@ -165,14 +169,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
 
+    @SuppressLint("SuspiciousIndentation")
     private fun showBottomDialog() {
 
         val isEvent = binding.include3.nameofcurentFragment.text == "Event"|| binding.include3.nameofcurentFragment.text == "My Events"
         val isPartenaire = SessionManager(applicationContext).getRole() == "partenaire"
+        val isreclamation = binding.include3.nameofcurentFragment.text == "Reclamations"
 
 
-        val isPost =
-            binding.include3.nameofcurentFragment.text == "Forum" || binding.include3.nameofcurentFragment.text == "My Posts"
+
+
+        val isPost = binding.include3.nameofcurentFragment.text == "Forum" || binding.include3.nameofcurentFragment.text == "My Posts"
         if (isEvent && isPartenaire) {
 
             val inflater = LayoutInflater.from(this)
@@ -565,6 +572,102 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             dialog.show()
         }
+        if (isreclamation) {
+
+            val inflater = LayoutInflater.from(this)
+            val dialogView = inflater.inflate(R.layout.costom_add_reclamation_dialog, null)
+            val closeButton = dialogView.findViewById<Button>(R.id.cancelButton)
+            val submitButton = dialogView.findViewById<Button>(R.id.submit)
+            val descriptionEditText = dialogView.findViewById<TextInputEditText>(R.id.reclamationtext)
+            val aboutEditText = dialogView.findViewById<TextInputEditText>(R.id.reclamationdescription)
+            val addReclamationImage = dialogView.findViewById<Button>(R.id.addReclamationImage)
+            selectedImage = dialogView.findViewById<ImageView>(R.id.imageSelected)
+            selectedImage.setImageDrawable(null)
+            val dialogBuilder = AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+
+            val dialog = dialogBuilder.create()
+
+            fun pickImageFromGallery() {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
+                startActivityForResult(intent, IMAGE_REQUEST_CODE)
+            }
+
+            if (closeButton != null) {
+                closeButton.setOnClickListener {
+                    dialog.dismiss()
+                }
+            }
+
+            if (addReclamationImage != null) {
+                addReclamationImage.setOnClickListener {
+                    pickImageFromGallery()
+                }
+            }
+
+            if (submitButton != null) {
+                submitButton.setOnClickListener {
+                    val descriptionText = descriptionEditText.text.toString()
+                    val aboutText = aboutEditText.text.toString()
+
+                    if (descriptionText.isBlank() || selectedImageUri == null) {
+                        Snackbar.make(
+                            it,
+                            "Please provide both a description and an image.",
+                            Snackbar.LENGTH_LONG
+                        ).setBackgroundTint(Color.parseColor("#FF0000")).show()
+                        return@setOnClickListener
+                    }
+
+                    val description = if (descriptionText != null) {
+                        RequestBody.create(MediaType.parse("text/plain"), descriptionText)
+                    } else {
+                        // Handle the case when descriptionText is null
+                        // For example, provide a default value or show an error
+                        // For now, I'll assume an empty string as the default value
+                        RequestBody.create(MediaType.parse("text/plain"), "desc")
+                    }
+
+                    val title = if (aboutText != null) {
+                        RequestBody.create(MediaType.parse("text/plain"), aboutText)
+                    } else {
+                        // Handle the case when aboutText is null
+                        // For example, provide a default value or show an error
+                        // For now, I'll assume an empty string as the default value
+                        RequestBody.create(MediaType.parse("text/plain"), "title")
+                    }
+
+                    selectedImageUri?.let { uri ->
+                        contentResolver.openInputStream(uri)?.use { inputStream ->
+                            val mimeType = contentResolver.getType(uri) ?: "image/jpeg"
+                            val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "jpg"
+                            val tempFile = File.createTempFile("prefix_", "_image.$extension", cacheDir)
+
+                            FileOutputStream(tempFile).use { outputStream ->
+                                inputStream.copyTo(outputStream)
+                            }
+
+                            val requestFile = RequestBody.create(MediaType.parse(mimeType), tempFile)
+                            val imageBody = MultipartBody.Part.createFormData("image", "image_$extension", requestFile)
+
+
+                            reclamationViewModel.addReclamation(title, description, imageBody)
+
+                            // Additional handling if needed
+                            dialog.dismiss()
+                        } ?: run {
+                            Log.e("MainActivity", "Failed to open InputStream from URI")
+                        }
+                    }
+                }
+            }
+
+            dialog.show()
+
+
+        }
     }
 
 
@@ -598,6 +701,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 binding.include3.nameofcurentFragment.text = "My calender"
             }
 
+            R.id.nav_profile -> {
+                try {
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    Log.e("ProfileActivity", "Error starting ProfileActivity", e)
+                }
+            }
+
             R.id.nav_my_posts -> {
                 replaceFragment(MyPostFrament())
                 binding.include3.nameofcurentFragment.text = "My Posts"
@@ -616,11 +728,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_notification -> Toast.makeText(this, "notification!", Toast.LENGTH_SHORT)
                 .show()
 
-            R.id.nav_reclamation -> Toast.makeText(this, "reclmation!", Toast.LENGTH_SHORT).show()
+            R.id.nav_reclamation -> {
+                replaceFragment(ReclamationFragment())
+                binding.include3.nameofcurentFragment.text = "Reclamations"
+            }
 
             R.id.nav_command -> Toast.makeText(this, "command!", Toast.LENGTH_SHORT).show()
 
-            R.id.nav_logout -> Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show()
+            R.id.nav_logout ->
+            {
+                try {
+                    val intent = Intent(this, LoginActivity::class.java)
+                    SessionManager(applicationContext).clear()
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    Log.e("LoginActivity", "Error starting LoginActivity", e)
+                }
+            }
+
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true

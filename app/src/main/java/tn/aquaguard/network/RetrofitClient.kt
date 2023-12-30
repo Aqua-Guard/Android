@@ -13,7 +13,7 @@ class RetrofitClient {
             .addInterceptor { chain ->
                 val original = chain.request()
                 val requestBuilder = original.newBuilder()
-                    .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTU3MmYxMWJjYWEwYzBhYmIzNWYyNWQiLCJ1c2VybmFtZSI6ImFtaXJhIiwiaWF0IjoxNzAwNzg1OTE4LCJleHAiOjE3MDA3OTMxMTh9.D8udeYOSgfoS86UIIoKs6au82DMcnjoC8GcLQ3nuqqo")
+                    .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTUwZjk5OWZjNzAzMzBkNDVmODQ0OTgiLCJ1c2VybmFtZSI6ImRqbyIsImlhdCI6MTcwMzkzMjk4NCwiZXhwIjoxNzAzOTQwMTg0fQ.4MyGP82OzcRNiNVK-hzVweh2GQfWkdVNlTOdct-jOGg")
                     .method(original.method(), original.body())
                 val request = requestBuilder.build()
                 chain.proceed(request)
@@ -26,7 +26,8 @@ class RetrofitClient {
             .client(okHttpClient)
             .build()
 
-
+        val discutionservice: DiscutionService= retrofit.create(DiscutionService::class.java)
+        val reclamationservice: ReclamationService= retrofit.create(ReclamationService::class.java)
         val postService: PostService = retrofit.create(PostService::class.java)
         val eventService: EventService = retrofit.create(EventService::class.java)
         val actualiteService : ActualiteService = retrofit.create(ActualiteService::class.java)

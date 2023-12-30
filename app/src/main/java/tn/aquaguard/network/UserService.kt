@@ -1,11 +1,16 @@
 package tn.aquaguard.network
 
+import com.google.gson.annotations.SerializedName
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.DELETE
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 import tn.aquaguard.models.ActivationCodeResponse
 import tn.aquaguard.models.LoginRequest
@@ -14,6 +19,7 @@ import tn.aquaguard.models.ResetPasswordRequest
 import tn.aquaguard.models.SendActivationCode
 import tn.aquaguard.models.SignupRequest
 import tn.aquaguard.models.ChangePassword
+import tn.aquaguard.models.EditProfile
 
 interface UserService {
 
@@ -38,11 +44,22 @@ interface UserService {
     @DELETE("/user/deleteUser/{email}")
     suspend fun deleteAccount(@Path("email") email: String?)
 
+    @Multipart
+    @PUT("/user/updateProfile/{username}")
+    suspend fun editProfile(
+        @Path("username") username: String?,
+        @Part("email") email: String,
+        @Part("firstName") firstName: String,
+        @Part("lastName") lastName: String,
+        @Part("username") newUsername: String,
+        //@Part image: MultipartBody.Part?
+    ): Response<EditProfile?>?
+
     companion object {
         private const val BASE_URL = "http://10.0.2.2:9090/"
 
         var userService: UserService? = null
-        fun getInstance() : UserService {
+        fun getInstance(): UserService {
             if (userService == null) {
                 userService = Retrofit.Builder()
                     .baseUrl(BASE_URL)
