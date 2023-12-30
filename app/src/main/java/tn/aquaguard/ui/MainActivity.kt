@@ -49,6 +49,7 @@ import tn.aquaguard.fragments.MyEventFragment
 import tn.aquaguard.fragments.MyPostFrament
 
 import tn.aquaguard.fragments.StoreFragment
+import tn.aquaguard.network.RetrofitClient
 import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.EventViewModel
 import tn.aquaguard.viewmodel.PostViewModel
@@ -84,6 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        RetrofitClient.initialize(this)
 
         println("-------------------------------------+"+SessionManager(applicationContext).getRole())
         println("-------------------------------------+"+SessionManager(applicationContext).getId())
