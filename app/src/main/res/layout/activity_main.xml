@@ -13,34 +13,41 @@ android:orientation="vertical"
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="658dp"
+        android:layout_height="685dp"
+
         android:background="@drawable/background_splash_screen"
         android:fitsSystemWindows="true">
 
         <include
             android:id="@+id/include3"
-            layout="@layout/appbar_layout" />
+            layout="@layout/appbar_layout"
+            />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+
+            >
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment_container"
                 android:name="tn.aquaguard.fragments.HomeFragment"
-                android:layout_width="423dp"
-                android:layout_height="526dp"
-                android:layout_margin="5dp"
-                android:layout_marginTop="98dp"
+                android:layout_width="match_parent"
+                android:layout_height="685dp"
+
+
+                android:layout_marginTop="85dp"
+
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.444"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:layout="@layout/fragment_home" />
+                app:layout_constraintVertical_bias="0.224"
+                tools:ignore="MissingConstraints"
+                tools:layout="@layout/fragment_forum"
+                tools:layout_editor_absoluteX="0dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.navigation.NavigationView
+
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -52,19 +59,21 @@ android:orientation="vertical"
     </androidx.drawerlayout.widget.DrawerLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="75dp"
             android:layout_gravity="bottom"
-            android:backgroundTint="@color/white"
+
             android:visibility="visible"
-            app:elevation="8dp"
+            android:backgroundTint="@color/white"
             app:fabAlignmentMode="center"
-            app:fabCradleMargin="10dp"
+
             app:fabCradleRoundedCornerRadius="20dp">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -72,7 +81,7 @@ android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginEnd="20dp"
+
                 android:background="@color/transparent"
                 android:visibility="visible"
                 app:itemIconTint="@color/darkBlue"
@@ -88,7 +97,7 @@ android:orientation="vertical"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_add_24"
             app:backgroundTint="@color/darkBlue"
-            app:elevation="20dp"
+
             app:layout_anchor="@+id/bottomAppBar"
             app:maxImageSize="40dp"
             app:tint="@color/white" />
