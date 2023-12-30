@@ -337,8 +337,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     if (descriptionText.isEmpty()) {
                         eventdescription.error = "Please enter a description"
                         isValid = false
-                    }else if (descriptionText.length < 10 || descriptionText.length > 100) {
-                        eventdescription.error = "Description must be between 3 and 30 characters"
+                    }else if (descriptionText.length < 10 || descriptionText.length > 500) {
+                        eventdescription.error = "Description must be between 10 and 500 characters"
                         isValid = false
                     }
                     else {
@@ -349,8 +349,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         eventlocation.error = "Please enter a location"
                         isValid = false
                     }
-                    else if (eventlocationText.length < 3 || eventlocationText.length > 30) {
-                        eventlocation.error = "Location must be between 3 and 30 characters"
+                    else if (eventlocationText.length < 3 || eventlocationText.length > 50) {
+                        eventlocation.error = "Location must be between 3 and 50 characters"
                         isValid = false
                     }else {
                         eventlocation.error = null
@@ -445,7 +445,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                         it,
                                         "Error fileds.",
                                         Snackbar.LENGTH_LONG
-                                    ).setBackgroundTint(Color.parseColor("#90EE90")).show()
+                                    ).setBackgroundTint(Color.parseColor("#B0FF0000")).show()
                                 }
 
 
