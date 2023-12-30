@@ -32,17 +32,17 @@ android:orientation="vertical"
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment_container"
                 android:name="tn.aquaguard.fragments.HomeFragment"
-                android:layout_width="match_parent"
-                android:layout_height="685dp"
+                android:layout_width="390dp"
+                android:layout_height="match_parent"
 
 
-                android:layout_marginTop="85dp"
+                android:layout_marginTop="65dp"
 
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.224"
                 tools:ignore="MissingConstraints"
-                tools:layout="@layout/fragment_forum"
+                tools:layout="@layout/fragment_home"
                 tools:layout_editor_absoluteX="0dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

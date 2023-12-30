@@ -117,6 +117,9 @@ class UpdateMyEventActivity : AppCompatActivity() {
             if (nametxt.isEmpty()) {
                 nameLayout.error = "Please enter a name"
                 isValid = false
+            }else if (nametxt.length < 3 || nametxt.length > 30) {
+                nameLayout.error = "Name must be between 3 and 30 characters"
+                isValid = false
             } else {
                 nameLayout.error = null
             }
@@ -124,12 +127,18 @@ class UpdateMyEventActivity : AppCompatActivity() {
             if (descriptiontxt.isEmpty()) {
                 descriptionLayout.error = "Please enter a description"
                 isValid = false
+            }else if (descriptiontxt.length < 10 || descriptiontxt.length > 500) {
+                descriptionLayout.error = "Description must be between 10 and 500 characters"
+                isValid = false
             } else {
                 descriptionLayout.error = null
             }
 
             if (locationtxt.isEmpty()) {
                 locationLayout.error = "Please enter a location"
+                isValid = false
+            } else if (locationtxt.length < 3 || locationtxt.length > 50) {
+                locationLayout.error = "Location must be between 3 and 50 characters"
                 isValid = false
             } else {
                 locationLayout.error = null
@@ -225,7 +234,7 @@ class UpdateMyEventActivity : AppCompatActivity() {
                                     it,
                                     "Event Updated successfully.",
                                     Snackbar.LENGTH_LONG
-                                ).show()
+                                ).setBackgroundTint(Color.parseColor("#90EE90")).show()
 
 
                             }else {
@@ -233,7 +242,7 @@ class UpdateMyEventActivity : AppCompatActivity() {
                                     it,
                                     "Please fill in all fields",
                                     Snackbar.LENGTH_LONG
-                                ).setBackgroundTint(Color.parseColor("#90EE90")).show()
+                                ).setBackgroundTint(Color.parseColor("#B0FF0000")).show()
                             }
                     }
                 }
