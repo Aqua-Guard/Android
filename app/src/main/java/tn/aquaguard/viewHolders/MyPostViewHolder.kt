@@ -73,6 +73,19 @@ class MyPostViewHolder(
             ).show()
         }
         //----------------------------------------------------------------
+        //---------------On Click Share Post ------------------------------
+        itemMyPostBinding.share.setOnClickListener {
+            val intent = Intent()
+            intent.action = Intent.ACTION_SEND
+            intent.putExtra(Intent.EXTRA_TEXT, itemMyPostBinding.description.text)
+            intent.type = "text/plain"
+            if (intent.resolveActivity(context.packageManager) != null) {
+                context.startActivity(intent)
+            }
+        }
+//----------------------------------------------------------------
+
+
         //---------------On Click Edit Post ------------------------------
         itemMyPostBinding.postEdit.setOnClickListener {
             val inflater = LayoutInflater.from(context)
@@ -84,7 +97,7 @@ class MyPostViewHolder(
             descriptionEditText.text = Editable.Factory.getInstance().newEditable(post.description)
 
             val cancelButton = dialogView.findViewById<Button>(R.id.cancelButton)
-            val addEventImage = dialogView.findViewById<Button>(R.id.addEventImage)
+
             val okButton = dialogView.findViewById<Button>(R.id.submit)
 
             val dialogBuilder = AlertDialog.Builder(context)

@@ -10,6 +10,7 @@ class RetrofitClient private constructor(context: Context) {
     companion object {
         private const val BASE_URL = "http://10.0.2.2:9090"
 
+
         private lateinit var context: Context
 
         private val okHttpClient: OkHttpClient by lazy {
