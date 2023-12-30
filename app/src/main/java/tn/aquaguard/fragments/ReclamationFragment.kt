@@ -14,6 +14,7 @@ import tn.aquaguard.adapters.ActualitesAdapter
 import tn.aquaguard.adapters.ReclamationAdapter
 import tn.aquaguard.databinding.FragmentHomeBinding
 import tn.aquaguard.databinding.FragmentReclamationBinding
+import tn.aquaguard.fragments.EventFragment
 import tn.aquaguard.models.Reclamation
 import tn.aquaguard.viewmodel.ActualiteViewModel
 import tn.aquaguard.viewmodel.ReclamationViewModel
@@ -30,7 +31,14 @@ class ReclamationFragment : Fragment() {
         binding.recyclerViewMessages.adapter= ReclamationAdapter(emptyList())
         // Initialize your messageList with sample data
 
-
+        binding.swipe.setOnRefreshListener {
+            if (isAdded) { // Check if the fragment is currently added to its activity
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, ReclamationFragment())
+                    .commitAllowingStateLoss()
+            }
+            binding.swipe.post { binding.swipe.isRefreshing = false }
+        }
 
         viewModel.getReclamationsByUserId().observe(viewLifecycleOwner) {ReclamationList ->
             println("reclamation API :"+ReclamationList.toString())

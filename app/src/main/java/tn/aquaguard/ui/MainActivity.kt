@@ -654,7 +654,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
                             reclamationViewModel.addReclamation(title, description, imageBody)
-
+                            replaceFragment(ReclamationFragment())
                             // Additional handling if needed
                             dialog.dismiss()
                         } ?: run {

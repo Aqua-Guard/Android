@@ -49,6 +49,7 @@ class EventFragment : Fragment() {
         }
 
 
+
         viewModel.addEventResult.observe(viewLifecycleOwner, Observer { result ->
             if (result.isSuccessful) { // Check if the fragment is currently added to its activity
                 parentFragmentManager.beginTransaction()
