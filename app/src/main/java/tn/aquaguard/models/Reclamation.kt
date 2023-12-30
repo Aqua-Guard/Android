@@ -7,6 +7,7 @@ data class Reclamation(
     val userId: String,
     val title: String,
     val image:String,
+    val answered:Boolean,
     val date: String,
     val description:String
 )

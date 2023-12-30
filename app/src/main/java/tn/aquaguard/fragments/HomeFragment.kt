@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import tn.aquaguard.R
 import tn.aquaguard.adapters.ActualitesAdapter
 import tn.aquaguard.databinding.FragmentHomeBinding
 import tn.aquaguard.models.Actualites
@@ -41,7 +42,14 @@ binding.searchButton.setOnClickListener {
         viewModel.actualites.observe(viewLifecycleOwner) {ActualiteList ->
             println("actualite API :"+ActualiteList.toString())
             binding.rvactualite.adapter = ActualitesAdapter(ActualiteList,viewModel)
-
+            binding.swipe.setOnRefreshListener {
+                if (isAdded) { // Check if the fragment is currently added to its activity
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, HomeFragment())
+                        .commitAllowingStateLoss()
+                }
+                binding.swipe.post { binding.swipe.isRefreshing = false }
+            }
         }
         return binding.root
     }

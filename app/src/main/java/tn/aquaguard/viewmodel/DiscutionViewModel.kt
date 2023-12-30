@@ -13,27 +13,46 @@ import tn.aquaguard.models.Discution
 import tn.aquaguard.models.Reclamation
 import tn.aquaguard.models.SearchRequest
 import tn.aquaguard.repository.DiscutionRepository
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class DiscutionViewModel : ViewModel() {
     private val repository = DiscutionRepository()
     private val _ismessageDeleted = MutableLiveData<Boolean>()
     val deletemessageResult: LiveData<Boolean> = _ismessageDeleted
 
+
+    private val _discutionList = MutableLiveData<List<Discution>>()
+    val discutionList: LiveData<List<Discution>> get() = _discutionList
+
+
     fun getallmessagesofthisreclamation(reclamationid: String): LiveData<List<Discution>> {
         return liveData {
-            val reclamationsData = repository.getallmessagesofthisreclamation(reclamationid)
-
-            emit(reclamationsData ?: emptyList())
+            val messages = repository.getallmessagesofthisreclamation(reclamationid)
+            _discutionList.value = messages!!
+            emit(messages ?: emptyList())
         }
     }
 
     fun sendmessage(reclamationid: String, message: String) {
         viewModelScope.launch {
-            val response = withContext(Dispatchers.IO) {
-                repository.sendmessage(reclamationid, message)
+            try {
+                val sentMessage = repository.sendmessage(reclamationid, message)
+                // Update the LiveData with the new message
+                val dateString = "2023-01-01 12:30:00"
+
+                // Define a date format
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+
+
+                val specificDate = dateFormat.parse(dateString)
+                val discution =Discution(reclamationId = reclamationid, message = message, userRole = "user", Id = "sds", visibility =true, createdAt =specificDate )
+                _discutionList.value = _discutionList.value.orEmpty() + discution!!
+            } catch (e: Exception) {
+                // Handle error if needed
             }
         }
-
     }
 
     suspend fun deleteonlyforuser(id: String) {

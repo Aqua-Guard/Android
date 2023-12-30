@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Adapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.NonDisposableHandle.parent
@@ -21,14 +22,16 @@ import tn.aquaguard.viewmodel.EventViewModel
 
 class DiscutionViewHolder (private val context: Context, val messageReclamation : DiscutionMessageItemBinding, private val viewModel: DiscutionViewModel,private val adapter :DiscutionAdapter): RecyclerView.ViewHolder(messageReclamation.root) {
     fun setData(discution: Discution) {
+        val userRole = discution.userRole ?: "user"
+
 
     messageReclamation.id.visibility = View.GONE
-    if (discution.userRole.equals("user")) {
+    if (userRole.equals("user")) {
         // Set background color to blue for administrator
         messageReclamation.topHalf.setBackgroundResource(R.drawable.graduated_color_2)
     } else {
         // Set background color to gray for other roles
-        messageReclamation.topHalf.setBackgroundResource(R.drawable.graduated_color_1)
+        messageReclamation.topHalf.setBackgroundResource(R.color.white)
     }
     messageReclamation.id.text = discution.Id
     messageReclamation.descriptiontext.text = discution.message
@@ -145,9 +148,7 @@ class DiscutionViewHolder (private val context: Context, val messageReclamation 
 
         }
         else {
-            val builder = AlertDialog.Builder(context)
-
-
+             val builder = AlertDialog.Builder(context)
                 builder.setMessage("Do you want to delete this message?")
 
 
@@ -170,6 +171,8 @@ class DiscutionViewHolder (private val context: Context, val messageReclamation 
                     // Add a button to confirm
                     confirmBuilder.setPositiveButton("Confirm") { dialog3, _ ->
                         dialog3.dismiss()
+
+
                         viewModel.viewModelScope.launch {
                             viewModel.deleteforall(idmessage)
                             Toast.makeText(
