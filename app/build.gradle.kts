@@ -83,5 +83,6 @@ dependencies {
 
 
     implementation ("com.edmodo:cropper:1.0.1")
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
 
 }

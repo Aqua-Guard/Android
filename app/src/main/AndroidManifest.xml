@@ -54,6 +54,7 @@
         <activity android:name=".ui.ResetPasswordActivity" />
         <activity android:name=".ui.ChangePasswordActivity" />
         <activity android:name=".ui.ProfileActivity" />
+        <activity android:name=".ui.CompleteGoogleSignin" />
         <activity android:name=".ui.EditProfile" />
         <activity android:name=".splashscreens.SplashScreen2" />
         <activity android:name=".splashscreens.SplashScreen3" />

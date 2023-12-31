@@ -2,6 +2,7 @@ package tn.aquaguard.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -15,26 +16,23 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import tn.aquaguard.R
 import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.UserViewModel
-import okhttp3.MediaType
-//import okhttp3.MediaType.Companion.toMediaTypeOrNull
-//import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileOutputStream
 
-
-class EditProfile : AppCompatActivity() {
+class CompleteGoogleSignin : AppCompatActivity() {
     val IMAGE_REQUEST_CODE = 100
 
-
-    private lateinit var image: ImageView
     private var imageUri: Uri? = null
+    private var passwordVisible: Boolean = false
 
     private val viewModel by viewModels<UserViewModel>()
     private var selectedImageUri: Uri? = null
@@ -42,37 +40,46 @@ class EditProfile : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.edit_profile)
+        setContentView(R.layout.complete_google_signin)
 
         imageViewProfile = findViewById(R.id.imageViewProfile)
 
         val imgPickImage = findViewById<ImageView>(R.id.imgPickImage)
         val btnSubmit = findViewById<Button>(R.id.btnSubmit)
 
-        val btnBack = findViewById<ImageButton>(R.id.btnBack)
-        btnBack.setOnClickListener {
-            onBackPressed()
-        }
         Picasso.with(this)
             .load("http://10.0.2.2:9090/images/user/" + SessionManager(applicationContext).getImage())
             .fit().centerInside().into(imageViewProfile)
-        findViewById<EditText>(R.id.email).setText(SessionManager(applicationContext).getEmail())
-        findViewById<EditText>(R.id.username).setText(SessionManager(applicationContext).getUsername())
-        findViewById<EditText>(R.id.firstName).setText(SessionManager(applicationContext).getFirstName())
-        findViewById<EditText>(R.id.lastName).setText(SessionManager(applicationContext).getLastName())
-
 
         imgPickImage.setOnClickListener {
             pickImage()
         }
+        val textInputLayout = findViewById<TextInputLayout>(R.id.eye);
 
+        textInputLayout.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
+        val toggleDrawable = resources.getDrawable(R.drawable.ic_eye, theme)
+        textInputLayout.setEndIconDrawable(toggleDrawable)
+
+        textInputLayout.setEndIconOnClickListener {
+            passwordVisible = !passwordVisible
+            if (passwordVisible) {
+                toggleDrawable.setColorFilter(
+                    resources.getColor(R.color.babyBlue), PorterDuff.Mode.SRC_ATOP
+                )
+            } else {
+                toggleDrawable.setColorFilter(
+                    resources.getColor(R.color.black), PorterDuff.Mode.SRC_ATOP
+                )
+            }
+            textInputLayout.setEndIconDrawable(toggleDrawable)
+            textInputLayout.editText?.transformationMethod =
+                if (passwordVisible) null else android.text.method.PasswordTransformationMethod.getInstance()
+        }
 
         btnSubmit.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
 
-            val firstName = findViewById<EditText>(R.id.firstName).text.toString()
-            val lastName = findViewById<EditText>(R.id.lastName).text.toString()
-            val email = findViewById<EditText>(R.id.email).text.toString()
-            val username = findViewById<EditText>(R.id.username).text.toString()
+            val password = findViewById<EditText>(R.id.password).text.toString()
 
 
             selectedImageUri?.let { uri ->
@@ -88,10 +95,7 @@ class EditProfile : AppCompatActivity() {
                     val imageBody = MultipartBody.Part.createFormData("image", tempFile.name, requestFile)
 
 
-                    val lastNameBody = RequestBody.create(MediaType.parse("text/plain"), lastName)
-                    val firstNameBody = RequestBody.create(MediaType.parse("text/plain"), firstName)
-                    val emailBody = RequestBody.create(MediaType.parse("text/plain"), email)
-                    val usernameBody = RequestBody.create(MediaType.parse("text/plain"), username)
+                    val passwordBody = RequestBody.create(MediaType.parse("text/plain"), password)
                     Log.e("imageBody", imageBody.toString())
 
                     Log.d("EditProfile", "Image Content Type: ${imageBody.body()?.contentType()}")
@@ -101,20 +105,15 @@ class EditProfile : AppCompatActivity() {
                     )
 
                     viewModel.viewModelScope.launch {
-                        if (firstName.isNotEmpty() && lastName.isNotEmpty() &&
-                            email.isNotEmpty() && username.isNotEmpty()
+                        if (password.isNotEmpty()
                         ) {
-                            viewModel.editProfile(
+                            viewModel.completeGoogleSignin(
                                 SessionManager(applicationContext).getId(),
-                                emailBody,
-                                firstNameBody,
-                                lastNameBody,
-                                usernameBody,
+                                passwordBody,
                                 imageBody,
                                 SessionManager(applicationContext)
                             )
-                            if (viewModel.responseEdit?.isSuccessful == true) {
-                                val intent = Intent(this@EditProfile, ProfileActivity::class.java)
+                            if (viewModel.responseGoogle?.isSuccessful == true) {
                                 startActivity(intent)
                             }
                         } else {
@@ -128,8 +127,14 @@ class EditProfile : AppCompatActivity() {
                 }
             }
         }
-    }
 
+        val setupLater = findViewById<Button>(R.id.setupLater)
+
+        setupLater.setOnClickListener {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -137,6 +142,9 @@ class EditProfile : AppCompatActivity() {
             selectedImageUri = data?.data
             imageViewProfile.setImageURI(selectedImageUri)
             imageUri = selectedImageUri
+            Log.e("onActivityResult", "$selectedImageUri")
+
+
         }
     }
 
@@ -145,6 +153,4 @@ class EditProfile : AppCompatActivity() {
         intent.type = "image/*"
         startActivityForResult(intent, IMAGE_REQUEST_CODE)
     }
-
-
 }

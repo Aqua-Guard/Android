@@ -11,7 +11,7 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profileImage"
+        android:id="@+id/userImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@drawable/user"
@@ -20,15 +20,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Malek Labidi"
+        android:id="@+id/username"
         android:textColor="@color/white"
         android:textStyle="bold"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Labidi.Malek@esprit.tn
-"
+        android:id="@+id/userEmail"
         android:textColor="@color/white"
         android:textSize="14sp"
         android:layout_marginBottom="16dp"/>

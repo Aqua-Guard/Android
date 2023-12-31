@@ -13,5 +13,6 @@
    <color name="softred">#FFEBEB</color>
     <color name="expandedCardBackground">#FF000000</color>
     <color name="collapsedCardBackground">#FF000000</color>
+    <color name="grey">#74787A</color>
 
 </resources>

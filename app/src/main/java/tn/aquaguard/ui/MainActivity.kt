@@ -1,10 +1,7 @@
 package tn.aquaguard.ui
 
 
-import ReclamationFragment
-import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.Application
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
@@ -13,12 +10,14 @@ import android.os.Bundle
 import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.webkit.MimeTypeMap
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -31,11 +30,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -47,13 +52,11 @@ import tn.aquaguard.fragments.HomeFragment
 import tn.aquaguard.fragments.MyCalenderFragment
 import tn.aquaguard.fragments.MyEventFragment
 import tn.aquaguard.fragments.MyPostFrament
-
 import tn.aquaguard.fragments.StoreFragment
-import tn.aquaguard.network.RetrofitClient
+import tn.aquaguard.models.AddEventRequest
 import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.EventViewModel
 import tn.aquaguard.viewmodel.PostViewModel
-import tn.aquaguard.viewmodel.ReclamationViewModel
 import java.io.File
 import java.io.FileOutputStream
 import java.text.ParseException
@@ -69,14 +72,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var fab: FloatingActionButton
     private lateinit var bottomAppBar: BottomAppBar
     private lateinit var binding: ActivityMainBinding
-    private val reclamationViewModel: ReclamationViewModel by viewModels()
+    private lateinit var gso: GoogleSignInOptions
+    private lateinit var gsc: GoogleSignInClient
+
     private val eventViewModel: EventViewModel by viewModels()
+
     private lateinit var selectedImage: ImageView
     private lateinit var selectedImageEvent: ImageView
     private var selectedImageUri: Uri? = null
     private var selectedImageEventUri: Uri? = null
-    val bundle = Bundle()
-
     companion object {
         val IMAGE_REQUEST_CODE = 100;
         val IMAGE_EVENT_REQUEST_CODE_ = 150;
@@ -85,14 +89,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        RetrofitClient.initialize(this)
 
         println("-------------------------------------+"+SessionManager(applicationContext).getRole())
         println("-------------------------------------+"+SessionManager(applicationContext).getId())
-        println("-------------------------------------+"+SessionManager(applicationContext).getToken())
 
-        bundle.putString("userid", SessionManager(applicationContext).getId())
-
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
+        gsc = GoogleSignIn.getClient(this, gso)
         // Initialize ViewModel
         postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
 
@@ -129,6 +131,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (SessionManager(applicationContext).getRole() == "partenaire") {
             myEventsItem.isVisible = true
         }
+
+        var userImage = findViewById<ImageView>(R.id.userImage)
+        var username = findViewById<TextView>(R.id.username)
+        var userEmail = findViewById<TextView>(R.id.userEmail)
+
+//        Picasso.with(this)
+//            .load("http://10.0.2.2:9090/images/user/" + SessionManager(applicationContext).getImage())
+//            .fit().centerInside().into(userImage)
+//        username.text = SessionManager(applicationContext).getUsername()
+//        userEmail.text = SessionManager(applicationContext).getEmail()
+
+
+
 
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
@@ -171,17 +186,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
 
-    @SuppressLint("SuspiciousIndentation")
     private fun showBottomDialog() {
 
         val isEvent = binding.include3.nameofcurentFragment.text == "Event"|| binding.include3.nameofcurentFragment.text == "My Events"
         val isPartenaire = SessionManager(applicationContext).getRole() == "partenaire"
-        val isreclamation = binding.include3.nameofcurentFragment.text == "Reclamations"
 
 
-
-
-        val isPost = binding.include3.nameofcurentFragment.text == "Forum" || binding.include3.nameofcurentFragment.text == "My Posts"
+        val isPost =
+            binding.include3.nameofcurentFragment.text == "Forum" || binding.include3.nameofcurentFragment.text == "My Posts"
         if (isEvent && isPartenaire) {
 
             val inflater = LayoutInflater.from(this)
@@ -210,7 +222,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
 
-             fun showStartDatePickerDialog(view: View) {
+            fun showStartDatePickerDialog(view: View) {
                 val editTextStartDate = dialogViewEvent.findViewById<EditText>(R.id.editTextStartDate)
 
                 val calendar = Calendar.getInstance()
@@ -233,7 +245,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 datePickerDialog.show()
             }
 
-             fun showEndDatePickerDialog(view: View) {
+            fun showEndDatePickerDialog(view: View) {
                 val editTextEndDate = dialogViewEvent.findViewById<EditText>(R.id.editTextEndDate)
 
                 val calendar = Calendar.getInstance()
@@ -337,8 +349,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     if (descriptionText.isEmpty()) {
                         eventdescription.error = "Please enter a description"
                         isValid = false
-                    }else if (descriptionText.length < 10 || descriptionText.length > 500) {
-                        eventdescription.error = "Description must be between 10 and 500 characters"
+                    }else if (descriptionText.length < 10 || descriptionText.length > 100) {
+                        eventdescription.error = "Description must be between 3 and 30 characters"
                         isValid = false
                     }
                     else {
@@ -349,14 +361,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         eventlocation.error = "Please enter a location"
                         isValid = false
                     }
-                    else if (eventlocationText.length < 3 || eventlocationText.length > 50) {
-                        eventlocation.error = "Location must be between 3 and 50 characters"
+                    else if (eventlocationText.length < 3 || eventlocationText.length > 30) {
+                        eventlocation.error = "Location must be between 3 and 30 characters"
                         isValid = false
                     }else {
                         eventlocation.error = null
                     }
 
-                     fun formatDateForRequest(inputDate: String): String {
+                    fun formatDateForRequest(inputDate: String): String {
                         try {
                             val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                             val outputFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.US)
@@ -379,31 +391,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         currentDate.get(Calendar.DAY_OF_MONTH)
                     )
 
-                        if (startDateText >= endDateText) {
-                            editTextEndDate.error = "End date must be greater than start date"
-                            isValid = false
-                        } else {
-                            editTextEndDate.error = null
-                        }
+                    if (startDateText >= endDateText) {
+                        editTextEndDate.error = "End date must be greater than start date"
+                        isValid = false
+                    } else {
+                        editTextEndDate.error = null
+                    }
 
-                        if (startDateText < currentDateString) {
-                            editTextStartDate.error =
-                                "Start date must be equal to or greater than the current date"
-                            isValid = false
-                        } else {
-                            editTextStartDate.error = null
-                        }
+                    if (startDateText < currentDateString) {
+                        editTextStartDate.error =
+                            "Start date must be equal to or greater than the current date"
+                        isValid = false
+                    } else {
+                        editTextStartDate.error = null
+                    }
 
-                        if (endDateText <= startDateText) {
-                            editTextEndDate.error = "End date must be greater than start date"
-                            isValid = false
-                        } else {
-                            editTextEndDate.error = null
-                        }
+                    if (endDateText <= startDateText) {
+                        editTextEndDate.error = "End date must be greater than start date"
+                        isValid = false
+                    } else {
+                        editTextEndDate.error = null
+                    }
 
 
-                   // val startDatereq = formatDateForRequest(startDateText)
-                  //  val endDatereq = formatDateForRequest(endDateText)
+                    // val startDatereq = formatDateForRequest(startDateText)
+                    //  val endDatereq = formatDateForRequest(endDateText)
 
                     val description = RequestBody.create(MediaType.parse("text/plain"), descriptionText)
                     val name = RequestBody.create(MediaType.parse("text/plain"), nameText)
@@ -445,7 +457,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                         it,
                                         "Error fileds.",
                                         Snackbar.LENGTH_LONG
-                                    ).setBackgroundTint(Color.parseColor("#B0FF0000")).show()
+                                    ).setBackgroundTint(Color.parseColor("#90EE90")).show()
                                 }
 
 
@@ -543,21 +555,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                             postViewModel.addPost(description, imageBody)
                             postViewModel.addPostStatus.observe(this, { resource ->
-                              if (resource.isSuccessful) {
-                                  Snackbar.make(
-                                      it,
-                                      "Post Created successfully.",
-                                      Snackbar.LENGTH_LONG
-                                  ).setBackgroundTint(Color.parseColor("#90EE90")).show()
-                                dialog.dismiss()
-                              }
+                                if (resource.isSuccessful) {
+                                    Snackbar.make(
+                                        it,
+                                        "Post Created successfully.",
+                                        Snackbar.LENGTH_LONG
+                                    ).setBackgroundTint(Color.parseColor("#90EE90")).show()
+                                    dialog.dismiss()
+                                }
                                 else {
-                                  Snackbar.make(
-                                      it,
-                                      "The description contains inappropriate language..",
-                                      Snackbar.LENGTH_LONG
-                                  ).setBackgroundTint(Color.parseColor("#FF0000")).show()
-                              }
+                                    Snackbar.make(
+                                        it,
+                                        "The description contains inappropriate language..",
+                                        Snackbar.LENGTH_LONG
+                                    ).setBackgroundTint(Color.parseColor("#FF0000")).show()
+                                }
 
                             })
 
@@ -573,102 +585,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
             dialog.show()
-        }
-        if (isreclamation) {
-
-            val inflater = LayoutInflater.from(this)
-            val dialogView = inflater.inflate(R.layout.costom_add_reclamation_dialog, null)
-            val closeButton = dialogView.findViewById<Button>(R.id.cancelButton)
-            val submitButton = dialogView.findViewById<Button>(R.id.submit)
-            val descriptionEditText = dialogView.findViewById<TextInputEditText>(R.id.reclamationtext)
-            val aboutEditText = dialogView.findViewById<TextInputEditText>(R.id.reclamationdescription)
-            val addReclamationImage = dialogView.findViewById<Button>(R.id.addReclamationImage)
-            selectedImage = dialogView.findViewById<ImageView>(R.id.imageSelected)
-            selectedImage.setImageDrawable(null)
-            val dialogBuilder = AlertDialog.Builder(this)
-                .setView(dialogView)
-                .setCancelable(false)
-
-            val dialog = dialogBuilder.create()
-
-            fun pickImageFromGallery() {
-                val intent = Intent(Intent.ACTION_PICK)
-                intent.type = "image/*"
-                startActivityForResult(intent, IMAGE_REQUEST_CODE)
-            }
-
-            if (closeButton != null) {
-                closeButton.setOnClickListener {
-                    dialog.dismiss()
-                }
-            }
-
-            if (addReclamationImage != null) {
-                addReclamationImage.setOnClickListener {
-                    pickImageFromGallery()
-                }
-            }
-
-            if (submitButton != null) {
-                submitButton.setOnClickListener {
-                    val descriptionText = descriptionEditText.text.toString()
-                    val aboutText = aboutEditText.text.toString()
-
-                    if (descriptionText.isBlank() || selectedImageUri == null) {
-                        Snackbar.make(
-                            it,
-                            "Please provide both a description and an image.",
-                            Snackbar.LENGTH_LONG
-                        ).setBackgroundTint(Color.parseColor("#FF0000")).show()
-                        return@setOnClickListener
-                    }
-
-                    val description = if (descriptionText != null) {
-                        RequestBody.create(MediaType.parse("text/plain"), descriptionText)
-                    } else {
-                        // Handle the case when descriptionText is null
-                        // For example, provide a default value or show an error
-                        // For now, I'll assume an empty string as the default value
-                        RequestBody.create(MediaType.parse("text/plain"), "desc")
-                    }
-
-                    val title = if (aboutText != null) {
-                        RequestBody.create(MediaType.parse("text/plain"), aboutText)
-                    } else {
-                        // Handle the case when aboutText is null
-                        // For example, provide a default value or show an error
-                        // For now, I'll assume an empty string as the default value
-                        RequestBody.create(MediaType.parse("text/plain"), "title")
-                    }
-
-                    selectedImageUri?.let { uri ->
-                        contentResolver.openInputStream(uri)?.use { inputStream ->
-                            val mimeType = contentResolver.getType(uri) ?: "image/jpeg"
-                            val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "jpg"
-                            val tempFile = File.createTempFile("prefix_", "_image.$extension", cacheDir)
-
-                            FileOutputStream(tempFile).use { outputStream ->
-                                inputStream.copyTo(outputStream)
-                            }
-
-                            val requestFile = RequestBody.create(MediaType.parse(mimeType), tempFile)
-                            val imageBody = MultipartBody.Part.createFormData("image", "image_$extension", requestFile)
-
-
-                            reclamationViewModel.addReclamation(title, description, imageBody)
-                            replaceFragment(ReclamationFragment())
-                            // Additional handling if needed
-                            dialog.dismiss()
-                        } ?: run {
-                            Log.e("MainActivity", "Failed to open InputStream from URI")
-                        }
-                    }
-                }
-            }
-
-            dialog.show()
-
-
         }
     }
 
@@ -730,46 +646,52 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_notification -> Toast.makeText(this, "notification!", Toast.LENGTH_SHORT)
                 .show()
 
-            R.id.nav_reclamation -> {
-                replaceFragment(ReclamationFragment())
-                binding.include3.nameofcurentFragment.text = "Reclamations"
-            }
+            R.id.nav_reclamation -> Toast.makeText(this, "reclmation!", Toast.LENGTH_SHORT).show()
 
             R.id.nav_command -> Toast.makeText(this, "command!", Toast.LENGTH_SHORT).show()
+
 
             R.id.nav_logout ->
             {
                 try {
-                    val intent = Intent(this, LoginActivity::class.java)
-                    SessionManager(applicationContext).clear()
-                    startActivity(intent)
+                    gsc.signOut().addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            SessionManager(applicationContext).clear()
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            // Handle sign-out failure here
+                            Toast.makeText(this, "Sign-out failed", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 } catch (e: Exception) {
                     Log.e("LoginActivity", "Error starting LoginActivity", e)
                 }
+
             }
 
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
-       override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-           when (requestCode) {
-               IMAGE_REQUEST_CODE -> {
-                   if (resultCode == RESULT_OK) {
-                       selectedImageUri = data?.data // Store the selected image URI
-                       selectedImage.setImageURI(selectedImageUri)
-                   }
-               }
-               IMAGE_EVENT_REQUEST_CODE_ -> {
-                   if (resultCode == RESULT_OK) {
-                       selectedImageEventUri = data?.data // Store the selected image URI
-                       selectedImageEvent.setImageURI(selectedImageEventUri)
-                   }
-               }
-               // Add more cases for additional image request codes if needed
-           }
+        when (requestCode) {
+            IMAGE_REQUEST_CODE -> {
+                if (resultCode == RESULT_OK) {
+                    selectedImageUri = data?.data // Store the selected image URI
+                    selectedImage.setImageURI(selectedImageUri)
+                }
+            }
+            IMAGE_EVENT_REQUEST_CODE_ -> {
+                if (resultCode == RESULT_OK) {
+                    selectedImageEventUri = data?.data // Store the selected image URI
+                    selectedImageEvent.setImageURI(selectedImageEventUri)
+                }
+            }
+            // Add more cases for additional image request codes if needed
+        }
     }
 
 }
