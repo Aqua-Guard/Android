@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,10 @@ class ResetPasswordActivity : AppCompatActivity() {
         binding = ResetPasswordBinding.inflate(layoutInflater)
         val btnResetPassword = findViewById<Button>(R.id.btnResetPassword)
 
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            onBackPressed()
+        }
         btnResetPassword.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
 

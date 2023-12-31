@@ -25,6 +25,12 @@ data class LoginResponse (
     @SerializedName("role")
     var role: String,
 
+    @SerializedName("firstName")
+    var firstName: String,
+
+    @SerializedName("lastName")
+    var lastName: String,
+
     @SerializedName("isActivated")
     var isActivated: Boolean,
 )
