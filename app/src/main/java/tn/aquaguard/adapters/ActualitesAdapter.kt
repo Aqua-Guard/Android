@@ -22,7 +22,4 @@ class ActualitesAdapter(val ActualiteList: List<Actualites?>,private val viewMod
     override fun onBindViewHolder(holder: ActualiteViewHolder, position: Int) {
         ActualiteList[position]?.let { holder.setData(it) }
     }
-
-
-
 }
