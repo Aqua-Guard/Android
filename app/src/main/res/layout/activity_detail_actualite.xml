@@ -34,7 +34,16 @@
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/sidi_bou_said" />
+<TextView
+    android:id="@+id/viewsnumber"
+    android:layout_gravity="right"
+    android:layout_marginEnd="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textStyle="bold|italic"
+    android:textSize="15dp"
 
+    android:text="Views"/>
             <TextView
                 android:id="@+id/ActualiteDetailTitle"
                 android:layout_width="wrap_content"
@@ -57,7 +66,16 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:text="Une initiativemdfkmlkmdlkmlkd ldkmlwe kmfkldwdomwwmdkwdwk k dkmedmdwkdmowe efmepmwewoemiwe eipokdpwe wpopd wpmfwow womw w8u9wdf wfoijwdf98wf wiwjoijd dod dcdc dcdnkjsd dcowioicowcnoiodcow coioiwjoiw dcosd c o oio osd o onon 8su s dn n jn wd communautaire pour nettoyer les plages et protéger l'environnement." />
+            <TextView
+                android:id="@+id/likesnumber"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold|italic"
+                android:textSize="15dp"
 
+                android:text="likes"/>
          <LinearLayout
              android:layout_width="match_parent"
              android:layout_height="wrap_content"

@@ -43,9 +43,15 @@ var like =0
         var buttonsubmit : Button =findViewById(R.id.btnSubmitact)
         var back1 :LinearLayout=findViewById(R.id.likebackround)
         var back2 :LinearLayout=findViewById(R.id.dislikelikebackround)
+        var viewsnumber :TextView=findViewById(R.id.viewsnumber)
+        var likesnumber :TextView=findViewById(R.id.likesnumber)
+        likesnumber.visibility=View.GONE
 var comoentaire =""
         //// invisible parts
-
+        val actualiteViews = intent.getIntExtra("ACTUAITEVIEWS", 0)
+        val actualitelikes = intent.getIntExtra("ACTUAITELIKE", 0)
+        val actualitedislikes = intent.getIntExtra("ACTUAITEDISLIKE", 0)
+        viewsnumber.setText("${actualiteViews} Views")
         var idatualite = intent.getStringExtra("ACTUALITEID")
         viewModel.getlikeandcom(idatualite!!)
         buttonsubmit.visibility=View.GONE
@@ -78,6 +84,8 @@ var comoentaire =""
                 textii.setText(comoentaire)
                 textiii.visibility = View.GONE
                 buttonsubmit.visibility = View.GONE
+                textiii.visibility = View.GONE
+                likesnumber.visibility=View.GONE
                 back2.setBackgroundResource(R.drawable.customdislikebackround)
                 back1.setBackgroundResource(R.drawable.customlikebackround)
                 viewModel.viewModelScope.launch {
@@ -118,6 +126,9 @@ var comoentaire =""
                 comoentaire=""
                 textii.setText(comoentaire)
                 textiii.setText(comoentaire)
+                textiii.visibility = View.GONE
+                likesnumber.visibility=View.GONE
+
                 viewModel.viewModelScope.launch {
                     val result = viewModel.addlike(idatualite!!, 1)
                     if (result is ActualiteViewModel.AddLikeResult.Success) {
@@ -187,7 +198,7 @@ buttonsubmit.setOnClickListener {
 
     Toast.makeText(
         applicationContext,
-        "toastText",
+        "your review has been sent ",
         Toast.LENGTH_SHORT
     ).show()
 }
@@ -227,6 +238,7 @@ buttonsubmit.setOnClickListener {
                     buttonsubmit.visibility = View.VISIBLE
                     back2.setBackgroundResource(R.drawable.customdislikebackround)
                     back1.setBackgroundResource(R.drawable.customlikebackround)
+
                     like=1
                 }
             }
