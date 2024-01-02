@@ -13,6 +13,7 @@ import retrofit2.Response
 import tn.aquaguard.models.Actualites
 import tn.aquaguard.models.Avis
 import tn.aquaguard.models.SearchRequest
+import tn.aquaguard.models.Viewss
 import tn.aquaguard.repository.ActualiteRepository
 
 class ActualiteViewModel: ViewModel() {
@@ -31,9 +32,14 @@ lateinit var Actualitesy : List<Actualites>
     private val _isactualiteviewd = MutableLiveData<Boolean>()
     val isactualiteviewd: LiveData<Boolean> = _isactualiteviewd
 
+    private val _isactualiteliked = MutableLiveData<Boolean>()
+    val isactualiteliked: LiveData<Boolean> = _isactualiteliked
 
     private val _addOrUpdateAvisResult = MutableLiveData<String?>()
     val addOrUpdateAvisResult: LiveData<String?> = _addOrUpdateAvisResult
+
+    private val _getviewResult = MutableLiveData<Viewss?>()
+    val getviewResult: LiveData<Viewss?> = _getviewResult
 
     private val _addAvisResult = MutableLiveData<String?>()
     val addAvisResult: LiveData<String?> = _addAvisResult
@@ -41,6 +47,10 @@ lateinit var Actualitesy : List<Actualites>
     private val _addAvisStatues = MutableLiveData<Response<String>>()
     val addAvisStatues: LiveData<Response<String>> = _addAvisStatues
 
+    sealed class AddLikeResult {
+        object Success : AddLikeResult()
+        data class Error(val message: String) : AddLikeResult()
+    }
 
     val actualites = liveData {
         val ActualiteData = repository.getAll()
@@ -58,6 +68,17 @@ lateinit var Actualitesy : List<Actualites>
                 errorMessage = "Error getting avis by ids: ${e.message}"
             }
         }
+    }
+    fun getlikeandcom(actualiteId: String){
+        viewModelScope.launch {
+            try {
+                val result = repository.getlikeandcom(actualiteId)
+                _getviewResult.postValue(result)
+            } catch (e: Exception) {
+                errorMessage = "Error getting avis by ids: ${e.message}"
+            }
+        }
+
     }
     fun addOrUpdateAvis(avis: Avis) {
         viewModelScope.launch {
@@ -91,6 +112,22 @@ lateinit var Actualitesy : List<Actualites>
              }
          }
      }
-
+    suspend fun addlike(actualiteId: String, like: Int): AddLikeResult {
+        return try {
+            repository.addlike(actualiteId, like)
+            AddLikeResult.Success
+        } catch (e: Exception) {
+            AddLikeResult.Error(e.message ?: "Unknown error")
+        }
     }
+    suspend fun addcomment(actualiteId: String, comment: String): AddLikeResult {
+        return try {
+            repository.addcomment(actualiteId, comment)
+            AddLikeResult.Success
+        } catch (e: Exception) {
+            AddLikeResult.Error(e.message ?: "Unknown error")
+        }
+    }
+}
+
 
