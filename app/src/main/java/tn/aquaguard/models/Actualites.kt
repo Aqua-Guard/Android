@@ -9,6 +9,8 @@ data class Actualites (
     val description:String,
     val image:String,
     val text:String,
-    val views:Long
+    val views:Int,
+    val like:Int,
+    val dislike:Int,
 
 )

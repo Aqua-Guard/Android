@@ -31,6 +31,9 @@ class ActualiteViewHolder (private val context: Context, val ActualiteItem :Actu
             intent.putExtra("ACTUALITETEXT", actualite.text)
             intent.putExtra("ACTUAITEDESCRIPTION", actualite.description)
             intent.putExtra("ACTUAITEIMAGE", actualite.image)
+            intent.putExtra("ACTUAITEVIEWS", actualite.views)
+            intent.putExtra("ACTUAITELIKE", actualite.like)
+            intent.putExtra("ACTUAITEDISLIKE", actualite.dislike)
 
 
             context.startActivity(intent)
