@@ -1,5 +1,6 @@
 package tn.aquaguard.viewHolders
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -73,13 +74,25 @@ class MyEventViewHolder (private val context: Context, val itemEventBinding: Sin
                         true
                     }
                     R.id.menu_item_delete -> {
-                        viewModel.viewModelScope.launch {
-                            viewModel.deleteEvent(event.idEvent)
-                            Toast.makeText(context, "Event deleted successfully!", Toast.LENGTH_SHORT).show()
+                        val builder = AlertDialog.Builder(context)
+                        builder.setTitle("Confirm Delete")
+                        builder.setMessage("Are you sure you want to delete this event?")
 
+                        builder.setPositiveButton("Yes") { _, _ ->
+                            viewModel.viewModelScope.launch {
+                                viewModel.deleteEvent(event.idEvent)
+                                Toast.makeText(context, "Event deleted successfully!", Toast.LENGTH_SHORT).show()
+                            }
                         }
+
+                        builder.setNegativeButton("No") { _, _ -> }
+
+                        val alertDialog: AlertDialog = builder.create()
+                        alertDialog.show()
+
                         true
                     }
+
                     else -> false
                 }
             }

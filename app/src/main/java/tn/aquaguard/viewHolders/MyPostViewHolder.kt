@@ -65,12 +65,27 @@ class MyPostViewHolder(
 
         //---------------On Click Delete Post ------------------------------
         itemMyPostBinding.postDelete.setOnClickListener {
-            viewModel.deletePost(post.idPost)
-            Snackbar.make(
-                itemMyPostBinding.root,
-                "Post deleted successfully",
-                Snackbar.LENGTH_SHORT
-            ).show()
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Confirm Delete")
+            builder.setMessage("Are you sure you want to delete this post?")
+
+            builder.setPositiveButton("Yes") { _, _ ->
+                viewModel.deletePost(post.idPost)
+                Snackbar.make(
+                    itemMyPostBinding.root,
+                    "Post deleted successfully",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+
+            builder.setNegativeButton("No") { _, _ -> }
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
+
+
+
+
         }
         //----------------------------------------------------------------
         //---------------On Click Share Post ------------------------------
