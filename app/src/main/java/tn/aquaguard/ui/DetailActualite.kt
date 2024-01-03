@@ -34,6 +34,8 @@ import tn.aquaguard.viewmodel.ActualiteViewModel
 class DetailActualite() : AppCompatActivity() {
     private lateinit var likesound: MediaPlayer
     private lateinit var dislike: MediaPlayer
+    private lateinit var sendcomment: MediaPlayer
+
 
     private val viewModel by viewModels<ActualiteViewModel>()
     private val repository = ActualiteRepository()
@@ -41,7 +43,9 @@ class DetailActualite() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         likesound = MediaPlayer.create(this, R.raw.like2)
         dislike = MediaPlayer.create(this, R.raw.dislike2)
-var like =0
+        sendcomment = MediaPlayer.create(this, R.raw.sendmessagesound)
+
+        var like =0
         var deslike =0
         setContentView(R.layout.activity_detail_actualite)
      var textiii :EditText=findViewById(R.id.commentdisliketext)
@@ -204,12 +208,8 @@ buttonsubmit.setOnClickListener {
             }
         }
     }
+    sendcomment.start()
 
-    Toast.makeText(
-        applicationContext,
-        "your review has been sent ",
-        Toast.LENGTH_SHORT
-    ).show()
 }
 
 
