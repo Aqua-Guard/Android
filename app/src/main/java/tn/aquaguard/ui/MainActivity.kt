@@ -134,15 +134,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             myEventsItem.isVisible = true
         }
 
-        var userImage = findViewById<ImageView>(R.id.userImage)
-        var username = findViewById<TextView>(R.id.username)
-        var userEmail = findViewById<TextView>(R.id.userEmail)
+        val headerView: View = binding.navView.getHeaderView(0)
+        var userImage = headerView.findViewById<ImageView>(R.id.userImage)
+        var username = headerView.findViewById<TextView>(R.id.username)
+        var userEmail = headerView.findViewById<TextView>(R.id.userEmail)
 
-//        Picasso.with(this)
-//            .load("http://10.0.2.2:9090/images/user/" + SessionManager(applicationContext).getImage())
-//            .fit().centerInside().into(userImage)
-//        username.text = SessionManager(applicationContext).getUsername()
-//        userEmail.text = SessionManager(applicationContext).getEmail()
+        Picasso.with(this)
+            .load("http://10.0.2.2:9090/images/user/" + SessionManager(applicationContext).getImage())
+            .fit().centerInside().into(userImage)
+        username.text = SessionManager(applicationContext).getUsername()
+        userEmail.text = SessionManager(applicationContext).getEmail()
 
 
 
