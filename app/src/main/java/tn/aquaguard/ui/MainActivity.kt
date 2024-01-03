@@ -1,6 +1,7 @@
 package tn.aquaguard.ui
 
 
+import ReclamationFragment
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -649,7 +650,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_notification -> Toast.makeText(this, "notification!", Toast.LENGTH_SHORT)
                 .show()
 
-            R.id.nav_reclamation -> Toast.makeText(this, "reclmation!", Toast.LENGTH_SHORT).show()
+            R.id.nav_reclamation -> {
+
+                    replaceFragment(ReclamationFragment())
+                    binding.include3.nameofcurentFragment.text = "Reclamation"
+
+            }
 
             R.id.nav_command -> Toast.makeText(this, "command!", Toast.LENGTH_SHORT).show()
 
