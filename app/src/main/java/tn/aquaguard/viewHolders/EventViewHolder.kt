@@ -19,7 +19,7 @@ class EventViewHolder (private val context: Context, val itemEventBinding: Singl
 ) : RecyclerView.ViewHolder(itemEventBinding.root) {
     fun setData( event : Event){
 
-        Picasso.with(context).load("http://10.0.2.2:9090/images/event/"+event.eventImage).fit().centerInside().into(itemEventBinding.eventImage)
+        Picasso.with(context).load("https://aquaguard-tux1.onrender.com/images/event/"+event.eventImage).fit().centerInside().into(itemEventBinding.eventImage)
         itemEventBinding.eventTitle.text = event.eventName
         itemEventBinding.eventDescription.text = event.description
         Log.d("khkhk: ",event.description)

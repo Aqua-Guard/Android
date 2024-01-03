@@ -53,12 +53,12 @@ class MyPostViewHolder(
     RecyclerView.ViewHolder(itemMyPostBinding.root) {
 
     fun setData(post: Post) {
-        Picasso.with(context).load("http://10.0.2.2:9090/images/user/" + post.userImage).fit()
+        Picasso.with(context).load("https://aquaguard-tux1.onrender.com/images/user/" + post.userImage).fit()
             .centerInside().into(itemMyPostBinding.userimage)
         itemMyPostBinding.username.text = post.userName
         itemMyPostBinding.userRole.text = post.userRole
         itemMyPostBinding.description.text = post.description
-        Picasso.with(context).load("http://10.0.2.2:9090/images/post/" + post.postImage).fit()
+        Picasso.with(context).load("https://aquaguard-tux1.onrender.com/images/post/" + post.postImage).fit()
             .centerInside().into(itemMyPostBinding.postimage)
         itemMyPostBinding.nbcomments.text = post.nbComments.toString()
         itemMyPostBinding.nblikes.text = post.nbLike.toString()

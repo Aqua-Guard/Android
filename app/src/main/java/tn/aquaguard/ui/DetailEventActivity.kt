@@ -41,7 +41,7 @@ class DetailEventActivity : AppCompatActivity() {
         descriptionevent.text = intent.getStringExtra("description")
         lieu.text = intent.getStringExtra("lieu")
         dateDF.text = intent.getStringExtra("DateDebut") + " to " + intent.getStringExtra("DateFin")
-        Picasso.with(this).load("http://10.0.2.2:9090/images/event/"+eventImage).fit().centerInside().into(image)
+        Picasso.with(this).load("https://aquaguard-tux1.onrender.com/images/event/"+eventImage).fit().centerInside().into(image)
 
 
 

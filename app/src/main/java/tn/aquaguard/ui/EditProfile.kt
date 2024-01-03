@@ -54,7 +54,7 @@ class EditProfile : AppCompatActivity() {
             onBackPressed()
         }
         Picasso.with(this)
-            .load("http://10.0.2.2:9090/images/user/" + SessionManager(applicationContext).getImage())
+            .load("https://aquaguard-tux1.onrender.com/images/user/" + SessionManager(applicationContext).getImage())
             .fit().centerInside().into(imageViewProfile)
         findViewById<EditText>(R.id.email).setText(SessionManager(applicationContext).getEmail())
         findViewById<EditText>(R.id.username).setText(SessionManager(applicationContext).getUsername())

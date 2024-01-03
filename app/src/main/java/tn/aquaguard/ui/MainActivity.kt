@@ -70,14 +70,13 @@ import java.util.Locale
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var postViewModel: PostViewModel
-    private lateinit var reclamationViewModel: ReclamationViewModel
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var fab: FloatingActionButton
     private lateinit var bottomAppBar: BottomAppBar
     private lateinit var binding: ActivityMainBinding
     private lateinit var gso: GoogleSignInOptions
     private lateinit var gsc: GoogleSignInClient
-
+    private val reclamationViewModel: ReclamationViewModel by viewModels()
     private val eventViewModel: EventViewModel by viewModels()
 
     private lateinit var selectedImage: ImageView
@@ -142,7 +141,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var userEmail = headerView.findViewById<TextView>(R.id.userEmail)
 
         Picasso.with(this)
-            .load("http://10.0.2.2:9090/images/user/" + SessionManager(applicationContext).getImage())
+            .load("https://aquaguard-tux1.onrender.com/images/user/" + SessionManager(applicationContext).getImage())
             .fit().centerInside().into(userImage)
         username.text = SessionManager(applicationContext).getUsername()
         userEmail.text = SessionManager(applicationContext).getEmail()

@@ -133,7 +133,7 @@ class DetailPostActivity : AppCompatActivity() {
     }
     private fun updateUI(post: Post) {
         Picasso.with(this)
-            .load("http://10.0.2.2:9090/images/user/" + post.userImage)
+            .load("https://aquaguard-tux1.onrender.com/images/user/" + post.userImage)
             .fit()
             .centerInside()
             .into(findViewById<ImageView>(R.id.userimage))
@@ -145,7 +145,7 @@ class DetailPostActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.description).text = post.description
 
         Picasso.with(this)
-            .load("http://10.0.2.2:9090/images/post/" + post.postImage)
+            .load("https://aquaguard-tux1.onrender.com/images/post/" + post.postImage)
             .fit()
             .centerInside()
             .into(findViewById<ImageView>(R.id.postimage))

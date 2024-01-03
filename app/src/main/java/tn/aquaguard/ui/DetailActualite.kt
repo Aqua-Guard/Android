@@ -226,7 +226,7 @@ buttonsubmit.setOnClickListener {
         title.text=intent.getStringExtra("ACTUALITETITLE")
         description.text=intent.getStringExtra("ACTUAITEDESCRIPTION")
         text.text=intent.getStringExtra("ACTUALITETEXT")
-        Picasso.with(this).load("http://10.0.2.2:9090/images/actualite/"+actualiteImage).fit().centerInside().into(image)
+        Picasso.with(this).load("https://aquaguard-tux1.onrender.com/images/actualite/"+actualiteImage).fit().centerInside().into(image)
 
  ////////////////////////////////////////////test//////////////////
 
