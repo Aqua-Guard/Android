@@ -82,7 +82,7 @@ class UpdateMyEventActivity : AppCompatActivity() {
         lieu.setText(intent.getStringExtra("lieu"))
         dateD.setText(intent.getStringExtra("DateDebut"))
         dateF.setText(intent.getStringExtra("DateFin"))
-       // Picasso.with(this).load("http://10.0.2.2:9090/images/event/" + eventImage).fit().centerInside().into(image)
+       // Picasso.with(this).load("https://aquaguard-tux1.onrender.com/images/event/" + eventImage).fit().centerInside().into(image)
 
 
         var btnUpdateImage: Button = findViewById(R.id.addEventImage)

@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var userEmail = headerView.findViewById<TextView>(R.id.userEmail)
 
         Picasso.with(this)
-            .load("http://10.0.2.2:9090/images/user/" + SessionManager(applicationContext).getImage())
+            .load("https://aquaguard-tux1.onrender.com/images/user/" + SessionManager(applicationContext).getImage())
             .fit().centerInside().into(userImage)
         username.text = SessionManager(applicationContext).getUsername()
         userEmail.text = SessionManager(applicationContext).getEmail()

@@ -53,7 +53,7 @@ class CommentViewHolder(private val context: Context, val itemCommentBinding: It
 
 
         }
-        Picasso.with(context).load("http://10.0.2.2:9090/images/user/"+comment.commentAvatar).fit().centerInside().into(itemCommentBinding.commentAvatar)
+        Picasso.with(context).load("https://aquaguard-tux1.onrender.com/images/user/"+comment.commentAvatar).fit().centerInside().into(itemCommentBinding.commentAvatar)
 
 
         itemCommentBinding.commentUsername.text = comment.commentUsername

@@ -34,7 +34,7 @@ class ChangePasswordActivity : AppCompatActivity() {
         val btnSubmit = findViewById<Button>(R.id.btnSubmit)
         var image = findViewById<ImageView>(R.id.imageViewProfile)
         var textViewName = findViewById<TextView>(R.id.textViewName)
-        Picasso.with(this).load("http://10.0.2.2:9090/images/user/"+ SessionManager(applicationContext).getImage()).fit().centerInside().into(image)
+        Picasso.with(this).load("https://aquaguard-tux1.onrender.com/images/user/"+ SessionManager(applicationContext).getImage()).fit().centerInside().into(image)
         textViewName.text = SessionManager(applicationContext).getUsername()
 
         val btnBack = findViewById<ImageButton>(R.id.btnBack)

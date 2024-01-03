@@ -46,7 +46,7 @@ class ProfileActivity : AppCompatActivity() {
         var textViewRole = findViewById<TextView>(R.id.textViewRole)
         var textViewPts = findViewById<TextView>(R.id.textViewPts)
         Picasso.with(this)
-            .load("http://10.0.2.2:9090/images/user/" + SessionManager(applicationContext).getImage())
+            .load("https://aquaguard-tux1.onrender.com/images/user/" + SessionManager(applicationContext).getImage())
             .fit().centerInside().into(image)
         textViewName.text = SessionManager(applicationContext).getUsername()
         textViewEmail.text = SessionManager(applicationContext).getEmail()

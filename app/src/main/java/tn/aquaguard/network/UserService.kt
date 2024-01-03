@@ -75,7 +75,7 @@ interface UserService {
         @Part image: MultipartBody.Part?
     ): Response<CompleteGoogleRequest?>
     companion object {
-        private const val BASE_URL = "http://10.0.2.2:9090/"
+        private const val BASE_URL = "https://aquaguard-tux1.onrender.com/"
 
         var userService: UserService? = null
         fun getInstance(): UserService {
