@@ -131,6 +131,7 @@
 
                 <!-- Share icon with label and count -->
                 <ImageView
+                    android:id="@+id/imageshare"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/baseline_share_24"

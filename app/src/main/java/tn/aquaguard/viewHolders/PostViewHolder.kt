@@ -40,7 +40,14 @@ class PostViewHolder(
                 ).show()
             }
         }
-
+        itemPostBinding.nbshare.text = post.nbShare.toString()
+        itemPostBinding.imageshare.setOnClickListener {
+            var sendintent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, "content to share")
+                type = "text/plain"
+            }
+        }
         viewModel.checkIfPostLiked(post.idPost)
         viewModel.isPostLiked.observe(lifecycleOwner) { isliked ->
             if (isliked) {

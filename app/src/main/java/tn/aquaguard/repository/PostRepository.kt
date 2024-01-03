@@ -6,10 +6,22 @@ import retrofit2.Response
 import tn.aquaguard.models.Comment
 import tn.aquaguard.models.CommentRequest
 import tn.aquaguard.models.Post
+import tn.aquaguard.models.ShareResponse
 import tn.aquaguard.network.RetrofitClient
 
 
 class PostRepository {
+
+    suspend fun sharePost(postId: String): ShareResponse? {
+        val response = RetrofitClient.postService.sharePost(postId)
+        if (response.isSuccessful) {
+            return response.body()
+        } else {
+            // Handle error response
+            return null
+        }
+    }
+
     suspend fun getAllPosts(): List<Post>? {
         return RetrofitClient.postService.getAllPosts().body()
     }

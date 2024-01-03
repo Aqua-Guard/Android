@@ -16,6 +16,7 @@ import tn.aquaguard.models.Comment
 import tn.aquaguard.models.Post
 
 class PostViewModel : ViewModel() {
+
     private val repository = PostRepository()
     // LiveData for a single post
     private val _singlePost = MutableLiveData<Post?>()
@@ -48,6 +49,18 @@ class PostViewModel : ViewModel() {
 
     private val _updatePostStatus = MutableLiveData<Response<String>>()
     val updatePostStatus: LiveData<Response<String>> = _updatePostStatus
+
+
+    private val _shareStatus = MutableLiveData<String?>()
+    val shareStatus: LiveData<String?> = _shareStatus
+
+    fun sharePost(postId: String) {
+        viewModelScope.launch {
+            val result = repository.sharePost(postId)
+            _shareStatus.postValue(result?.message)
+        }
+    }
+
 
     val posts = liveData {
         val postData = repository.getAllPosts()
