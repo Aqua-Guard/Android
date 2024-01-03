@@ -62,6 +62,7 @@ class MyPostViewHolder(
             .centerInside().into(itemMyPostBinding.postimage)
         itemMyPostBinding.nbcomments.text = post.nbComments.toString()
         itemMyPostBinding.nblikes.text = post.nbLike.toString()
+        itemMyPostBinding.nbshare.text = post.nbShare.toString()
 
         //---------------On Click Delete Post ------------------------------
         itemMyPostBinding.postDelete.setOnClickListener {
@@ -89,15 +90,23 @@ class MyPostViewHolder(
         }
         //----------------------------------------------------------------
         //---------------On Click Share Post ------------------------------
-        itemMyPostBinding.share.setOnClickListener {
-            val intent = Intent()
-            intent.action = Intent.ACTION_SEND
-            intent.putExtra(Intent.EXTRA_TEXT, itemMyPostBinding.description.text)
-            intent.type = "text/plain"
-            if (intent.resolveActivity(context.packageManager) != null) {
-                context.startActivity(intent)
-            }
+
+
+
+            itemMyPostBinding.share.setOnClickListener {
+                val postId = post.idPost
+                viewModel.sharePost(postId)
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, itemMyPostBinding.description.text)
+                    type = "text/plain"
+                }
+                intent.resolveActivity(context.packageManager)?.let {
+                    context.startActivity(intent)
+                }
+
         }
+
 //----------------------------------------------------------------
 
 
