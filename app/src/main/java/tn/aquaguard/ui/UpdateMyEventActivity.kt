@@ -235,6 +235,7 @@ class UpdateMyEventActivity : AppCompatActivity() {
                                     "Event Updated successfully.",
                                     Snackbar.LENGTH_LONG
                                 ).setBackgroundTint(Color.parseColor("#90EE90")).show()
+                                finish()
 
 
                             }else {
