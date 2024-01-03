@@ -70,6 +70,7 @@ import java.util.Locale
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var postViewModel: PostViewModel
+
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var fab: FloatingActionButton
     private lateinit var bottomAppBar: BottomAppBar
