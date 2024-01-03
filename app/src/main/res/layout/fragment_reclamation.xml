@@ -1,0 +1,26 @@
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/swipe"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewMessages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:clipToPadding="false"/>
+
+        <TextView
+            android:id="@+id/NoReclamation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="you don't have any reclamation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nYou can add a reclamation by clicking \non the plus icon"
+            android:textStyle="italic|bold"/>
+    </RelativeLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

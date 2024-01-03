@@ -57,21 +57,32 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:inputType="textPassword"
-                        android:id="@+id/editTextPassword"
-                        android:hint="Password"
-                        android:background="@drawable/custom_textfield"
-                        android:textColor="@android:color/black" />
+                        app:endIconMode="password_toggle"
+                        android:id="@+id/eye"
+                        app:passwordToggleDrawable="@drawable/ic_eye">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:id="@+id/editTextPassword"
+                            android:hint="Password"
+                            android:inputType="textPassword"
+                            android:background="@drawable/custom_textfield"
+                            android:textColor="@android:color/black" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <Button
@@ -94,47 +105,6 @@
                 android:textColor="@color/lightBlue"
                 android:textSize="22sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="- Or sign in with -"
-                android:layout_marginTop="16dp"
-                android:textColor="@color/black"
-                android:textSize="16dp"></TextView>
-
-            <LinearLayout
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="22dp"
-                android:orientation="horizontal"
-                android:padding="12dp">
-
-
-                <ImageButton
-                    android:id="@+id/btnGoogle"
-                    android:layout_width="40dp"
-                    android:layout_height="37dp"
-                    android:layout_marginRight="50dp"
-                    android:background="@color/white"
-                    android:contentDescription="Login with Google"
-                    android:onClick="loginWithGoogle"
-                    android:src="@drawable/google_logo" />
-
-
-                <ImageButton
-                    android:id="@+id/btnFb"
-                    android:layout_width="36dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:adjustViewBounds="true"
-                    android:background="@color/white"
-                    android:contentDescription="Login with Facebook"
-                    android:onClick="loginWithFacebook"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/facebook_logo" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -161,6 +131,35 @@
                     android:textSize="18dp" />
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="- Or sign up with -"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16dp"></TextView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+
+                <ImageButton
+                    android:id="@+id/btnGoogle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:contentDescription="Login with Google"
+                    android:onClick="loginWithGoogle"
+                    android:src="@drawable/google" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
     </RelativeLayout>

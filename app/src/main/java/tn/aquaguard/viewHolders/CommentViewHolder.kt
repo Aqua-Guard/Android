@@ -36,8 +36,22 @@ class CommentViewHolder(private val context: Context, val itemCommentBinding: It
 
 
         itemCommentBinding.commentdelete.setOnClickListener {
-            viewModel.deleteComment(comment.idComment, comment.idPost)
-            Snackbar.make(itemCommentBinding.root, "Comment deleted successfully", Snackbar.LENGTH_SHORT).show()
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Confirm Delete")
+            builder.setMessage("Are you sure you want to delete this comment?")
+
+            builder.setPositiveButton("Yes") { _, _ ->
+                viewModel.deleteComment(comment.idComment, comment.idPost)
+                Snackbar.make(itemCommentBinding.root, "Comment deleted successfully", Snackbar.LENGTH_SHORT).show()
+            }
+
+            builder.setNegativeButton("No") { _, _ -> }
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
+
+
+
         }
         Picasso.with(context).load("http://10.0.2.2:9090/images/user/"+comment.commentAvatar).fit().centerInside().into(itemCommentBinding.commentAvatar)
 

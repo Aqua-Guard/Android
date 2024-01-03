@@ -17,6 +17,7 @@ import android.webkit.MimeTypeMap
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -30,11 +31,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -49,6 +54,7 @@ import tn.aquaguard.fragments.MyEventFragment
 import tn.aquaguard.fragments.MyPostFrament
 import tn.aquaguard.fragments.StoreFragment
 import tn.aquaguard.models.AddEventRequest
+import tn.aquaguard.network.RetrofitClient
 import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.EventViewModel
 import tn.aquaguard.viewmodel.PostViewModel
@@ -67,6 +73,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var fab: FloatingActionButton
     private lateinit var bottomAppBar: BottomAppBar
     private lateinit var binding: ActivityMainBinding
+    private lateinit var gso: GoogleSignInOptions
+    private lateinit var gsc: GoogleSignInClient
 
     private val eventViewModel: EventViewModel by viewModels()
 
@@ -82,10 +90,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        RetrofitClient.initialize(this)
 
         println("-------------------------------------+"+SessionManager(applicationContext).getRole())
         println("-------------------------------------+"+SessionManager(applicationContext).getId())
 
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
+        gsc = GoogleSignIn.getClient(this, gso)
         // Initialize ViewModel
         postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
 
@@ -122,6 +133,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (SessionManager(applicationContext).getRole() == "partenaire") {
             myEventsItem.isVisible = true
         }
+
+        val headerView: View = binding.navView.getHeaderView(0)
+        var userImage = headerView.findViewById<ImageView>(R.id.userImage)
+        var username = headerView.findViewById<TextView>(R.id.username)
+        var userEmail = headerView.findViewById<TextView>(R.id.userEmail)
+
+        Picasso.with(this)
+            .load("http://10.0.2.2:9090/images/user/" + SessionManager(applicationContext).getImage())
+            .fit().centerInside().into(userImage)
+        username.text = SessionManager(applicationContext).getUsername()
+        userEmail.text = SessionManager(applicationContext).getEmail()
+
+
+
 
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
@@ -200,7 +225,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
 
-             fun showStartDatePickerDialog(view: View) {
+            fun showStartDatePickerDialog(view: View) {
                 val editTextStartDate = dialogViewEvent.findViewById<EditText>(R.id.editTextStartDate)
 
                 val calendar = Calendar.getInstance()
@@ -223,7 +248,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 datePickerDialog.show()
             }
 
-             fun showEndDatePickerDialog(view: View) {
+            fun showEndDatePickerDialog(view: View) {
                 val editTextEndDate = dialogViewEvent.findViewById<EditText>(R.id.editTextEndDate)
 
                 val calendar = Calendar.getInstance()
@@ -346,7 +371,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         eventlocation.error = null
                     }
 
-                     fun formatDateForRequest(inputDate: String): String {
+                    fun formatDateForRequest(inputDate: String): String {
                         try {
                             val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                             val outputFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.US)
@@ -369,31 +394,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         currentDate.get(Calendar.DAY_OF_MONTH)
                     )
 
-                        if (startDateText >= endDateText) {
-                            editTextEndDate.error = "End date must be greater than start date"
-                            isValid = false
-                        } else {
-                            editTextEndDate.error = null
-                        }
+                    if (startDateText >= endDateText) {
+                        editTextEndDate.error = "End date must be greater than start date"
+                        isValid = false
+                    } else {
+                        editTextEndDate.error = null
+                    }
 
-                        if (startDateText < currentDateString) {
-                            editTextStartDate.error =
-                                "Start date must be equal to or greater than the current date"
-                            isValid = false
-                        } else {
-                            editTextStartDate.error = null
-                        }
+                    if (startDateText < currentDateString) {
+                        editTextStartDate.error =
+                            "Start date must be equal to or greater than the current date"
+                        isValid = false
+                    } else {
+                        editTextStartDate.error = null
+                    }
 
-                        if (endDateText <= startDateText) {
-                            editTextEndDate.error = "End date must be greater than start date"
-                            isValid = false
-                        } else {
-                            editTextEndDate.error = null
-                        }
+                    if (endDateText <= startDateText) {
+                        editTextEndDate.error = "End date must be greater than start date"
+                        isValid = false
+                    } else {
+                        editTextEndDate.error = null
+                    }
 
 
-                   // val startDatereq = formatDateForRequest(startDateText)
-                  //  val endDatereq = formatDateForRequest(endDateText)
+                    // val startDatereq = formatDateForRequest(startDateText)
+                    //  val endDatereq = formatDateForRequest(endDateText)
 
                     val description = RequestBody.create(MediaType.parse("text/plain"), descriptionText)
                     val name = RequestBody.create(MediaType.parse("text/plain"), nameText)
@@ -533,21 +558,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                             postViewModel.addPost(description, imageBody)
                             postViewModel.addPostStatus.observe(this, { resource ->
-                              if (resource.isSuccessful) {
-                                  Snackbar.make(
-                                      it,
-                                      "Post Created successfully.",
-                                      Snackbar.LENGTH_LONG
-                                  ).setBackgroundTint(Color.parseColor("#90EE90")).show()
-                                dialog.dismiss()
-                              }
+                                if (resource.isSuccessful) {
+                                    Snackbar.make(
+                                        it,
+                                        "Post Created successfully.",
+                                        Snackbar.LENGTH_LONG
+                                    ).setBackgroundTint(Color.parseColor("#90EE90")).show()
+                                    dialog.dismiss()
+                                }
                                 else {
-                                  Snackbar.make(
-                                      it,
-                                      "The description contains inappropriate language..",
-                                      Snackbar.LENGTH_LONG
-                                  ).setBackgroundTint(Color.parseColor("#FF0000")).show()
-                              }
+                                    Snackbar.make(
+                                        it,
+                                        "The description contains inappropriate language..",
+                                        Snackbar.LENGTH_LONG
+                                    ).setBackgroundTint(Color.parseColor("#FF0000")).show()
+                                }
 
                             })
 
@@ -628,39 +653,48 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.nav_command -> Toast.makeText(this, "command!", Toast.LENGTH_SHORT).show()
 
+
             R.id.nav_logout ->
             {
                 try {
-                    val intent = Intent(this, LoginActivity::class.java)
-                    SessionManager(applicationContext).clear()
-                    startActivity(intent)
+                    gsc.signOut().addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            SessionManager(applicationContext).clear()
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            // Handle sign-out failure here
+                            Toast.makeText(this, "Sign-out failed", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 } catch (e: Exception) {
                     Log.e("LoginActivity", "Error starting LoginActivity", e)
                 }
+
             }
 
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
-       override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-           when (requestCode) {
-               IMAGE_REQUEST_CODE -> {
-                   if (resultCode == RESULT_OK) {
-                       selectedImageUri = data?.data // Store the selected image URI
-                       selectedImage.setImageURI(selectedImageUri)
-                   }
-               }
-               IMAGE_EVENT_REQUEST_CODE_ -> {
-                   if (resultCode == RESULT_OK) {
-                       selectedImageEventUri = data?.data // Store the selected image URI
-                       selectedImageEvent.setImageURI(selectedImageEventUri)
-                   }
-               }
-               // Add more cases for additional image request codes if needed
-           }
+        when (requestCode) {
+            IMAGE_REQUEST_CODE -> {
+                if (resultCode == RESULT_OK) {
+                    selectedImageUri = data?.data // Store the selected image URI
+                    selectedImage.setImageURI(selectedImageUri)
+                }
+            }
+            IMAGE_EVENT_REQUEST_CODE_ -> {
+                if (resultCode == RESULT_OK) {
+                    selectedImageEventUri = data?.data // Store the selected image URI
+                    selectedImageEvent.setImageURI(selectedImageEventUri)
+                }
+            }
+            // Add more cases for additional image request codes if needed
+        }
     }
 
 }

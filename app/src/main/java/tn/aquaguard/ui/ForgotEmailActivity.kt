@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,10 @@ class ForgotEmailActivity : AppCompatActivity() {
         binding = ForgotEmailBinding.inflate(layoutInflater)
         val btnForgotEmail = findViewById<Button>(R.id.btnForgotEmail)
 
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            onBackPressed()
+        }
         btnForgotEmail.setOnClickListener {
             val intent = Intent(this, ActivationCodeActivity::class.java)
 
@@ -37,7 +42,7 @@ class ForgotEmailActivity : AppCompatActivity() {
                     viewModel.sendEmail(
                         SendActivationCode(
                             findViewById<EditText>(R.id.editTextForgotEmail).text.toString(),
-                            )
+                        )
                     )
 
                     if (findViewById<EditText>(R.id.editTextForgotEmail).text.toString().isNotEmpty())

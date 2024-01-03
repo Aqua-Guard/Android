@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -30,8 +31,12 @@ class ActivationCodeActivity : AppCompatActivity() {
 
         val btnForgotCode = findViewById<Button>(R.id.btnForgotCode)
 
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            onBackPressed()
+        }
         btnForgotCode.setOnClickListener {
-                val intent = Intent(this, ResetPasswordActivity::class.java)
+            val intent = Intent(this, ResetPasswordActivity::class.java)
 
             try {
                 viewModel.viewModelScope.launch {
@@ -40,7 +45,7 @@ class ActivationCodeActivity : AppCompatActivity() {
                         ActivationCodeResponse(
                             SessionManager(applicationContext).getEmail(),
                             Integer.valueOf(findViewById<EditText>(R.id.editActivationCode).text.toString())
-                            )
+                        )
                     )
 
                     if (viewModel.response!!.isSuccessful) {

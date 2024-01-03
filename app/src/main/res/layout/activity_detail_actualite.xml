@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -31,7 +34,16 @@
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/sidi_bou_said" />
+<TextView
+    android:id="@+id/viewsnumber"
+    android:layout_gravity="right"
+    android:layout_marginEnd="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textStyle="bold|italic"
+    android:textSize="15dp"
 
+    android:text="Views"/>
             <TextView
                 android:id="@+id/ActualiteDetailTitle"
                 android:layout_width="wrap_content"
@@ -54,38 +66,115 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:text="Une initiativemdfkmlkmdlkmlkd ldkmlwe kmfkldwdomwwmdkwdwk k dkmedmdwkdmowe efmepmwewoemiwe eipokdpwe wpopd wpmfwow womw w8u9wdf wfoijwdf98wf wiwjoijd dod dcdc dcdnkjsd dcowioicowcnoiodcow coioiwjoiw dcosd c o oio osd o onon 8su s dn n jn wd communautaire pour nettoyer les plages et protéger l'environnement." />
-
-            <Button
-                android:id="@+id/ActualiteShareButton"
-                android:layout_width="30dp"
-                android:layout_gravity="end"
-                android:layout_height="30dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/baseline_share_24" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:hint="what you think ?"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-
-                <AutoCompleteTextView
-                    android:id="@+id/auto_complete_txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none" />
-            </com.google.android.material.textfield.TextInputLayout>
-
             <TextView
-                android:id="@+id/lastrating"
+                android:id="@+id/likesnumber"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:textStyle="bold|italic"
+                android:textSize="15dp"
+
+                android:text="likes"/>
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal"
+             android:gravity="center"
 
 
-           />
+             >
+
+
+            <LinearLayout
+                android:id="@+id/likebackround"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:gravity="center"
+                android:background="@drawable/customlikebackround"
+                >
+                <Button
+                    android:id="@+id/likebuttonllll"
+                    android:layout_width="70dp"
+                    android:height="50dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/gray"
+                    android:foregroundGravity="center"
+                    android:foreground="@drawable/baseline_thumb_up_24"
+                    ></Button>
+
+                <EditText
+                    android:id="@+id/commentliketext"
+                    android:layout_marginLeft="15dp"
+                    android:minWidth="150dp"
+                    android:minHeight="50dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:maxWidth="190dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/blur_background"                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Your review ..."
+                    android:textSize="12dp"
+                    android:text=""
+
+                    />
+
+            </LinearLayout>
+             <LinearLayout
+                 android:id="@+id/dislikelikebackround"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:orientation="vertical"
+                 android:padding="10dp"
+                 android:gravity="center"
+                 android:background="@drawable/customdislikebackround"
+
+                 >
+                 <Button
+                     android:id="@+id/dislikebuttonllll"
+                     android:layout_width="70dp"
+                     android:height="50dp"
+                     android:layout_height="wrap_content"
+                     android:backgroundTint="@color/gray"
+                     android:foregroundGravity="center"
+                     android:foreground="@drawable/baseline_thumb_down_alt_24red"
+                     ></Button>
+                 <EditText
+                     android:layout_marginLeft="15dp"
+                     android:id="@+id/commentdisliketext"
+                     android:minWidth="150dp"
+                     android:minHeight="50dp"
+                     android:gravity="center_vertical"
+                     android:paddingLeft="10dp"
+                     android:maxWidth="190dp"
+                     android:layout_marginRight="15dp"
+                     android:layout_marginBottom="15dp"
+                     android:background="@drawable/blur_background"                    android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:hint="Your review ..."
+                     android:textSize="12dp"
+                     android:text=""
+                     />
+             </LinearLayout>
+         </LinearLayout>
+            <Button
+                android:id="@+id/btnSubmitact"
+                android:layout_width="80dp"
+
+                android:layout_marginStart="160dp"
+                android:height="80dp"
+                android:text="submit"
+                android:textSize="10dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray"
+                android:foregroundGravity="center"
+                />
+
+
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

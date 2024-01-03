@@ -62,17 +62,54 @@ class MyPostViewHolder(
             .centerInside().into(itemMyPostBinding.postimage)
         itemMyPostBinding.nbcomments.text = post.nbComments.toString()
         itemMyPostBinding.nblikes.text = post.nbLike.toString()
+        itemMyPostBinding.nbshare.text = post.nbShare.toString()
 
         //---------------On Click Delete Post ------------------------------
         itemMyPostBinding.postDelete.setOnClickListener {
-            viewModel.deletePost(post.idPost)
-            Snackbar.make(
-                itemMyPostBinding.root,
-                "Post deleted successfully",
-                Snackbar.LENGTH_SHORT
-            ).show()
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Confirm Delete")
+            builder.setMessage("Are you sure you want to delete this post?")
+
+            builder.setPositiveButton("Yes") { _, _ ->
+                viewModel.deletePost(post.idPost)
+                Snackbar.make(
+                    itemMyPostBinding.root,
+                    "Post deleted successfully",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+
+            builder.setNegativeButton("No") { _, _ -> }
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
+
+
+
+
         }
         //----------------------------------------------------------------
+        //---------------On Click Share Post ------------------------------
+
+
+
+            itemMyPostBinding.share.setOnClickListener {
+                val postId = post.idPost
+                viewModel.sharePost(postId)
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, itemMyPostBinding.description.text)
+                    type = "text/plain"
+                }
+                intent.resolveActivity(context.packageManager)?.let {
+                    context.startActivity(intent)
+                }
+
+        }
+
+//----------------------------------------------------------------
+
+
         //---------------On Click Edit Post ------------------------------
         itemMyPostBinding.postEdit.setOnClickListener {
             val inflater = LayoutInflater.from(context)
@@ -84,7 +121,7 @@ class MyPostViewHolder(
             descriptionEditText.text = Editable.Factory.getInstance().newEditable(post.description)
 
             val cancelButton = dialogView.findViewById<Button>(R.id.cancelButton)
-            val addEventImage = dialogView.findViewById<Button>(R.id.addEventImage)
+
             val okButton = dialogView.findViewById<Button>(R.id.submit)
 
             val dialogBuilder = AlertDialog.Builder(context)

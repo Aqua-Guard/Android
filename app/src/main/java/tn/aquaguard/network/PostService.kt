@@ -17,9 +17,13 @@ import retrofit2.http.Path
 import tn.aquaguard.models.AddEventRequest
 import tn.aquaguard.models.Comment
 import tn.aquaguard.models.CommentRequest
+import tn.aquaguard.models.ShareResponse
 
 
 interface PostService {
+    @POST("posts/share/{id}")
+    suspend fun sharePost(@Path("id") postId: String): Response<ShareResponse>
+
     @GET("/posts")
     suspend fun getAllPosts(): Response<List<Post>>
 

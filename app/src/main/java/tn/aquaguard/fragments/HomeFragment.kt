@@ -1,6 +1,5 @@
 package tn.aquaguard.fragments
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,31 +9,48 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import tn.aquaguard.R
 import tn.aquaguard.adapters.ActualitesAdapter
-import tn.aquaguard.adapters.PostAdapter
 import tn.aquaguard.databinding.FragmentHomeBinding
 import tn.aquaguard.models.Actualites
+import tn.aquaguard.models.SearchRequest
 import tn.aquaguard.viewmodel.ActualiteViewModel
-import tn.aquaguard.viewmodel.PostViewModel
 
 class HomeFragment : Fragment() {
-
+    lateinit var actualitesearche : List<Actualites>
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: ActualiteViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-
+        var test = binding.editTextUsername.text.toString()
         // Set up RecyclerView with an empty adapter initially
         binding.rvactualite.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvactualite.adapter= ActualitesAdapter(emptyList())
+        binding.rvactualite.adapter= ActualitesAdapter(emptyList(),viewModel)
+
+
+        ////////////////////////////////////////
+binding.searchButton.setOnClickListener {
+    val about= SearchRequest(binding.editTextUsername.text.toString())
+    viewModel.searchActualites(about)
+}
+
+        viewModel.actualitesearched.observe(viewLifecycleOwner) { searchedActualites ->
+            println("Searched Actualites: $searchedActualites")
+            binding.rvactualite.adapter = ActualitesAdapter(searchedActualites,viewModel)
+        }
 
         // Observe the LiveData from ViewModel
         viewModel.actualites.observe(viewLifecycleOwner) {ActualiteList ->
-            println("Post API :"+ActualiteList.toString())
-            binding.rvactualite.adapter = ActualitesAdapter(ActualiteList)
-
+            println("actualite API :"+ActualiteList.toString())
+            binding.rvactualite.adapter = ActualitesAdapter(ActualiteList,viewModel)
+            binding.swipe.setOnRefreshListener {
+                if (isAdded) { // Check if the fragment is currently added to its activity
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, HomeFragment())
+                        .commitAllowingStateLoss()
+                }
+                binding.swipe.post { binding.swipe.isRefreshing = false }
+            }
         }
-
         return binding.root
     }
 
