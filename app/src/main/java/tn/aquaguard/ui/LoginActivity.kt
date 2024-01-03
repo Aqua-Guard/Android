@@ -1,5 +1,6 @@
 package tn.aquaguard.ui
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.media.MediaPlayer
@@ -24,6 +25,8 @@ import tn.aquaguard.models.GoogleSignInRequest
 import tn.aquaguard.models.LoginRequest
 import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.UserViewModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<UserViewModel>()
@@ -112,6 +115,18 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(
                             applicationContext, "Invalid Credentials!", Toast.LENGTH_SHORT
                         ).show()
+                    } else if (viewModel.response!!.code() == 402) {
+
+                        val builder = AlertDialog.Builder(this@LoginActivity)
+                        builder.setTitle("Access Denied")
+                        builder.setMessage("Your account has been suspended for 7 days!!")
+
+                        builder.setPositiveButton("OK") { _, _ ->
+                        }
+
+                        val alertDialog: AlertDialog = builder.create()
+                        alertDialog.show()
+
                     } else if (viewModel.response!!.code() == 500) {
                         Toast.makeText(
                             applicationContext, "Input required!!", Toast.LENGTH_SHORT
