@@ -41,6 +41,7 @@ class RetrofitClient private constructor(context: Context) {
         val eventService: EventService by lazy { retrofit.create(EventService::class.java) }
         val actualiteService: ActualiteService by lazy { retrofit.create(ActualiteService::class.java) }
         val participationService: ParticipationService by lazy { retrofit.create(ParticipationService::class.java) }
+        val StoreService: StoreService by lazy { retrofit.create(tn.aquaguard.network.StoreService::class.java) }
 
         fun initialize(context: Context) {
             this.context = context.applicationContext

@@ -53,6 +53,7 @@ import tn.aquaguard.fragments.HomeFragment
 import tn.aquaguard.fragments.MyCalenderFragment
 import tn.aquaguard.fragments.MyEventFragment
 import tn.aquaguard.fragments.MyPostFrament
+import tn.aquaguard.fragments.ProductFragment
 import tn.aquaguard.fragments.StoreFragment
 import tn.aquaguard.models.AddEventRequest
 import tn.aquaguard.network.RetrofitClient
@@ -79,7 +80,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var gsc: GoogleSignInClient
     private val reclamationViewModel: ReclamationViewModel by viewModels()
     private val eventViewModel: EventViewModel by viewModels()
-
+    private var currentFragmentId: Int = R.id.home
     private lateinit var selectedImage: ImageView
     private lateinit var selectedImageEvent: ImageView
     private var selectedImageUri: Uri? = null
@@ -155,12 +156,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             when (item.itemId) {
                 R.id.home -> {
                     println("home")
+                    currentFragmentId= R.id.home
                     replaceFragment(HomeFragment())
                     binding.include3.nameofcurentFragment.text = "Home"
                 }
 
                 R.id.events -> {
                     println("event")
+                    currentFragmentId= R.id.events
                     replaceFragment(EventFragment())
                     binding.include3.nameofcurentFragment.text = "Event"
                 }
@@ -168,6 +171,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.id.forum -> {
 //                    Toast.makeText(applicationContext, username, Toast.LENGTH_SHORT)
 //                        .show()
+                    currentFragmentId= R.id.forum
                     println("forum")
                     replaceFragment(ForumFragment())
                     binding.include3.nameofcurentFragment.text = "Forum"
@@ -175,7 +179,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 R.id.store -> {
                     println("store")
-                    replaceFragment(StoreFragment())
+                   currentFragmentId= R.id.store
+                    replaceFragment(ProductFragment())
                     binding.include3.nameofcurentFragment.text = "Store"
                 }
             }
@@ -698,7 +703,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
     }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        when (currentFragmentId) {
+            R.id.store -> {
+                menuInflater.inflate(R.menu.menu_product, menu)
+            }
 
+        }
+        return true
+    }
 //    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 //        menuInflater.inflate(R.menu.nav_menu, menu)
 //        val myEventsMenuItem = menu?.findItem(R.id.nav_my_events)
