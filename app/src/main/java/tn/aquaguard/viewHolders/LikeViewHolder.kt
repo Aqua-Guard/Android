@@ -13,7 +13,7 @@ import tn.aquaguard.ui.DetailPostActivity
 
 class LikeViewHolder (private val context: Context,val itemLikeViewHolder: SingelItemPersonLikeBinding) : RecyclerView.ViewHolder(itemLikeViewHolder.root) {
     fun setData(like: Like ){
-        Picasso.with(context).load("http://10.0.2.2:9090/images/user/"+like.likeAvatar).fit().centerInside().into(itemLikeViewHolder.likeAvatar)
+        Picasso.with(context).load("https://aquaguard-tux1.onrender.com/images/user/"+like.likeAvatar).fit().centerInside().into(itemLikeViewHolder.likeAvatar)
         itemLikeViewHolder.likeUsername.text = like.likeUsername
     }
 }

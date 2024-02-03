@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitClient private constructor(context: Context) {
 
     companion object {
-        private const val BASE_URL = "http://10.0.2.2:9090"
+        private const val BASE_URL = "https://aquaguard-tux1.onrender.com"
 
 
 

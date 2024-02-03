@@ -36,7 +36,7 @@ class ReclamationFragment : Fragment() {
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, ReclamationFragment())
                     .commitAllowingStateLoss()
-            }
+             }
             binding.swipe.post { binding.swipe.isRefreshing = false }
         }
 

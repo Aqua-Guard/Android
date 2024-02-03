@@ -94,14 +94,14 @@ class PostViewHolder(
             }
             viewModel.checkIfPostLiked(post.idPost) // Update the like status in the view model
         }
-        Picasso.with(context).load("http://10.0.2.2:9090/images/user/" + post.userImage).fit()
+        Picasso.with(context).load("https://aquaguard-tux1.onrender.com/images/user/" + post.userImage).fit()
             .centerInside().into(itemPostBinding.userimage)
 
         itemPostBinding.username.text = post.userName
         itemPostBinding.userRole.text = post.userRole
         itemPostBinding.description.text = post.description
 
-        Picasso.with(context).load("http://10.0.2.2:9090/images/post/" + post.postImage).fit()
+        Picasso.with(context).load("https://aquaguard-tux1.onrender.com/images/post/" + post.postImage).fit()
             .centerInside().into(itemPostBinding.postimage)
 
         itemPostBinding.nbcomments.text = post.nbComments.toString()

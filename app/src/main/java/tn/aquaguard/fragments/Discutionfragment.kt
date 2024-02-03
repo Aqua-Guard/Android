@@ -1,4 +1,5 @@
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import tn.aquaguard.viewmodel.DiscutionViewModel
 class Discutionfragment : BottomSheetDialogFragment() {
     private lateinit var binding: ActivityDiscutionBinding
     private val viewModel: DiscutionViewModel by viewModels()
+    private lateinit var sendcomment: MediaPlayer
 
     private lateinit var reclamationIdreq: RequestBody
 
@@ -50,7 +52,7 @@ class Discutionfragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val reclamationname =arguments?.getString(RECLAMATION_NAME_KEY)
         val reclamationId = arguments?.getString(RECLAMATION_ID_KEY)
-
+       // sendcomment = MediaPlayer.create(this, R.raw.sendmessagesound)
         binding.recyclerViewMessages.layoutManager = LinearLayoutManager(requireContext())
         viewModel.discutionList.observe(viewLifecycleOwner) { discutionList ->
             println("Updated Discution List: $discutionList")

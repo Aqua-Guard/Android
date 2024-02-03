@@ -1,6 +1,7 @@
 package tn.aquaguard.ui
 
 
+import ReclamationFragment
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -58,6 +59,7 @@ import tn.aquaguard.network.RetrofitClient
 import tn.aquaguard.network.SessionManager
 import tn.aquaguard.viewmodel.EventViewModel
 import tn.aquaguard.viewmodel.PostViewModel
+import tn.aquaguard.viewmodel.ReclamationViewModel
 import java.io.File
 import java.io.FileOutputStream
 import java.text.ParseException
@@ -75,7 +77,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var binding: ActivityMainBinding
     private lateinit var gso: GoogleSignInOptions
     private lateinit var gsc: GoogleSignInClient
-
+    private val reclamationViewModel: ReclamationViewModel by viewModels()
     private val eventViewModel: EventViewModel by viewModels()
 
     private lateinit var selectedImage: ImageView
@@ -140,7 +142,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var userEmail = headerView.findViewById<TextView>(R.id.userEmail)
 
         Picasso.with(this)
-            .load("http://10.0.2.2:9090/images/user/" + SessionManager(applicationContext).getImage())
+            .load("https://aquaguard-tux1.onrender.com/images/user/" + SessionManager(applicationContext).getImage())
             .fit().centerInside().into(userImage)
         username.text = SessionManager(applicationContext).getUsername()
         userEmail.text = SessionManager(applicationContext).getEmail()
@@ -193,7 +195,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val isEvent = binding.include3.nameofcurentFragment.text == "Event"|| binding.include3.nameofcurentFragment.text == "My Events"
         val isPartenaire = SessionManager(applicationContext).getRole() == "partenaire"
-
+        val isreclamation = binding.include3.nameofcurentFragment.text == "Reclamation"
 
         val isPost =
             binding.include3.nameofcurentFragment.text == "Forum" || binding.include3.nameofcurentFragment.text == "My Posts"
@@ -477,7 +479,105 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             dialogEvent.show()
         }
-        if (isPost) {
+        if (isreclamation) {
+
+            val inflater = LayoutInflater.from(this)
+            val dialogView = inflater.inflate(R.layout.costom_add_reclamation_dialog, null)
+            val closeButton = dialogView.findViewById<Button>(R.id.cancelButton)
+            val submitButton = dialogView.findViewById<Button>(R.id.submit)
+            val descriptionEditText = dialogView.findViewById<TextInputEditText>(R.id.reclamationtext)
+            val aboutEditText = dialogView.findViewById<TextInputEditText>(R.id.reclamationdescription)
+            val addReclamationImage = dialogView.findViewById<Button>(R.id.addReclamationImage)
+            selectedImage = dialogView.findViewById<ImageView>(R.id.imageSelected)
+            selectedImage.setImageDrawable(null)
+            val dialogBuilder = AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+
+            val dialog = dialogBuilder.create()
+
+            fun pickImageFromGallery() {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
+                startActivityForResult(intent, IMAGE_REQUEST_CODE)
+            }
+
+            if (closeButton != null) {
+                closeButton.setOnClickListener {
+                    dialog.dismiss()
+                }
+            }
+
+            if (addReclamationImage != null) {
+                addReclamationImage.setOnClickListener {
+                    pickImageFromGallery()
+                }
+            }
+
+            if (submitButton != null) {
+                submitButton.setOnClickListener {
+                    val descriptionText = descriptionEditText.text.toString()
+                    val aboutText = aboutEditText.text.toString()
+
+                    if (descriptionText.isBlank() || selectedImageUri == null) {
+                        Snackbar.make(
+                            it,
+                            "Please provide both a description and an image.",
+                            Snackbar.LENGTH_LONG
+                        ).setBackgroundTint(Color.parseColor("#FF0000")).show()
+                        return@setOnClickListener
+                    }
+
+                    val description = if (descriptionText != null) {
+                        RequestBody.create(MediaType.parse("text/plain"), descriptionText)
+                    } else {
+                        // Handle the case when descriptionText is null
+                        // For example, provide a default value or show an error
+                        // For now, I'll assume an empty string as the default value
+                        RequestBody.create(MediaType.parse("text/plain"), "desc")
+                    }
+
+                    val title = if (aboutText != null) {
+                        RequestBody.create(MediaType.parse("text/plain"), aboutText)
+                    } else {
+                        // Handle the case when aboutText is null
+                        // For example, provide a default value or show an error
+                        // For now, I'll assume an empty string as the default value
+                        RequestBody.create(MediaType.parse("text/plain"), "title")
+                    }
+
+                    selectedImageUri?.let { uri ->
+                        contentResolver.openInputStream(uri)?.use { inputStream ->
+                            val mimeType = contentResolver.getType(uri) ?: "image/jpeg"
+                            val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "jpg"
+                            val tempFile = File.createTempFile("prefix_", "_image.$extension", cacheDir)
+
+                            FileOutputStream(tempFile).use { outputStream ->
+                                inputStream.copyTo(outputStream)
+                            }
+
+                            val requestFile = RequestBody.create(MediaType.parse(mimeType), tempFile)
+                            val imageBody = MultipartBody.Part.createFormData("image", "image_$extension", requestFile)
+
+
+                            reclamationViewModel.addReclamation(title, description, imageBody)
+                            replaceFragment(ReclamationFragment())
+                            // Additional handling if needed
+                            dialog.dismiss()
+                        } ?: run {
+                            Log.e("MainActivity", "Failed to open InputStream from URI")
+                        }
+                    }
+                }
+            }
+
+            dialog.show()
+
+
+        }
+
+
+    if (isPost) {
 
             val inflater = LayoutInflater.from(this)
             val dialogView = inflater.inflate(R.layout.custom_add_post_dialog, null)
@@ -649,7 +749,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_notification -> Toast.makeText(this, "notification!", Toast.LENGTH_SHORT)
                 .show()
 
-            R.id.nav_reclamation -> Toast.makeText(this, "reclmation!", Toast.LENGTH_SHORT).show()
+            R.id.nav_reclamation -> {
+
+                    replaceFragment(ReclamationFragment())
+                    binding.include3.nameofcurentFragment.text = "Reclamation"
+
+            }
 
             R.id.nav_command -> Toast.makeText(this, "command!", Toast.LENGTH_SHORT).show()
 

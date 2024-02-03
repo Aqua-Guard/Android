@@ -1,5 +1,6 @@
 package tn.aquaguard.ui
 
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
@@ -31,11 +32,20 @@ import tn.aquaguard.viewmodel.ActualiteViewModel
 
 
 class DetailActualite() : AppCompatActivity() {
+    private lateinit var likesound: MediaPlayer
+    private lateinit var dislike: MediaPlayer
+    private lateinit var sendcomment: MediaPlayer
+
+
     private val viewModel by viewModels<ActualiteViewModel>()
     private val repository = ActualiteRepository()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-var like =0
+        likesound = MediaPlayer.create(this, R.raw.like2)
+        dislike = MediaPlayer.create(this, R.raw.dislike2)
+        sendcomment = MediaPlayer.create(this, R.raw.sendmessagesound)
+
+        var like =0
         var deslike =0
         setContentView(R.layout.activity_detail_actualite)
      var textiii :EditText=findViewById(R.id.commentdisliketext)
@@ -61,6 +71,7 @@ var comoentaire =""
         button2?.setOnClickListener {
             if (deslike==0) {
                 comoentaire=""
+                likesound.start()
                 textii.setText(comoentaire)
                 textiii.setText(comoentaire)
                 textiii.visibility = View.VISIBLE
@@ -80,6 +91,7 @@ var comoentaire =""
                 like=0
             }else {
                 comoentaire=""
+                dislike.start()
                 textiii.setText(comoentaire)
                 textii.setText(comoentaire)
                 textiii.visibility = View.GONE
@@ -104,7 +116,7 @@ var comoentaire =""
         button1?.setOnClickListener {
             if(like==0) {
                 comoentaire=""
-
+                likesound.start()
                 viewModel.viewModelScope.launch {
                     val result = viewModel.addlike(idatualite!!, 1)
                     if (result is ActualiteViewModel.AddLikeResult.Success) {
@@ -128,6 +140,7 @@ var comoentaire =""
                 textiii.setText(comoentaire)
                 textiii.visibility = View.GONE
                 likesnumber.visibility=View.GONE
+                dislike.start()
 
                 viewModel.viewModelScope.launch {
                     val result = viewModel.addlike(idatualite!!, 1)
@@ -195,12 +208,8 @@ buttonsubmit.setOnClickListener {
             }
         }
     }
+    sendcomment.start()
 
-    Toast.makeText(
-        applicationContext,
-        "your review has been sent ",
-        Toast.LENGTH_SHORT
-    ).show()
 }
 
 
@@ -217,7 +226,7 @@ buttonsubmit.setOnClickListener {
         title.text=intent.getStringExtra("ACTUALITETITLE")
         description.text=intent.getStringExtra("ACTUAITEDESCRIPTION")
         text.text=intent.getStringExtra("ACTUALITETEXT")
-        Picasso.with(this).load("http://10.0.2.2:9090/images/actualite/"+actualiteImage).fit().centerInside().into(image)
+        Picasso.with(this).load("https://aquaguard-tux1.onrender.com/images/actualite/"+actualiteImage).fit().centerInside().into(image)
 
  ////////////////////////////////////////////test//////////////////
 
