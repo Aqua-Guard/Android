@@ -85,7 +85,7 @@ class ProfileActivity : AppCompatActivity() {
                 gsc.signOut().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         viewModel.viewModelScope.launch {
-                            SessionManager(applicationContext).clear()
+//                            SessionManager(applicationContext).clear()
 //                            val intent = Intent(this, LoginActivity::class.java)
 //                            startActivity(intent)
 

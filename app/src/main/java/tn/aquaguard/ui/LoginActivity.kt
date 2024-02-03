@@ -186,6 +186,9 @@ class LoginActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     } else if (viewModel.response!!.code() == 400) {
+                        gsc.signOut().addOnCompleteListener { task ->
+
+                        }
                         Toast.makeText(
                             applicationContext,
                             "Sorry, this username already exists!",
