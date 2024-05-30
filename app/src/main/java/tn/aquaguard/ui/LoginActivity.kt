@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
         val mediaPlayer = MediaPlayer.create(this, R.raw.sound_effect)
 
         val buttonForgotPassword = findViewById<Button>(R.id.buttonForgotPassword)
-        val googleBtn = findViewById<ImageView>(R.id.btnGoogle)
+//        val googleBtn = findViewById<ImageView>(R.id.btnGoogle)
 
         gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -54,14 +54,15 @@ class LoginActivity : AppCompatActivity() {
                 .requestEmail().build()
         gsc = GoogleSignIn.getClient(this, gso)
 
+
         val acct = GoogleSignIn.getLastSignedInAccount(this)
         if (acct != null) {
             navigateToSecondActivity()
         }
 
-        googleBtn.setOnClickListener {
-            signIn()
-        }
+//        googleBtn.setOnClickListener {
+//            signIn()
+//        }
 
         val textInputLayout = findViewById<TextInputLayout>(R.id.eye);
 
@@ -114,6 +115,10 @@ class LoginActivity : AppCompatActivity() {
                     } else if (viewModel.response!!.code() == 400) {
                         Toast.makeText(
                             applicationContext, "Invalid Credentials!", Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (viewModel.response!!.code() == 404) {
+                        Toast.makeText(
+                            applicationContext, "User does not exist!", Toast.LENGTH_SHORT
                         ).show()
                     } else if (viewModel.response!!.code() == 402) {
 
